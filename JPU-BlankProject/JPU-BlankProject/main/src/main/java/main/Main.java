@@ -6,7 +6,9 @@ package main;
 
 import contract.ControllerOrder;
 import controller.Controller;
+import model.Level;
 import model.Model;
+import model.Roc;
 import view.View;
 
 /**
@@ -22,13 +24,14 @@ public abstract class Main {
      * @param args
      *            the arguments
      */
+	public static View view;
+	
     public static void main(final String[] args) {
-        final Model model = new Model();
-        final View view = new View(model);
-        final Controller controller = new Controller(view, model);
+    
+         view = new View();
+        final Controller controller = new Controller(view);
         view.setController(controller);
-
         controller.control();
-        controller.orderPerform(ControllerOrder.English);
+        controller.orderPerform(ControllerOrder.LEFT);
     }
 }

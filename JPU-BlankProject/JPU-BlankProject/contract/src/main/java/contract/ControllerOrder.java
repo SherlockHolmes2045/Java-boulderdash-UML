@@ -7,12 +7,12 @@ package contract;
  */
 public enum ControllerOrder {
 
-	/** The English. */
-	English,
-	/** The French. */
-	Francais,
-	/** The Deutch. */
-	Deutsch,
-	/** The Indonesia. */
-	Indonesia
+	/** The Left. */
+	LEFT,
+	/** The Right. */
+	RIGHT,
+	/** The Up. */
+	UP,
+	/** The Down. */
+	DOWN
 }
