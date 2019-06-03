@@ -27,30 +27,40 @@ import model.Wall;
 
 
 /**
-
  * The Class ViewPanel.
-
  *
-
- * @author Jean-Aymeric Diet
-
+ * @author Welaji chris-yvan.
  */
 
 public class ViewPanel extends JPanel implements Observer {
 
+	/** An instantiation of the Level class,the paramater of the constructor define the level to fetch. */
 	static Level level=new Level(1);
 	
+	/** An array of all the immobile elements of the game */
 	public static Objet[][] tabObjets;
+	
+	/** The hero */
 	public static Dash dash;
-	static Objet rocher;
+	
+	/** The exitdoor of the level */ 
 	public ExitDoor exit1;
-	public static int nbr_diamant;
-	/** The view frame. */
-	private static int compt=8;
-	private static  int timegame=120;
-	private ViewFrame					viewFrame;
+	
+	/**The number of diamond of the level */
+	private int nbr_diamond;
+	
+	
+	
+	//private static int compt=8;
+	
+	/**The duration of the game in seconds */
+	private int timegame=120;
+	
 	private static 	int deathcount;
+	/** A boolean that defines if we can exit the level or not*/
+	
 	private boolean exitable;
+	
 	int xstar=0,ystar=0;
 
 	/** The Constant serialVersionUID. */
@@ -59,26 +69,20 @@ public class ViewPanel extends JPanel implements Observer {
 
 	
 	/**
-
 	 * Instantiates a new view panel.
-
 	 *
-
-	 * @param viewFrame
-
-	 *          the view frame
-
 	 */
 
-	public ViewPanel(/*final ViewFrame viewFrame*/) {
+	public ViewPanel() {
 		
-		nbr_diamant=20;
+		nbr_diamond=20;
 		dash=new Dash(224,128);
 		tabObjets=new Objet[25][51];
 		tabObjets=mapImage();
-	    rocher=tabObjets[4][6];
 	    exit1=new ExitDoor(1344,544);
 		this.exitable=false;
+	
+	// This timer handles the gametime	
 		Timer time = new Timer();
 		TimerTask task = new TimerTask() {
 
@@ -96,10 +100,12 @@ public class ViewPanel extends JPanel implements Observer {
 				if(dash.getWalks()==false) {
 					dash.setRest(true);
 				}
-				
 			}
 		};
 		time.schedule(task,0,1000);
+	
+		//This timer controll that a diamond empile on another one or a roc falls if there is space
+		
 		Timer time3=new Timer();
 		TimerTask task3=new TimerTask() {
 
@@ -123,18 +129,16 @@ public class ViewPanel extends JPanel implements Observer {
 									tabObjets[i][j-1]=tabObjets[i][j];
 									tabObjets[i][j]=new Back(x,y);
 									tabObjets[i][j-1].setX(tabObjets[i][j].getX()-32);
-								}
-								
-								
+								}	
 							}
 								
 							}
 						}
-				
 			}
-		
 		};
 		time3.schedule(task3,10,250);	
+		
+		//This timer controll that a roc empile on another one or a diamond falls if there is space
 		
 		Timer time4=new Timer();
 		TimerTask task4= new TimerTask() {
@@ -169,126 +173,84 @@ public class ViewPanel extends JPanel implements Observer {
 			}
 		};
 		time4.schedule(task4,10,250);
+		
+	// The refresh thread
+		
 		Thread  refresh=new Thread(new Refresh());
 		refresh.start();
 	}
 
 
-
 	/**
-
-	 * Gets the view frame.
-
 	 *
-
-	 * @return the view frame
-
-	 */
-
-	/*private ViewFrame getViewFrame() {
-
-		return this.viewFrame;
-
-	}*/
-
-
-
-	/**
-
-	 * Sets the view frame.
-
-	 *
-
-	 * @param viewFrame
-
-	 *          the new view frame
-
-	 */
-
-	/*private void setViewFrame(final ViewFrame viewFrame) {
-
-		this.viewFrame = viewFrame;
-
-	}*/
-
-
-
-	/*
-
-	 * (non-Javadoc)
-
-	 *
-
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-
+	 *
+	 * @param arg0
+	 * Observable
+	 * @param arg1
+	 * object
 	 */
 
 	public void update(final Observable arg0, final Object arg1) {
-
 		this.repaint();
-
 	}
 
 
-
-	/*
-
-	 * (non-Javadoc)
-
+	/**
 	 *
-
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-
+	 *
+	 *
+	 * @param graphics
+	 * An awt element that allows to draw components
 	 */
 
 	@Override
 
 	protected void paintComponent(final Graphics graphics) {
+		
 
 		Graphics2D g2=(Graphics2D)graphics;
-	//	System.out.println(rocher.getX() + " " + rocher.getY());
+		
+		//Check and set the pushable attribute of the rocks
+		
 		for(int i=0;i<24;i++) {
 			for(int j=0;j<51;j++) {
-			if(ViewPanel.tabObjets[i][j]!=null) {
 			
-				if(ViewPanel.tabObjets[i][j].getClass().getName().equals("model.Roc")) {
+				if(tabObjets[i][j].getClass().getName().equals("model.Roc")) {
 				
-				if(ViewPanel.tabObjets[i][j].contactDroite(ViewPanel.tabObjets[i][j+1])) {
-					ViewPanel.tabObjets[i][j].setPushableRight(true);
+				if(tabObjets[i][j].RightContact(ViewPanel.tabObjets[i][j+1])) {
+					tabObjets[i][j].setPushableRight(true);
 				}else {
-					ViewPanel.tabObjets[i][j].setPushableRight(false);
+					tabObjets[i][j].setPushableRight(false);
 				}
 				
-				
-				if(ViewPanel.tabObjets[i][j].contactGauche(ViewPanel.tabObjets[i][j-1])) {
-					ViewPanel.tabObjets[i][j].setPushableLeft(true);
+				if(tabObjets[i][j].LeftContact(ViewPanel.tabObjets[i][j-1])) {
+					tabObjets[i][j].setPushableLeft(true);
 				}else {
-					ViewPanel.tabObjets[i][j].setPushableLeft(false);
+					tabObjets[i][j].setPushableLeft(false);
 					}
-				
 					}
-				}
 			}
 		}
 		
-		for(int i=0;i<24;i++) {
+		/*for(int i=0;i<24;i++) {
 			for(int j=0;j<51;j++) {
 			
 			if(tabObjets[i][j].getClass().getName().equals("model.Roc") ||tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
 				
-				if(dash.getX()==tabObjets[i][j].getX() && dash.getY()==tabObjets[i][j].getY()) {
+				if(dash.getX()==tabObjets[i][j].getX() && dash.getY()-32==tabObjets[i][j].getY() && tabObjets[i][j].getVelocity()>0) {
 					dash.setDeath(true);
-					System.out.println("meurt");
+					//System.out.println("meurt");
 				}else {
 					dash.setDeath(false);
-					System.out.println("vie");
+					//System.out.println("vie");
 				}
 			}
 		}
 		
-	}
-		
-				    
+	}*/
+		//Check if the rock or the diamond can fall	    
 		for(int i=0;i<24;i++) {
 				
 			for(int j=0;j<51;j++) {
@@ -296,7 +258,7 @@ public class ViewPanel extends JPanel implements Observer {
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc") ) {
 					
 					if(tabObjets[i][j].getVelocity()==0) {
-					if(tabObjets[i][j].procheBas(tabObjets[i+1][j]) && tabObjets[i][j].contactBasDash(dash)==false) {
+					if(tabObjets[i][j].NearDown(tabObjets[i+1][j]) && tabObjets[i][j].DownContactDash(dash)==false) {
 						int x=tabObjets[i][j].getX();
 						int y=tabObjets[i][j].getY();
 						tabObjets[i][j].setFalling(true);
@@ -309,7 +271,7 @@ public class ViewPanel extends JPanel implements Observer {
 						tabObjets[i][j].setVelocity(0);
 					}
 					}else if (tabObjets[i][j].getVelocity()>0) {
-						if(tabObjets[i][j].procheBas(tabObjets[i+1][j])) {
+						if(tabObjets[i][j].NearDown(tabObjets[i+1][j])) {
 							int x=tabObjets[i][j].getX();
 							int y=tabObjets[i][j].getY();
 							tabObjets[i][j].setFalling(true);
@@ -321,13 +283,11 @@ public class ViewPanel extends JPanel implements Observer {
 							tabObjets[i][j].setFalling(false);
 							tabObjets[i][j].setVelocity(0);
 						}
-						
-						
 					}
 					
 				}else if(tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
 					
-					if(tabObjets[i][j].procheBas(tabObjets[i+1][j]) && tabObjets[i][j].contactBasDash(dash)==false) {
+					if(tabObjets[i][j].NearDown(tabObjets[i+1][j]) && tabObjets[i][j].DownContactDash(dash)==false) {
 						int x=tabObjets[i][j].getX();
 						int y=tabObjets[i][j].getY();
 						tabObjets[i][j].setFalling(true);
@@ -339,16 +299,12 @@ public class ViewPanel extends JPanel implements Observer {
 						tabObjets[i][j].setFalling(false);
 						tabObjets[i][j].setVelocity(0);
 					}
-					
-				}
-					
-				
+				}	
 				g2.drawImage(tabObjets[i][j].getImgObj(),tabObjets[i][j].getX(),tabObjets[i][j].getY(),null);	
-		
 			}
-		 
 		}
 
+		//determine the method to call to get the hero image
 					if(dash.getDeath()==false && dash.isRest()==false) {
 						g2.drawImage(dash.Imagewalk(50),dash.getX(),dash.getY(),null);	
 					}else if(dash.isRest()==true && dash.getDeath()==false) {
@@ -383,7 +339,9 @@ public class ViewPanel extends JPanel implements Observer {
 						if(tabObjetsPerdus[6][6]!=null) {
 							System.out.println(" case suivante++ " + tabObjetsPerdus[6][6].getClass().getName());
 						}*/
-						if(nbr_diamant<=10) {
+					
+			//Draw the score,the time and the number of diamond remaining
+						if(nbr_diamond<=10) {
 							this.exitable=true;
 					g2.drawImage(exit1.getImgObj(),exit1.getX(), exit1.getY(),null);
 						}
@@ -399,19 +357,19 @@ public class ViewPanel extends JPanel implements Observer {
 				     g2.drawRoundRect(100, 2, 63, 28, 20, 20);
 				     g2.drawRoundRect(100, 35, 63, 28, 20, 20);
 				     g2.setColor(Color.WHITE); 
-				     g2.drawString(Integer.toString(nbr_diamant),130, 22);
+				     g2.drawString(Integer.toString(nbr_diamond),130, 22);
 				     g2.drawString(Integer.toString(dash.getScore()),30, 22);
 				     g2.drawString(Integer.toString(timegame),125, 57);
 				     g2.drawImage(new ImageIcon(getClass().getResource("/images/diam_icon.png")).getImage(),105, 8,null);
 				     g2.drawImage(new ImageIcon(getClass().getResource("/images/horloge_icon.png")).getImage(),105,40,null);
-				   /*  try {
-						Thread.sleep(80);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				     repaint();*/
 	}
+
+	
+	/**
+	 * @return tabObjets
+	 * 
+	 * Instanciate the correspondant objet for the character read from the array
+	 */
 
 	private static Objet[][] mapImage(){
 	
@@ -434,12 +392,10 @@ public class ViewPanel extends JPanel implements Observer {
 				   
 				  	 }else if(level.getMap()[j][i]=='X') {
 				  		 tmp2=new Roc(xobj,yobj);
-				  	//	tabObjetsPerdus[j][i]=tmp2/*new Roc(xobj,yobj)*/;
-					  
+				    
 				  	 }else if(level.getMap()[j][i]=='D') {
 				 			tmp2=new Diamond(xobj,yobj);
-				  		// tabObjetsPerdus[j][i]=tmp2/*new Diamond(xobj,yobj)*/;
-					   }else if(level.getMap()[j][i]==' ') {
+				     }else if(level.getMap()[j][i]==' ') {
 						   
 						  tmp2=new Back(xobj,yobj);
 					   }else {
@@ -456,11 +412,43 @@ public class ViewPanel extends JPanel implements Observer {
 	}
 
 
-
+	/**
+	 * 
+	 * @return exitable
+	 * 
+	 * getter for exitable
+	 */
 	public boolean isExitable() {
 		return exitable;
 	}
-	
+	/**
+	 * 
+	 * @return timegame
+	 * 
+	 * getter for the timegame
+	 */
+	public  int getTimegame() {
+		return timegame;
+	}
+
+	/**
+	 * 
+	 * @return nbr_diamond
+	 * 
+	 * getter for the number diamond
+	 */
+	public int getNbr_diamond() {
+		return nbr_diamond;
+	}
+	/**
+	 * 
+	 * @param nbr_diamond
+	 * 
+	 * setter for the number of diamond
+	 */
+	public void setNbr_diamond(int nbr_diamond) {
+		this.nbr_diamond = nbr_diamond;
+	}
 	
 	
 }

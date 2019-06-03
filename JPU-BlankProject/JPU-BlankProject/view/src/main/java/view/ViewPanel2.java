@@ -24,33 +24,46 @@ import model.Objet;
 import model.Roc;
 import model.Wall;
 
-public class ViewPanel2 extends JPanel implements Observer{
+/**
+ * Date:02-06-2019
+ * The Class ViewPanel2.
+ * @author Welaji chris-yvan
+ */
 
-	/**
-	 * 
-	 */
+public class ViewPanel2 extends JPanel implements Observer{
+	
+	/** The Constant serialVersionUID */
 	private static final long serialVersionUID = 556761802292369776L;
-	public static Level level=new Level(2);
+	
+	/**
+	 * @see ViewPanel
+	 */
+	private static Level level=new Level(2);
 	public static Objet[][] tabObjets;
-	public static ArrayList<Monster> tabMonsters;
 	public ExitDoor exit1;
-	public static int nbr_diamant;
+	private int nbr_diamond;
 	public static Dash dash;
-	private static  int timegame=150;
+	private int timegame=150;
 	int xstar=0,ystar=0;
 	private static 	int deathcount;
 	private boolean exitable;
-
+	
+	/** Arraylist of monsters*/
+	public static ArrayList<Monster> tabMonsters;
+	
+	
 	public ViewPanel2() {
+		
 		dash=new Dash(320,576);
 		tabObjets=new Objet[25][51];
-		nbr_diamant=12;
+		nbr_diamond=12;
 		deathcount=0;
 		exit1=new ExitDoor(672,704);
 		tabMonsters=new ArrayList<Monster>();
 		tabObjets=mapImage();
 		this.exitable=false;
-		MoveMonster movemonster=new MoveMonster();
+		
+		//timer to handle the gametime
 		Timer time = new Timer();
 		TimerTask task = new TimerTask() {
 
@@ -60,18 +73,17 @@ public class ViewPanel2 extends JPanel implements Observer{
 			}else {
 				timegame--;	
 			}
-			
 				if(timegame<=0) {
 					dash.setDeath(true);
 				}
-				
 				if(dash.getWalks()==false) {
 					dash.setRest(true);
 				}
-				
 			}
 		};
 		time.schedule(task,0,1000);
+		
+		//timer for collision between monster and hero
 		Timer time2 = new Timer();
 		TimerTask task2= new TimerTask() {
 
@@ -82,11 +94,132 @@ public class ViewPanel2 extends JPanel implements Observer{
 						dash.setDeath(true);
 					}
 				}
-				
 			}
-		
 		};
 		time2.schedule(task2,10,100);
+		
+		Timer time5=new Timer();
+		
+		TimerTask task5=new TimerTask(){
+
+			@Override
+			public void run() {
+				int nb = (int) (Math.random() * 4); 
+				for(int k=0;k<tabMonsters.size();k++) {
+					
+					if(tabMonsters.get(k).getWalks()==false) {
+						
+						for(int i=0;i<24;i++) {
+							for(int j=0;j<51;j++) {
+								
+								if(nb==0) {
+								
+									if(tabMonsters.get(k).movesRight(tabObjets[i][j])) {
+									tabMonsters.get(k).setWalks(true);
+									tabMonsters.get(k).setGoesRight(true);
+									}else if(tabMonsters.get(k).movesLeft(tabObjets[i][j])) {
+										tabMonsters.get(k).setWalks(true);
+										tabMonsters.get(k).setGoesLeft(true);
+									}else if(tabMonsters.get(k).movesUp(tabObjets[i][j])) {
+										tabMonsters.get(k).setWalks(true);
+										tabMonsters.get(k).setGoesUp(true);
+									}else if(tabMonsters.get(k).movesDown(tabObjets[i][j])) {
+										tabMonsters.get(k).setWalks(true);
+										tabMonsters.get(k).setGoesDown(true);
+									}
+							
+								}else if(nb==1) {
+									
+									if(tabMonsters.get(k).movesLeft(tabObjets[i][j])) {
+										tabMonsters.get(k).setWalks(true);
+										tabMonsters.get(k).setGoesLeft(true);
+										}else if(tabMonsters.get(k).movesRight(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesRight(true);
+										}else if(tabMonsters.get(k).movesUp(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesUp(true);
+										}else if(tabMonsters.get(k).movesDown(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesDown(true);
+										}
+									
+								}else if(nb==2) {
+									
+									if(tabMonsters.get(k).movesUp(tabObjets[i][j])) {
+										tabMonsters.get(k).setWalks(true);
+										tabMonsters.get(k).setGoesUp(true);
+										}else if(tabMonsters.get(k).movesLeft(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesLeft(true);
+										}else if(tabMonsters.get(k).movesRight(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesRight(true);
+										}else if(tabMonsters.get(k).movesDown(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesDown(true);
+										}
+									
+								}else if(nb==3) {
+									
+									if(tabMonsters.get(k).movesDown(tabObjets[i][j])) {
+										tabMonsters.get(k).setWalks(true);
+										tabMonsters.get(k).setGoesDown(true);
+										}else if(tabMonsters.get(k).movesLeft(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesLeft(true);
+										}else if(tabMonsters.get(k).movesUp(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesUp(true);
+										}else if(tabMonsters.get(k).movesRight(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(true);
+											tabMonsters.get(k).setGoesRight(true);
+										}
+									
+								}
+							
+							}
+							
+						}	
+					}else {
+						for(int i=0;i<24;i++) {
+							
+							for(int j=0;j<51;j++) {
+							
+								if(tabObjets[i][j]!=null) {
+									
+									if(tabMonsters.get(k).isGoesRight()) {
+										
+										if(tabMonsters.get(k).DoesnotmovesRight(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(false);
+											tabMonsters.get(k).setGoesRight(false);
+										}
+									}else if(tabMonsters.get(k).isGoesLeft()) {
+										if(tabMonsters.get(k).DoesnotmovesLeft(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(false);
+											tabMonsters.get(k).setGoesLeft(false);
+										}
+									}else if(tabMonsters.get(k).isGoesUp()) {
+										if(tabMonsters.get(k).DoesnotmovesUp(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(false);
+											tabMonsters.get(k).setGoesUp(false);
+										}
+									}else if(tabMonsters.get(k).isGoesDown()) {
+										if(tabMonsters.get(k).DoesnotmovesDown(tabObjets[i][j])) {
+											tabMonsters.get(k).setWalks(false);
+											tabMonsters.get(k).setGoesDown(false);
+											}
+										}									
+									}
+								}
+							}
+						}
+					}
+				}
+			};
+	time5.schedule(task5,300,100);
+
+		
 		Timer time3=new Timer();
 		TimerTask task3=new TimerTask() {
 
@@ -110,24 +243,21 @@ public class ViewPanel2 extends JPanel implements Observer{
 									tabObjets[i][j-1]=tabObjets[i][j];
 									tabObjets[i][j]=new Back(x,y);
 									tabObjets[i][j-1].setX(tabObjets[i][j].getX()-32);
-								}
-								
-								
+								}	
 							}
 								
-							}
 						}
-				
-			}
-		
+					}
+				}
 		};
-		time3.schedule(task3,10,200);	
+		time3.schedule(task3,10,200);
+		
 		Timer time4=new Timer();
 		TimerTask task4= new TimerTask() {
 
 			@Override
 			public void run() {
-		for(int i=0;i<24;i++) {
+				for(int i=0;i<24;i++) {
 					
 			for(int j=0;j<51;j++) {
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc")) {
@@ -144,32 +274,36 @@ public class ViewPanel2 extends JPanel implements Observer{
 							tabObjets[i][j-1]=tabObjets[i][j];
 							tabObjets[i][j]=new Back(x,y);
 							tabObjets[i][j-1].setX(tabObjets[i][j].getX()-32);
+							}
 						}
-						
-						
-					}
-						
 					}
 				}
-				
 			}
 		};
 		time4.schedule(task4,10,200);
 			
 		Thread  refresh=new Thread(new Refresh2());
 		refresh.start();
+	}
+	
+	/**
+	 * @param o
+	 * observable
+	 * @param arg
+	 * object
+	 */
+
+	@Override
+	public void update(Observable o, Object arg) {
 
 	}
 	
-	@Override
-	public void update(Observable o, Object arg) {
-		
-	}
-	
+	/**
+	 * @see ViewPanel
+	 */
 	protected void paintComponent(Graphics g) {
 		
 		Graphics2D g2=(Graphics2D)g;
-		//System.out.println(tabMonsters.get(0).getX());
 		
 		for(int i=0;i<24;i++) {
 			for(int j=0;j<51;j++) {
@@ -177,14 +311,12 @@ public class ViewPanel2 extends JPanel implements Observer{
 			
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc")) {
 				
-				if(tabObjets[i][j].contactDroite(tabObjets[i][j+1])) {
+				if(tabObjets[i][j].RightContact(tabObjets[i][j+1])) {
 					tabObjets[i][j].setPushableRight(true);
 				}else {
 					tabObjets[i][j].setPushableRight(false);
 				}
-				
-				
-				if(tabObjets[i][j].contactGauche(tabObjets[i][j-1])) {
+				if(tabObjets[i][j].LeftContact(tabObjets[i][j-1])) {
 					tabObjets[i][j].setPushableLeft(true);
 				}else {
 					tabObjets[i][j].setPushableLeft(false);
@@ -194,15 +326,14 @@ public class ViewPanel2 extends JPanel implements Observer{
 				}
 			}
 		}
-		
-				    
+		  
 		for(int i=0;i<24;i++) {
 				
 			for(int j=0;j<51;j++) {
 				
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc") || tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
 					
-					if(tabObjets[i][j].procheBas(tabObjets[i+1][j]) && tabObjets[i][j].contactBasDash(dash)==false) {
+					if(tabObjets[i][j].NearDown(tabObjets[i+1][j]) && tabObjets[i][j].DownContactDash(dash)==false) {
 						int x=tabObjets[i][j].getX();
 						int y=tabObjets[i][j].getY();
 						tabObjets[i][j].setFalling(true);
@@ -214,12 +345,9 @@ public class ViewPanel2 extends JPanel implements Observer{
 						tabObjets[i][j].setFalling(false);
 						tabObjets[i][j].setVelocity(0);
 					}
-					
 				}
 					g2.drawImage(tabObjets[i][j].getImgObj(),tabObjets[i][j].getX(),tabObjets[i][j].getY(),null);	
-		
 			}
-		 
 		}
 
 	
@@ -228,7 +356,7 @@ public class ViewPanel2 extends JPanel implements Observer{
 		
 			}
 			
-			if(nbr_diamant<=5) {
+			if(nbr_diamond<=5) {
 			this.exitable=true;
 		g2.drawImage(exit1.getImgObj(),exit1.getX(), exit1.getY(),null);
 			}
@@ -268,7 +396,7 @@ public class ViewPanel2 extends JPanel implements Observer{
 	     g2.drawRoundRect(100, 2, 63, 28, 20, 20);
 	     g2.drawRoundRect(100, 35, 63, 28, 20, 20);
 	     g2.setColor(Color.WHITE); 
-	     g2.drawString(Integer.toString(nbr_diamant),130, 22);
+	     g2.drawString(Integer.toString(nbr_diamond),130, 22);
 	     g2.drawString(Integer.toString(dash.getScore()),30, 22);
 	     g2.drawString(Integer.toString(timegame),125, 57);
 	     g2.drawImage(new ImageIcon(getClass().getResource("/images/diam_icon.png")).getImage(),105, 8,null);
@@ -276,12 +404,16 @@ public class ViewPanel2 extends JPanel implements Observer{
 	
 	}
 
+	/**
+	 * 
+	 * @see ViewPanel
+	 * @return tabObjets
+	 */
 	private static Objet[][] mapImage(){
 		
 		Objet[][] tabObjets=new Objet[25][51];
 
 	Objet tmp2=null;
-	Monster tmp=null;
 	int xobj=0;
 	int yobj=0;
 
@@ -320,13 +452,53 @@ public class ViewPanel2 extends JPanel implements Observer{
  		return tabObjets;
 		
 	}
-
+	/**
+	 * 
+	 * @see ViewPanel
+	 * @return nbr_diamond
+	 */
+	public int getNbr_diamond() {
+		return nbr_diamond;
+	}
+	/**
+	 * 
+	 * @see ViewPanel
+	 * @param nbr_diamond
+	 * the actual number of diamond
+	 */
+	
+	public void setNbr_diamond(int nbr_diamond) {
+		this.nbr_diamond = nbr_diamond;
+	}
+	/**
+	 * 
+	 * @see ViewPanel
+	 * @return exitable
+	 * 
+	 */
+	
 	public boolean isExitable() {
 		return exitable;
 	}
-
+	/**
+	 * 
+	 * @see ViewPanel
+	 * @param exitable
+	 * the new value of exitable
+	 * 
+	 */
+	
 	public void setExitable(boolean exitable) {
 		this.exitable = exitable;
+	}
+	/**
+	 * 
+	 * @see ViewPanel
+	 * @return timegame
+	 */
+	
+	public int getTimegame() {
+		return timegame;
 	}
 	
 	

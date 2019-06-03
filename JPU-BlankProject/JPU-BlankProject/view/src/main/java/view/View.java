@@ -9,65 +9,40 @@ import java.awt.event.KeyEvent;
 import javax.swing.SwingUtilities;
 import contract.ControllerOrder;
 import contract.IController;
-import contract.IModel;
 import contract.IView;
 
 
 
 /**
-
  * The Class View.
-
  *
-
- * @author Jean-Aymeric Diet
+ * @author Welaji chris-yvan
 
  */
 
 public final class View implements IView, Runnable {
 
-
-
 	/** The frame. */
 
 	public static  ViewFrame viewFrame;
 
-
-
 	/**
-
 	 * Instantiates a new view.
-
-	 *
-
-	 * @param model
-
 	 *          the model
-
 	 */
 
+	@SuppressWarnings("static-access")
 	public View() {
-
 		this.viewFrame = new ViewFrame();
-
 		SwingUtilities.invokeLater(this);
-
 	}
 
-
-
 	/**
-
 	 * Key code to controller order.
-
 	 *
-
 	 * @param keyCode
-
 	 *          the key code
-
 	 * @return the controller order
-
 	 */
 
 	protected static ControllerOrder keyCodeToControllerOrder(final int keyCode) {
@@ -91,59 +66,34 @@ public final class View implements IView, Runnable {
 		}
 	}
 
-
-
-	/*
-
-	 * (non-Javadoc)
-
+	/**
 	 *
-
 	 * @see contract.IView#printMessage(java.lang.String)
-
 	 */
 
 	public void printMessage(final String message) {
-
-
 	}
-
-
-
-	/*
-
-	 * (non-Javadoc)
-
+	
+	/**
 	 *
-
 	 * @see java.lang.Runnable#run()
-
 	 */
 
+	@SuppressWarnings("static-access")
 	public void run() {
-
 		this.viewFrame.setVisible(true);
-
 	}
-
-
 
 	/**
-
 	 * Sets the controller.
-
 	 *
-
 	 * @param controller
-
 	 *          the new controller
-
 	 */
 
+	@SuppressWarnings("static-access")
 	public void setController(final IController controller) {
-
 		this.viewFrame.setController(controller);
-
 	}
 
 }

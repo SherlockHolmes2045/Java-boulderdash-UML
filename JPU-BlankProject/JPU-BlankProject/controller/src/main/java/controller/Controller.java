@@ -20,26 +20,22 @@ import view.ViewPanel5;
 
 /**
 
-
-
  * The Class Controller.
-
-
-
+ * 
+ * @author Lemovou Dachi Ivan
+ 
  */
-
-
 
 public final class Controller implements IController {
 
 	/** The view. */
 
-
-
+	@SuppressWarnings("unused")
 	private IView		view;
 
 	/** The model. */
 
+	@SuppressWarnings("unused")
 	private IModel	model;
 
 	/**
@@ -51,10 +47,6 @@ public final class Controller implements IController {
 	 * @param view
 
 	 *          the view
-
-	 * @param model
-
-	 *          the model
 
 	 */
 
@@ -70,9 +62,7 @@ public final class Controller implements IController {
 
      */
 
-	/*
-
-	 * (non-Javadoc)
+	/**
 
 	 *
 
@@ -81,8 +71,6 @@ public final class Controller implements IController {
 	 */
 
 	public void control() {
-
-
 		   	}
 
 	/**
@@ -98,9 +86,7 @@ public final class Controller implements IController {
      */
 
 private void setView(final IView pview) {
-
 		this.view = pview;
-
 	}
 
 	/**
@@ -113,6 +99,7 @@ private void setView(final IView pview) {
 
 	 */
 
+	@SuppressWarnings("unused")
 	private void setModel(final IModel model) {
 
 		this.model = model;
@@ -131,9 +118,7 @@ private void setView(final IView pview) {
 
      */
 
-	/*
-
-	 * (non-Javadoc)
+	/**
 
 	 *
 
@@ -147,7 +132,7 @@ private void setView(final IView pview) {
 
 			case LEFT:
 				
-				if(View.viewFrame.getCompteur()==2) {
+				if(View.viewFrame.getLevel_counter()==2) {
 					
 					ViewPanel.dash.setRest(false);
 					ViewPanel.dash.setWalksleft(true);
@@ -156,9 +141,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){
 
-				if(ViewPanel.dash.procheGauche(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.NearLeft(ViewPanel.tabObjets[j][i])) {
 
-				if(ViewPanel.dash.contactGauche(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.LeftContact(ViewPanel.tabObjets[j][i])) {
 
 						if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -171,7 +156,7 @@ private void setView(final IView pview) {
 							ViewPanel.dash.setWalks(true);	
 
 						}else if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-							ViewPanel.nbr_diamant--;
+							ViewFrame.panel1.setNbr_diamond(ViewFrame.panel1.getNbr_diamond()-1);
 							ViewPanel.dash.setScore(ViewPanel.dash.getScore()+20);
 							ViewPanel.tabObjets[j][i]=new Back(ViewPanel.tabObjets[j][i].getX(),ViewPanel.tabObjets[j][i].getY());
 							ViewPanel.dash.setWalks(true);
@@ -212,7 +197,7 @@ private void setView(final IView pview) {
 				//***Level 2 Handling controller****//
 				
 				
-				}else if(View.viewFrame.getCompteur()==3) {
+				}else if(View.viewFrame.getLevel_counter()==3) {
 					
 					
 					ViewPanel2.dash.setWalksleft(true);
@@ -222,9 +207,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++){
 
-					if(ViewPanel2.dash.procheGauche(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.NearLeft(ViewPanel2.tabObjets[j][i])) {
 
-					if(ViewPanel2.dash.contactGauche(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.LeftContact(ViewPanel2.tabObjets[j][i])) {
 
 							if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -237,7 +222,7 @@ private void setView(final IView pview) {
 								ViewPanel2.dash.setWalks(true);	
 
 							}else if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-								ViewPanel2.nbr_diamant--;
+								ViewFrame.panel2.setNbr_diamond(ViewFrame.panel2.getNbr_diamond()-1);
 								ViewPanel2.dash.setScore(ViewPanel2.dash.getScore()+20);
 								ViewPanel2.tabObjets[j][i]=new Back(ViewPanel2.tabObjets[j][i].getX(),ViewPanel2.tabObjets[j][i].getY());
 								ViewPanel2.dash.setWalks(true);
@@ -275,7 +260,7 @@ private void setView(final IView pview) {
 				
 				//****Level 3 Handling Controller****//
 				
-					else if(View.viewFrame.getCompteur()==4) {
+					else if(View.viewFrame.getLevel_counter()==4) {
 					
 					ViewPanel3.dash.setWalksleft(true);
 					ViewPanel3.dash.setRest(false);
@@ -284,9 +269,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++){
 
-					if(ViewPanel3.dash.procheGauche(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.NearLeft(ViewPanel3.tabObjets[j][i])) {
 
-					if(ViewPanel3.dash.contactGauche(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.LeftContact(ViewPanel3.tabObjets[j][i])) {
 
 							if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -299,7 +284,7 @@ private void setView(final IView pview) {
 								ViewPanel3.dash.setWalks(true);	
 
 							}else if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-								ViewPanel3.nbr_diamant--;
+								ViewFrame.panel3.setNbr_diamond(ViewFrame.panel3.getNbr_diamond()-1);
 								ViewPanel3.dash.setScore(ViewPanel.dash.getScore()+20);
 								ViewPanel3.tabObjets[j][i]=new Back(ViewPanel2.tabObjets[j][i].getX(),ViewPanel2.tabObjets[j][i].getY());
 								ViewPanel3.dash.setWalks(true);
@@ -337,7 +322,7 @@ private void setView(final IView pview) {
 				
 				//****Level 4 Controller Handling****//
 				
-					else if(View.viewFrame.getCompteur()==5) {
+					else if(View.viewFrame.getLevel_counter()==5) {
 						
 						ViewPanel4.dash.setWalksleft(true);
 						ViewPanel4.dash.setRest(false);
@@ -346,9 +331,9 @@ private void setView(final IView pview) {
 							   
 							for(int i=0;i<51;i++){
 
-						if(ViewPanel4.dash.procheGauche(ViewPanel4.tabObjets[j][i])) {
+						if(ViewPanel4.dash.NearLeft(ViewPanel4.tabObjets[j][i])) {
 
-						if(ViewPanel4.dash.contactGauche(ViewPanel4.tabObjets[j][i])) {
+						if(ViewPanel4.dash.LeftContact(ViewPanel4.tabObjets[j][i])) {
 
 								if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -361,7 +346,7 @@ private void setView(final IView pview) {
 									ViewPanel4.dash.setWalks(true);	
 
 								}else if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-									ViewPanel4.nbr_diamant--;
+									ViewFrame.panel4.setNbr_diamond(ViewFrame.panel4.getNbr_diamond()-1);
 									ViewPanel4.dash.setScore(ViewPanel4.dash.getScore()+20);
 									ViewPanel4.tabObjets[j][i]=new Back(ViewPanel4.tabObjets[j][i].getX(),ViewPanel4.tabObjets[j][i].getY());
 									ViewPanel4.dash.setWalks(true);
@@ -398,7 +383,7 @@ private void setView(final IView pview) {
 					}
 			//*****Level 5 handling Controller****//
 				
-					else if(View.viewFrame.getCompteur()==6) {
+					else if(View.viewFrame.getLevel_counter()==6) {
 						
 						ViewPanel5.dash.setWalksleft(true);
 						ViewPanel5.dash.setRest(false);
@@ -407,9 +392,9 @@ private void setView(final IView pview) {
 							   
 							for(int i=0;i<51;i++){
 
-						if(ViewPanel5.dash.procheGauche(ViewPanel5.tabObjets[j][i])) {
+						if(ViewPanel5.dash.NearLeft(ViewPanel5.tabObjets[j][i])) {
 
-						if(ViewPanel5.dash.contactGauche(ViewPanel5.tabObjets[j][i])) {
+						if(ViewPanel5.dash.LeftContact(ViewPanel5.tabObjets[j][i])) {
 
 								if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -422,7 +407,7 @@ private void setView(final IView pview) {
 									ViewPanel5.dash.setWalks(true);	
 
 								}else if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-									ViewPanel5.nbr_diamant--;
+									ViewFrame.panel5.setNbr_diamond(ViewFrame.panel5.getNbr_diamond()-1);
 									ViewPanel5.dash.setScore(ViewPanel5.dash.getScore()+20);
 									ViewPanel5.tabObjets[j][i]=new Back(ViewPanel5.tabObjets[j][i].getX(),ViewPanel5.tabObjets[j][i].getY());
 									ViewPanel5.dash.setWalks(true);
@@ -461,7 +446,7 @@ private void setView(final IView pview) {
 
 			case UP:
 				
-				if(View.viewFrame.getCompteur()==2) {
+				if(View.viewFrame.getLevel_counter()==2) {
 				
 					ViewPanel.dash.setRest(false);
 					
@@ -475,9 +460,9 @@ private void setView(final IView pview) {
 
 							   
 
-				if(ViewPanel.dash.procheHaut(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.NearUp(ViewPanel.tabObjets[j][i])) {
 
-				if(ViewPanel.dash.contactHaut(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.UpContact(ViewPanel.tabObjets[j][i])) {
 
 						if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -490,8 +475,8 @@ private void setView(final IView pview) {
 							ViewPanel.dash.setWalks(true);	
 
 						}else if(ViewPanel.tabObjets[j][i].getClass().getName().equals("model.Diamond")) {
-							
-							ViewPanel.nbr_diamant--;
+
+							ViewFrame.panel1.setNbr_diamond(ViewFrame.panel1.getNbr_diamond()-1);
 							ViewPanel.dash.setScore(ViewPanel.dash.getScore()+20);
 							ViewPanel.tabObjets[j][i]=new Back(ViewPanel.tabObjets[j][i].getX(),ViewPanel.tabObjets[j][i].getY());
 							ViewPanel.dash.setWalks(true);
@@ -516,7 +501,7 @@ private void setView(final IView pview) {
 				
 				//****Level 2 handling Controller****//
 				
-			}else if(View.viewFrame.getCompteur()==3) {
+			}else if(View.viewFrame.getLevel_counter()==3) {
 				
 				
 				ViewPanel2.dash.setWalksup(true);
@@ -526,9 +511,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){ 
 
-				if(ViewPanel2.dash.procheHaut(ViewPanel2.tabObjets[j][i])) {
+				if(ViewPanel2.dash.NearUp(ViewPanel2.tabObjets[j][i])) {
 
-				if(ViewPanel2.dash.contactHaut(ViewPanel2.tabObjets[j][i])) {
+				if(ViewPanel2.dash.UpContact(ViewPanel2.tabObjets[j][i])) {
 
 						if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -542,7 +527,7 @@ private void setView(final IView pview) {
 
 						}else if(ViewPanel2.tabObjets[j][i].getClass().getName().equals("model.Diamond")) {
 							
-							ViewPanel2.nbr_diamant--;
+							ViewFrame.panel2.setNbr_diamond(ViewFrame.panel2.getNbr_diamond()-1);
 							ViewPanel2.dash.setScore(ViewPanel2.dash.getScore()+20);
 							ViewPanel2.tabObjets[j][i]=new Back(ViewPanel2.tabObjets[j][i].getX(),ViewPanel2.tabObjets[j][i].getY());
 							ViewPanel2.dash.setWalks(true);
@@ -565,7 +550,7 @@ private void setView(final IView pview) {
 			}
 			//****Level 3 Handling Controller****//
 				
-			else if(View.viewFrame.getCompteur()==4) {
+			else if(View.viewFrame.getLevel_counter()==4) {
 				
 				
 				ViewPanel3.dash.setWalksup(true);
@@ -575,9 +560,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){ 
 
-				if(ViewPanel3.dash.procheHaut(ViewPanel3.tabObjets[j][i])) {
+				if(ViewPanel3.dash.NearUp(ViewPanel3.tabObjets[j][i])) {
 
-				if(ViewPanel3.dash.contactHaut(ViewPanel3.tabObjets[j][i])) {
+				if(ViewPanel3.dash.UpContact(ViewPanel3.tabObjets[j][i])) {
 
 						if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -590,8 +575,7 @@ private void setView(final IView pview) {
 							ViewPanel3.dash.setWalks(true);	
 
 						}else if(ViewPanel3.tabObjets[j][i].getClass().getName().equals("model.Diamond")) {
-							
-							ViewPanel3.nbr_diamant--;
+							ViewFrame.panel3.setNbr_diamond(ViewFrame.panel3.getNbr_diamond()-1);
 							ViewPanel3.dash.setScore(ViewPanel3.dash.getScore()+20);
 							ViewPanel3.tabObjets[j][i]=new Back(ViewPanel3.tabObjets[j][i].getX(),ViewPanel3.tabObjets[j][i].getY());
 							ViewPanel3.dash.setWalks(true);
@@ -610,16 +594,15 @@ private void setView(final IView pview) {
 				
 				ViewPanel3.dash.setY(ViewPanel3.dash.getY()-32);
 				if(ViewPanel3.dash.getX()==192 && ViewPanel3.dash.getY()==96 && ViewFrame.panel3.isExitable()==true) {
-					System.out.println("ok");
-					View.viewFrame.setCompteur(View.viewFrame.getCompteur()+1);
-					View.viewFrame.card.show(View.viewFrame.container, ""+View.viewFrame.getCompteur());
+					View.viewFrame.setLevel_counter(View.viewFrame.getLevel_counter()+1);
+					ViewFrame.card.show(ViewFrame.container, ""+View.viewFrame.getLevel_counter());
 				}
 				
 				}
 			}
 				//****Level 4 Handling Controller****//
 				
-			else if(View.viewFrame.getCompteur()==5) {
+			else if(View.viewFrame.getLevel_counter()==5) {
 				
 				ViewPanel4.dash.setWalksup(true);
 				ViewPanel4.dash.setRest(false);
@@ -628,9 +611,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){ 
 
-				if(ViewPanel4.dash.procheHaut(ViewPanel4.tabObjets[j][i])) {
+				if(ViewPanel4.dash.NearUp(ViewPanel4.tabObjets[j][i])) {
 
-				if(ViewPanel4.dash.contactHaut(ViewPanel4.tabObjets[j][i])) {
+				if(ViewPanel4.dash.UpContact(ViewPanel4.tabObjets[j][i])) {
 
 						if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -643,8 +626,7 @@ private void setView(final IView pview) {
 							ViewPanel4.dash.setWalks(true);	
 
 						}else if(ViewPanel4.tabObjets[j][i].getClass().getName().equals("model.Diamond")) {
-							
-							ViewPanel4.nbr_diamant--;
+							ViewFrame.panel4.setNbr_diamond(ViewFrame.panel4.getNbr_diamond()-1);
 							ViewPanel4.dash.setScore(ViewPanel4.dash.getScore()+20);
 							ViewPanel4.tabObjets[j][i]=new Back(ViewPanel4.tabObjets[j][i].getX(),ViewPanel4.tabObjets[j][i].getY());
 							ViewPanel4.dash.setWalks(true);
@@ -667,7 +649,7 @@ private void setView(final IView pview) {
 			}
 		//****Level 5 Handling Controller ****//		
 		
-				else if(View.viewFrame.getCompteur()==6) {
+				else if(View.viewFrame.getLevel_counter()==6) {
 				
 				ViewPanel5.dash.setWalksup(true);
 				ViewPanel5.dash.setRest(false);
@@ -676,9 +658,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){ 
 
-				if(ViewPanel5.dash.procheHaut(ViewPanel5.tabObjets[j][i])) {
+				if(ViewPanel5.dash.NearUp(ViewPanel5.tabObjets[j][i])) {
 
-				if(ViewPanel5.dash.contactHaut(ViewPanel5.tabObjets[j][i])) {
+				if(ViewPanel5.dash.UpContact(ViewPanel5.tabObjets[j][i])) {
 
 						if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -691,8 +673,7 @@ private void setView(final IView pview) {
 							ViewPanel5.dash.setWalks(true);	
 
 						}else if(ViewPanel5.tabObjets[j][i].getClass().getName().equals("model.Diamond")) {
-							
-							ViewPanel5.nbr_diamant--;
+							ViewFrame.panel5.setNbr_diamond(ViewFrame.panel5.getNbr_diamond()-1);
 							ViewPanel5.dash.setScore(ViewPanel5.dash.getScore()+20);
 							ViewPanel5.tabObjets[j][i]=new Back(ViewPanel5.tabObjets[j][i].getX(),ViewPanel5.tabObjets[j][i].getY());
 							ViewPanel5.dash.setWalks(true);
@@ -719,7 +700,7 @@ private void setView(final IView pview) {
 				
 			case DOWN:
 				
-				if(View.viewFrame.getCompteur()==2) {
+				if(View.viewFrame.getLevel_counter()==2) {
 				
 				ViewPanel.dash.setRest(false);
 				ViewPanel.dash.setWalksdown(true);
@@ -729,9 +710,9 @@ private void setView(final IView pview) {
 					for(int i=0;i<51;i++){
 
 							   
-				if(ViewPanel.dash.procheBas(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.NearDown(ViewPanel.tabObjets[j][i])) {
 
-				if(ViewPanel.dash.contactBas(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.DownContact(ViewPanel.tabObjets[j][i])) {
 
 						if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -744,8 +725,8 @@ private void setView(final IView pview) {
 							ViewPanel.dash.setWalks(true);	
 
 						}else if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-						
-							ViewPanel.nbr_diamant--;
+
+							ViewFrame.panel1.setNbr_diamond(ViewFrame.panel1.getNbr_diamond()-1);
 							ViewPanel.dash.setScore(ViewPanel.dash.getScore()+20);
 							ViewPanel.tabObjets[j][i]=new Back(ViewPanel.tabObjets[j][i].getX(),ViewPanel.tabObjets[j][i].getY());
 							ViewPanel.dash.setWalks(true);
@@ -771,7 +752,7 @@ private void setView(final IView pview) {
 				
 				//****Level 2 Handling Controller***//
 				
-			}else if(View.viewFrame.getCompteur()==3) {
+			}else if(View.viewFrame.getLevel_counter()==3) {
 				
 				
 				ViewPanel2.dash.setWalksdown(true);
@@ -781,9 +762,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){
 
-				if(ViewPanel2.dash.procheBas(ViewPanel2.tabObjets[j][i])) {
+				if(ViewPanel2.dash.NearDown(ViewPanel2.tabObjets[j][i])) {
 
-					if(ViewPanel2.dash.contactBas(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.DownContact(ViewPanel2.tabObjets[j][i])) {
 
 							if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -796,8 +777,7 @@ private void setView(final IView pview) {
 								ViewPanel2.dash.setWalks(true);	
 
 							}else if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-							
-								ViewPanel2.nbr_diamant--;
+								ViewFrame.panel2.setNbr_diamond(ViewFrame.panel2.getNbr_diamond()-1);
 								ViewPanel2.dash.setScore(ViewPanel2.dash.getScore()+20);
 								ViewPanel2.tabObjets[j][i]=new Back(ViewPanel2.tabObjets[j][i].getX(),ViewPanel2.tabObjets[j][i].getY());
 								ViewPanel2.dash.setWalks(true);
@@ -821,14 +801,14 @@ private void setView(final IView pview) {
 					
 					if(ViewPanel2.dash.getX()==672 && ViewPanel2.dash.getY()==704 && ViewFrame.panel2.isExitable()==true) {
 						System.out.println("ok");
-						View.viewFrame.setCompteur(View.viewFrame.getCompteur()+1);
-						View.viewFrame.card.show(View.viewFrame.container, ""+View.viewFrame.getCompteur());
+						View.viewFrame.setLevel_counter(View.viewFrame.getLevel_counter()+1);
+						ViewFrame.card.show(ViewFrame.container, ""+View.viewFrame.getLevel_counter());
 					}
 				}			
 
 				//**** Level 3 Handling controller ****//
 				
-				else if(View.viewFrame.getCompteur()==4) {
+				else if(View.viewFrame.getLevel_counter()==4) {
 					
 					
 					ViewPanel3.dash.setWalksdown(true);
@@ -838,9 +818,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++){
 
-					if(ViewPanel3.dash.procheBas(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.NearDown(ViewPanel3.tabObjets[j][i])) {
 
-						if(ViewPanel3.dash.contactBas(ViewPanel3.tabObjets[j][i])) {
+						if(ViewPanel3.dash.DownContact(ViewPanel3.tabObjets[j][i])) {
 
 								if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -853,8 +833,7 @@ private void setView(final IView pview) {
 									ViewPanel3.dash.setWalks(true);	
 
 								}else if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-								
-									ViewPanel3.nbr_diamant--;
+									ViewFrame.panel3.setNbr_diamond(ViewFrame.panel3.getNbr_diamond()-1);
 									ViewPanel3.dash.setScore(ViewPanel3.dash.getScore()+20);
 									ViewPanel3.tabObjets[j][i]=new Back(ViewPanel3.tabObjets[j][i].getX(),ViewPanel3.tabObjets[j][i].getY());
 									ViewPanel3.dash.setWalks(true);
@@ -879,7 +858,7 @@ private void setView(final IView pview) {
 				
 					//****Level 4 Handling Controller****//
 					
-					else if(View.viewFrame.getCompteur()==5) {
+					else if(View.viewFrame.getLevel_counter()==5) {
 						
 						
 						ViewPanel4.dash.setWalksdown(true);
@@ -889,9 +868,9 @@ private void setView(final IView pview) {
 							   
 							for(int i=0;i<51;i++){
 
-						if(ViewPanel4.dash.procheBas(ViewPanel4.tabObjets[j][i])) {
+						if(ViewPanel4.dash.NearDown(ViewPanel4.tabObjets[j][i])) {
 
-							if(ViewPanel4.dash.contactBas(ViewPanel4.tabObjets[j][i])) {
+							if(ViewPanel4.dash.DownContact(ViewPanel4.tabObjets[j][i])) {
 
 									if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -904,8 +883,7 @@ private void setView(final IView pview) {
 										ViewPanel4.dash.setWalks(true);	
 
 									}else if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-									
-										ViewPanel4.nbr_diamant--;
+										ViewFrame.panel4.setNbr_diamond(ViewFrame.panel4.getNbr_diamond()-1);
 										ViewPanel4.dash.setScore(ViewPanel4.dash.getScore()+20);
 										ViewPanel4.tabObjets[j][i]=new Back(ViewPanel4.tabObjets[j][i].getX(),ViewPanel4.tabObjets[j][i].getY());
 										ViewPanel4.dash.setWalks(true);
@@ -928,7 +906,7 @@ private void setView(final IView pview) {
 						}			
 				//****Level 5 Handling Controller***//	
 						
-						else if(View.viewFrame.getCompteur()==6) {
+						else if(View.viewFrame.getLevel_counter()==6) {
 							
 							
 							ViewPanel5.dash.setWalksdown(true);
@@ -938,9 +916,9 @@ private void setView(final IView pview) {
 								   
 								for(int i=0;i<51;i++){
 
-							if(ViewPanel5.dash.procheBas(ViewPanel5.tabObjets[j][i])) {
+							if(ViewPanel5.dash.NearDown(ViewPanel5.tabObjets[j][i])) {
 
-								if(ViewPanel5.dash.contactBas(ViewPanel5.tabObjets[j][i])) {
+								if(ViewPanel5.dash.DownContact(ViewPanel5.tabObjets[j][i])) {
 
 										if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -953,8 +931,7 @@ private void setView(final IView pview) {
 											ViewPanel5.dash.setWalks(true);	
 
 										}else if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-										
-											ViewPanel5.nbr_diamant--;
+											ViewFrame.panel5.setNbr_diamond(ViewFrame.panel5.getNbr_diamond()-1);
 											ViewPanel5.dash.setScore(ViewPanel5.dash.getScore()+20);
 											ViewPanel5.tabObjets[j][i]=new Back(ViewPanel4.tabObjets[j][i].getX(),ViewPanel5.tabObjets[j][i].getY());
 											ViewPanel5.dash.setWalks(true);
@@ -980,7 +957,7 @@ private void setView(final IView pview) {
 
 			case RIGHT:
 				
-				if(View.viewFrame.getCompteur()==2) {
+				if(View.viewFrame.getLevel_counter()==2) {
 				
 					ViewPanel.dash.setRest(false);
 					ViewPanel.dash.setWalksright(true);
@@ -989,9 +966,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++) {
 
-				if(ViewPanel.dash.procheDroite(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.NearRight(ViewPanel.tabObjets[j][i])) {
 
-				if(ViewPanel.dash.contactDroite(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.RightContact(ViewPanel.tabObjets[j][i])) {
 
 						if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1004,7 +981,8 @@ private void setView(final IView pview) {
 							ViewPanel.dash.setWalks(true);	
 
 						}else if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-							ViewPanel.nbr_diamant--;
+
+							ViewFrame.panel1.setNbr_diamond(ViewFrame.panel1.getNbr_diamond()-1);
 							ViewPanel.dash.setScore(ViewPanel2.dash.getScore()+20);
 							ViewPanel.tabObjets[j][i]=new Back(ViewPanel.tabObjets[j][i].getX(),ViewPanel.tabObjets[j][i].getY());
 							ViewPanel.dash.setWalks(true);
@@ -1039,8 +1017,8 @@ private void setView(final IView pview) {
 					
 					if(ViewPanel.dash.getX()==1344 && ViewPanel.dash.getY()==544 && ViewFrame.panel1.isExitable()==true) {
 
-						View.viewFrame.setCompteur(View.viewFrame.getCompteur()+1);
-						View.viewFrame.card.show(View.viewFrame.container, ""+View.viewFrame.getCompteur());
+						View.viewFrame.setLevel_counter(View.viewFrame.getLevel_counter()+1);
+						ViewFrame.card.show(ViewFrame.container, ""+View.viewFrame.getLevel_counter());
 					
 					}
 				}
@@ -1048,7 +1026,7 @@ private void setView(final IView pview) {
 				//***Level 2 Handling controller****//
 				
 				
-				}else if(View.viewFrame.getCompteur()==3) {
+				}else if(View.viewFrame.getLevel_counter()==3) {
 				
 					ViewPanel2.dash.setWalksright(true);
 					ViewPanel2.dash.setRest(false);
@@ -1057,9 +1035,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++) {
 
-					if(ViewPanel2.dash.procheDroite(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.NearRight(ViewPanel2.tabObjets[j][i])) {
 
-					if(ViewPanel2.dash.contactDroite(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.RightContact(ViewPanel2.tabObjets[j][i])) {
 
 							if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1072,7 +1050,7 @@ private void setView(final IView pview) {
 								ViewPanel2.dash.setWalks(true);	
 
 							}else if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-								ViewPanel2.nbr_diamant--;
+								ViewFrame.panel2.setNbr_diamond(ViewFrame.panel2.getNbr_diamond()-1);
 								ViewPanel2.dash.setScore(ViewPanel2.dash.getScore()+20);
 								ViewPanel2.tabObjets[j][i]=new Back(ViewPanel2.tabObjets[j][i].getX(),ViewPanel2.tabObjets[j][i].getY());
 								ViewPanel2.dash.setWalks(true);
@@ -1109,7 +1087,7 @@ private void setView(final IView pview) {
 				
 				//****Level 3 Handling Controller****//
 				
-				else if(View.viewFrame.getCompteur()==4) {
+				else if(View.viewFrame.getLevel_counter()==4) {
 					
 					ViewPanel3.dash.setWalksright(true);
 					ViewPanel3.dash.setRest(false);
@@ -1118,9 +1096,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++) {
 
-					if(ViewPanel3.dash.procheDroite(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.NearRight(ViewPanel3.tabObjets[j][i])) {
 
-					if(ViewPanel3.dash.contactDroite(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.RightContact(ViewPanel3.tabObjets[j][i])) {
 
 							if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1133,7 +1111,7 @@ private void setView(final IView pview) {
 								ViewPanel3.dash.setWalks(true);	
 
 							}else if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-								ViewPanel3.nbr_diamant--;
+								ViewFrame.panel3.setNbr_diamond(ViewFrame.panel3.getNbr_diamond()-1);
 								ViewPanel3.dash.setScore(ViewPanel3.dash.getScore()+20);
 								ViewPanel3.tabObjets[j][i]=new Back(ViewPanel3.tabObjets[j][i].getX(),ViewPanel3.tabObjets[j][i].getY());
 								ViewPanel3.dash.setWalks(true);
@@ -1169,7 +1147,7 @@ private void setView(final IView pview) {
 			}
 				//****Level 4 handling Controller ****//
 				
-				else if(View.viewFrame.getCompteur()==5) {
+				else if(View.viewFrame.getLevel_counter()==5) {
 					
 					ViewPanel4.dash.setWalksright(true);
 					ViewPanel4.dash.setRest(false);
@@ -1178,9 +1156,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++) {
 
-					if(ViewPanel4.dash.procheDroite(ViewPanel4.tabObjets[j][i])) {
+					if(ViewPanel4.dash.NearRight(ViewPanel4.tabObjets[j][i])) {
 
-					if(ViewPanel4.dash.contactDroite(ViewPanel4.tabObjets[j][i])) {
+					if(ViewPanel4.dash.RightContact(ViewPanel4.tabObjets[j][i])) {
 
 							if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1193,7 +1171,7 @@ private void setView(final IView pview) {
 								ViewPanel4.dash.setWalks(true);	
 
 							}else if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-								ViewPanel4.nbr_diamant--;
+								ViewFrame.panel4.setNbr_diamond(ViewFrame.panel4.getNbr_diamond()-1);
 								ViewPanel4.dash.setScore(ViewPanel4.dash.getScore()+20);
 								ViewPanel4.tabObjets[j][i]=new Back(ViewPanel4.tabObjets[j][i].getX(),ViewPanel4.tabObjets[j][i].getY());
 								ViewPanel4.dash.setWalks(true);
@@ -1229,7 +1207,7 @@ private void setView(final IView pview) {
 			}
 		//****Level 5 Handling Controller****//	
 				
-				else if(View.viewFrame.getCompteur()==6) {
+				else if(View.viewFrame.getLevel_counter()==6) {
 					
 					ViewPanel5.dash.setWalksright(true);
 					ViewPanel5.dash.setRest(false);
@@ -1238,9 +1216,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++) {
 
-					if(ViewPanel5.dash.procheDroite(ViewPanel5.tabObjets[j][i])) {
+					if(ViewPanel5.dash.NearRight(ViewPanel5.tabObjets[j][i])) {
 
-					if(ViewPanel5.dash.contactDroite(ViewPanel5.tabObjets[j][i])) {
+					if(ViewPanel5.dash.RightContact(ViewPanel5.tabObjets[j][i])) {
 
 							if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1253,7 +1231,7 @@ private void setView(final IView pview) {
 								ViewPanel5.dash.setWalks(true);	
 
 							}else if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Diamond"){
-								ViewPanel5.nbr_diamant--;
+								ViewFrame.panel5.setNbr_diamond(ViewFrame.panel5.getNbr_diamond()-1);
 								ViewPanel5.dash.setScore(ViewPanel5.dash.getScore()+20);
 								ViewPanel5.tabObjets[j][i]=new Back(ViewPanel5.tabObjets[j][i].getX(),ViewPanel5.tabObjets[j][i].getY());
 								ViewPanel5.dash.setWalks(true);
@@ -1286,9 +1264,7 @@ private void setView(final IView pview) {
 					ViewPanel5.dash.setX(ViewPanel5.dash.getX()+32);		
 				}
 
-			}	
-				
-				
+			}		
 				break;
 			default:
 				break;

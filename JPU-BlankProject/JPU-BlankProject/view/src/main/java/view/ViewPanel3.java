@@ -24,19 +24,27 @@ import model.Objet;
 import model.Roc;
 import model.Wall;
 
+/**
+ * Date:02-06-2019
+ * The Class ViewPanel3.
+ * @author HIGHTECH
+ */
+
 public class ViewPanel3 extends JPanel implements Observer{
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID */
 	private static final long serialVersionUID = -8176318868905508975L;
+
+	/**
+	 * @see ViewPanel2
+	 */
 	public static Level level=new Level(3);
 	public static Objet[][] tabObjets;
 	public static ArrayList<Monster> tabMonsters;
 	public ExitDoor exit1;
-	public static int nbr_diamant;
+	private int nbr_diamond;
 	public static Dash dash;
-	private static  int timegame=150;
+	private int timegame=150;
 	int xstar=0,ystar=0;
 	private static 	int deathcount;
 	private boolean exitable;
@@ -44,12 +52,13 @@ public class ViewPanel3 extends JPanel implements Observer{
 	public ViewPanel3(){
 		dash=new Dash(672,672);
 		tabObjets=new Objet[25][51];
-		nbr_diamant=36;
+		nbr_diamond=36;
 		deathcount=0;
 		exit1=new ExitDoor(192,96);
 		tabMonsters=new ArrayList<Monster>();
 		tabObjets=mapImage();
 		this.exitable=false;
+		
 		Timer time = new Timer();
 		TimerTask task = new TimerTask() {
 
@@ -59,18 +68,16 @@ public class ViewPanel3 extends JPanel implements Observer{
 			}else {
 				timegame--;	
 			}
-			
 				if(timegame<=0) {
 					dash.setDeath(true);
 				}
-				
 				if(dash.getWalks()==false) {
 					dash.setRest(true);
 				}
-				
 			}
 		};
 		time.schedule(task,0,1000);
+		
 		Timer time2 = new Timer();
 		TimerTask task2= new TimerTask() {
 
@@ -81,12 +88,11 @@ public class ViewPanel3 extends JPanel implements Observer{
 						dash.setDeath(true);
 					}
 				}
-				
 			}
-		
 		};
+		
 		time2.schedule(task2,10,100);
-Timer time3=new Timer();
+		Timer time3=new Timer();
 		
 		TimerTask task3=new TimerTask(){
 
@@ -196,22 +202,16 @@ Timer time3=new Timer();
 										if(tabMonsters.get(k).DoesnotmovesDown(tabObjets[i][j])) {
 											tabMonsters.get(k).setWalks(false);
 											tabMonsters.get(k).setGoesDown(false);
-										}
-										
-									}
-									
+											}
+										}									
 									}
 								}
 							}
+						}
 					}
 				}
-
-			}
-				
-		};
+			};
 	time3.schedule(task3,300,100);
-	
-	
 	
 	Timer time4=new Timer();
 	TimerTask task4= new TimerTask() {
@@ -235,14 +235,10 @@ Timer time3=new Timer();
 						tabObjets[i][j-1]=tabObjets[i][j];
 						tabObjets[i][j]=new Back(x,y);
 						tabObjets[i][j-1].setX(tabObjets[i][j].getX()-32);
-					}
-					
-					
+						}
+					}					
 				}
-					
-				}
-			}
-			
+			}	
 		}
 	};
 	time4.schedule(task4,10,200);
@@ -251,16 +247,19 @@ Timer time3=new Timer();
 		refresh.start();
 	}
 	
+	/**
+	 * @see ViewPanel2
+	 */
 	@Override
-	public void update(Observable o, Object arg) {
-
-		
+	public void update(Observable o, Object arg) {	
 	}
-
-protected void paintComponent(Graphics g) {
+	
+	/**
+	 * the paintComponent method
+	 */
+	protected void paintComponent(Graphics g) {
 		
 		Graphics2D g2=(Graphics2D)g;
-		//System.out.println(tabMonsters.get(0).getX());
 		
 		for(int i=0;i<24;i++) {
 			for(int j=0;j<51;j++) {
@@ -268,14 +267,12 @@ protected void paintComponent(Graphics g) {
 			
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc")) {
 				
-				if(tabObjets[i][j].contactDroite(tabObjets[i][j+1])) {
+				if(tabObjets[i][j].RightContact(tabObjets[i][j+1])) {
 					tabObjets[i][j].setPushableRight(true);
 				}else {
 					tabObjets[i][j].setPushableRight(false);
 				}
-				
-				
-				if(tabObjets[i][j].contactGauche(tabObjets[i][j-1])) {
+				if(tabObjets[i][j].LeftContact(tabObjets[i][j-1])) {
 					tabObjets[i][j].setPushableLeft(true);
 				}else {
 					tabObjets[i][j].setPushableLeft(false);
@@ -293,7 +290,7 @@ protected void paintComponent(Graphics g) {
 				
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc") || tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
 					
-					if(tabObjets[i][j].procheBas(tabObjets[i+1][j]) && tabObjets[i][j].contactBasDash(dash)==false) {
+					if(tabObjets[i][j].NearDown(tabObjets[i+1][j]) && tabObjets[i][j].DownContactDash(dash)==false) {
 						int x=tabObjets[i][j].getX();
 						int y=tabObjets[i][j].getY();
 						tabObjets[i][j].setFalling(true);
@@ -305,21 +302,17 @@ protected void paintComponent(Graphics g) {
 						tabObjets[i][j].setFalling(false);
 						tabObjets[i][j].setVelocity(0);
 					}
-					
 				}
 					g2.drawImage(tabObjets[i][j].getImgObj(),tabObjets[i][j].getX(),tabObjets[i][j].getY(),null);	
-		
 			}
-		 
 		}
 
 	
 			for(int i=0;i<tabMonsters.size();i++) {
 				g2.drawImage(tabMonsters.get(i).getImgChar(),tabMonsters.get(i).getX(),tabMonsters.get(i).getY(),null);
-		
 			}
 			
-			if(nbr_diamant<=15) {
+			if(nbr_diamond<=15) {
 			this.exitable=true;
 		g2.drawImage(exit1.getImgObj(),exit1.getX(), exit1.getY(),null);
 			}
@@ -359,7 +352,7 @@ protected void paintComponent(Graphics g) {
 	     g2.drawRoundRect(100, 2, 63, 28, 20, 20);
 	     g2.drawRoundRect(100, 35, 63, 28, 20, 20);
 	     g2.setColor(Color.WHITE); 
-	     g2.drawString(Integer.toString(nbr_diamant),130, 22);
+	     g2.drawString(Integer.toString(nbr_diamond),130, 22);
 	     g2.drawString(Integer.toString(dash.getScore()),30, 22);
 	     g2.drawString(Integer.toString(timegame),125, 57);
 	     g2.drawImage(new ImageIcon(getClass().getResource("/images/diam_icon.png")).getImage(),105, 8,null);
@@ -368,13 +361,16 @@ protected void paintComponent(Graphics g) {
 	}
 
 	
-	
-private static Objet[][] mapImage(){
+	/**
+	 * 
+	 * @see ViewPanel2
+	 * @return tabObjets
+	 */
+	private static Objet[][] mapImage(){
 		
 		Objet[][] tabObjets=new Objet[25][51];
 
 	Objet tmp2=null;
-	Monster tmp=null;
 	int xobj=0;
 	int yobj=0;
 
@@ -413,14 +409,55 @@ private static Objet[][] mapImage(){
  		return tabObjets;
 		
 	}
-
+	/**
+	 * 
+	 * @see ViewPanel2
+	 * 
+	 * @return exitable
+	 */
 	public boolean isExitable() {
 		return exitable;
 	}
+	/**
+	 * 
+	 * @see ViewPanel2
+	 * @param exitable
+	 * the actual value of exitable
+	 * 
+	 */
 
 	public void setExitable(boolean exitable) {
 		this.exitable = exitable;
 	}
+	/**
+	 * 
+	 * @see ViewPanel2
+	 * @return nbr_diamond
+	 * 
+	 */
 
-	
+	public int getNbr_diamond() {
+		return nbr_diamond;
+	}
+	/**
+	 * 
+	 * @see ViewPanel2
+	 * @param nbr_diamond
+	 * the actual number of diamonds
+	 * 
+	 */
+
+	public void setNbr_diamond(int nbr_diamond) {
+		this.nbr_diamond = nbr_diamond;
+	}
+	/**
+	 * 
+	 * @see ViewPanel2
+	 * @return timegame
+	 * 
+	 */
+
+	public int getTimegame() {
+		return timegame;
+	}	
 }

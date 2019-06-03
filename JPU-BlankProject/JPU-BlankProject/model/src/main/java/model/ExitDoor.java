@@ -5,7 +5,21 @@ import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
+/**
+ * 
+ * @author Tamandjou lesly
+ *		this class is about the exitDoor
+ */
+
 public class ExitDoor extends Objet{
+	/**
+	 * 
+	 * @param x
+	 * the x coordinate
+	 * @param y
+	 * the y coordinate
+	 * @see Objet
+	 */
 
 	public ExitDoor(int x, int y) {
 		super(x, y, 32,32);
@@ -31,6 +45,11 @@ public class ExitDoor extends Objet{
 		time.schedule(task,10,420);
 
 	}
+	/**
+	 * 
+	 * @param num
+	 * 		to set the image for the exit 
+	 */
 
 	public void setImgObj(String num) {
 		String str="/images/Exit" + num+ ".PNG";

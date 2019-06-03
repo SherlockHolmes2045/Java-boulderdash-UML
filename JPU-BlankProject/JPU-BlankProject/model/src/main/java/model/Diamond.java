@@ -5,9 +5,23 @@ import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
-public class Diamond extends Objet implements Runnable{
+/**
+ * 
+ * @author Tamandjou lesly
+ *		this class is about the exitDoor
+ */
 
+public class Diamond extends Objet{
 	
+	/**
+	 * 
+	 * @param x
+	 * the x coordinate
+	 * @param y
+	 * the y coordinate
+	 * @see Objet
+	 */
+
 	public Diamond(int x, int y) {
 		super(x, y,32,32);
 	
@@ -33,44 +47,13 @@ public class Diamond extends Objet implements Runnable{
 		
 		};
 		time.schedule(task,10,420);
-		Timer time2=new Timer();
-		TimerTask task2=new TimerTask() {
-
-			@Override
-			public void run() {
-			
-				if(falling==true) {
-					setY(getY()+32);
-					setVelocity(getVelocity()+1);
-				}
-				
-			}
-			
-		};
-		//time2.schedule(task2,10,100);
 	}
 	
-	public int getY() {
-		/*if(super.falling==true) {
-			this.y=this.y+32;
-			this.velocity++;
-			return y;
-		}else {*/
-			return y;	
-		//}
-
-	}
-	
-	public boolean getFalling() {
-		return falling;
-	}
-
-
-
-	public void setFalling(boolean falling) {
-		this.falling = falling;
-	}
-
+	/**
+	 * 
+	 * @param num
+	 * 			to set an image
+	 */
 
 	public void setImgObj(String num) {
 		String str="/images/diam" + num+ ".png";
@@ -78,19 +61,5 @@ public class Diamond extends Objet implements Runnable{
 		super.imgObj = super.icoObj.getImage();
 	
 	}
-	@Override
-	public void run() {
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		while(true) {
-			this.getY();
-			this.getX();
-			try {Thread.sleep(15);} catch (InterruptedException e) {e.printStackTrace();}
-		}
 	
-	}
 }

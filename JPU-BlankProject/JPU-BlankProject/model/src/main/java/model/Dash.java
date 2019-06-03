@@ -1,18 +1,37 @@
 package model;
 
 import java.awt.Image;
-import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
+/**
+ * 
+ * @author Tamandjou lesly
+ *		This class manages the heros of the video game
+ */
 
 public class Dash extends Character{
+	
+	/**Tell if the character is walking down or left or right or up down*/
 	private boolean walksright,walksleft,walksdown,walksup;
+	
 	private int compteur;
+	/**The score of the character */
 	private int score;
+	/**Tells if the character is doing nothing*/
 	private boolean rest;
+	
 	int countanimation=0;
+	/**
+	 * 
+	 * @param x
+	 * the x coordinate
+	 * @param y
+	 * the y coordinate
+	 * @see Character
+	 */
+
 	public Dash(int x, int y) {
 		super(x, y,32,32);
 		this.score=0;
@@ -81,12 +100,24 @@ public class Dash extends Character{
 		time3.schedule(task3,10,640);
 	}
 
+	/**
+	 * 
+	 * @param num
+	 * 		to put an image 
+	 */
+
 	public void setImgObj(String num) {
 		String str="/images/persomort" + num+ ".png";
 		super.icoChar=new ImageIcon(getClass().getResource(str));
 		super.imgChar = super.icoChar.getImage();
 	
 	}
+	/**
+	 * 
+	 * @param nom
+	 * 		to put an image also
+	 */
+
 	public void setImgObj2(String nom) {
 		String str="/images/" +nom+ ".png";
 		super.icoChar=new ImageIcon(getClass().getResource(str));
@@ -97,50 +128,109 @@ public class Dash extends Character{
 	public int getCompteur() {
 		return compteur;
 	}
-
+	
 	public void setCompteur(int compteur) {
 		this.compteur = compteur;
 	}
+	/**
+	 * 
+	 * @return walksright
+	 * 
+	 */
 
 	public boolean getWalksright() {
 		return walksright;
 	}
 
+	/**
+	 * 
+	 * @param walksright
+	 * setter for walksright
+	 */
 	public void setWalksright(boolean walksright) {
 		this.walksright = walksright;
 	}
 
+	/**
+	 * 
+	 * @return walksleft
+	 * 
+	 */
+
 	public boolean getWalksleft() {
 		return walksleft;
 	}
-
+	/**
+	 * 
+	 * @param walksleft
+	 * setter for walksleft
+	 */
 	public void setWalksleft(boolean walksleft) {
 		this.walksleft = walksleft;
 	}
 
+	/**
+	 * 
+	 * @return walksdown
+	 * 
+	 */
+
 	public boolean getWalksdown() {
 		return walksdown;
 	}
-
+	/**
+	 * 
+	 * @param walksdown
+	 * setter for walksdown
+	 */
 	public void setWalksdown(boolean walksdown) {
 		this.walksdown = walksdown;
 	}
 
+	/**
+	 * 
+	 * @return walksup
+	 * 
+	 */
+
 	public boolean getWalksup() {
 		return walksup;
 	}
-
+	/**
+	 * 
+	 * @param walksup
+	 * setter for walksup
+	 */
 	public void setWalksup(boolean walksup) {
 		this.walksup = walksup;
 	}
+
+	/**
+	 * 
+	 * @return score
+	 * 
+	 */
 
 	public int getScore() {
 		return score;
 	}
 
+	/**
+	 * 
+	 * @param score
+	 * setter for the score
+	 */
 	public void setScore(int score) {
 		this.score = score;
 	}
+
+	/**
+	 * 
+	 * @param frequence
+	 * the value of the frequence
+	 * @return img
+	 * animation for the dash
+	 */
 
 	public Image Imagewalk(int frequence) {
 		String str ="/images/Dash.png";
@@ -182,14 +272,29 @@ public class Dash extends Character{
 				}
 	
 	
-	
+	/**
+	 * 
+	 * @return rest
+	 * 		when the heros don't move
+	 */
+
 	public boolean isRest() {
 		return rest;
 	}
-
+/**
+ * 
+ * @param rest
+ * setter for rest
+ */
 	public void setRest(boolean rest) {
 		this.rest = rest;
 	}
+	/**
+	 * 
+	 * @param objet
+	 * the object to test the collison with
+	 * @return true or false if the heros is in life or death
+	 */
 
 	public boolean verifyDashLife(Objet objet) {
 		if(this.x==objet.getX() && this.y-32==objet.getY()  && objet.velocity>0) {

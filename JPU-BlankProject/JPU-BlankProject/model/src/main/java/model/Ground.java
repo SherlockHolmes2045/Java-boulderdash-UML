@@ -2,17 +2,28 @@ package model;
 
 import javax.swing.ImageIcon;
 
+
+/**
+ * 
+ * @author Tamandjou lesly
+ *		This class manages all about ground object
+ */
+
 public class Ground extends Objet{
+
+	/**
+	 * 
+	 * @param x
+	 * the x coordinate
+	 * @param y
+	 * the x coordinate
+	 * @see Objet
+	 */
 
 	public Ground(int x, int y) {
 		super(x, y, 32,32);
 		super.icoObj=new ImageIcon(getClass().getResource("/images/sol.png"));
 		super.imgObj=super.icoObj.getImage();
 	}
-	public void setImgObj() {
-		String str="/images/solnoir.png";
-		super.icoObj=new ImageIcon(getClass().getResource(str));
-		super.imgObj = super.icoObj.getImage();
-
-	}
+	
 }

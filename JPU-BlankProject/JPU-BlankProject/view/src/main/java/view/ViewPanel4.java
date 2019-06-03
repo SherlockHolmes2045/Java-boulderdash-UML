@@ -24,20 +24,26 @@ import model.Objet;
 import model.Roc;
 import model.Wall;
 
+/**
+ * Date:02-06-2019
+ * The Class ViewPanel3.
+ * @author HIGHTECH
+ */
+
 public class ViewPanel4 extends JPanel implements Observer{
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID */
 	private static final long serialVersionUID = -2271783404691577318L;
-
+	/**
+	 * @see ViewPanel3
+	 */
 	public static Level level=new Level(4);
 	public static Objet[][] tabObjets;
 	public static ArrayList<Monster> tabMonsters;
 	public ExitDoor exit1;
-	public static int nbr_diamant;
+	private  int nbr_diamond;
 	public static Dash dash;
-	private static  int timegame=150;
+	private int timegame=150;
 	int xstar=0,ystar=0;
 	private static 	int deathcount;
 	private boolean exitable;
@@ -45,13 +51,12 @@ public class ViewPanel4 extends JPanel implements Observer{
 	public ViewPanel4() {
 		dash=new Dash(320,576);
 		tabObjets=new Objet[25][51];
-		nbr_diamant=12;
+		nbr_diamond=12;
 		deathcount=0;
 		exit1=new ExitDoor(672,704);
 		tabMonsters=new ArrayList<Monster>();
 		tabObjets=mapImage();
 		this.exitable=false;
-		MoveMonster movemonster=new MoveMonster();
 		Timer time = new Timer();
 		TimerTask task = new TimerTask() {
 
@@ -69,10 +74,10 @@ public class ViewPanel4 extends JPanel implements Observer{
 				if(dash.getWalks()==false) {
 					dash.setRest(true);
 				}
-				
 			}
 		};
 		time.schedule(task,0,1000);
+		
 		Timer time2 = new Timer();
 		TimerTask task2= new TimerTask() {
 
@@ -83,14 +88,11 @@ public class ViewPanel4 extends JPanel implements Observer{
 						dash.setDeath(true);
 					}
 				}
-				
 			}
-		
 		};
 		time2.schedule(task2,10,100);
 		
-Timer time3=new Timer();
-		
+		Timer time3=new Timer();
 		TimerTask task3=new TimerTask(){
 
 			@Override
@@ -166,11 +168,8 @@ Timer time3=new Timer();
 											tabMonsters.get(k).setWalks(true);
 											tabMonsters.get(k).setGoesRight(true);
 										}
-									
-								}
-							
+									}
 							}
-							
 						}	
 					}else {
 						for(int i=0;i<24;i++) {
@@ -200,15 +199,12 @@ Timer time3=new Timer();
 											tabMonsters.get(k).setWalks(false);
 											tabMonsters.get(k).setGoesDown(false);
 										}
-										
-									}
-									
 									}
 								}
 							}
+						}
 					}
 				}
-
 			}
 				
 		};
@@ -236,14 +232,10 @@ Timer time3=new Timer();
 						tabObjets[i][j-1]=tabObjets[i][j];
 						tabObjets[i][j]=new Back(x,y);
 						tabObjets[i][j-1].setX(tabObjets[i][j].getX()-32);
+						}
 					}
-					
-					
-				}
-					
 				}
 			}
-			
 		}
 	};
 	time4.schedule(task4,10,200);
@@ -253,15 +245,26 @@ Timer time3=new Timer();
 
 	}
 	
+	/**
+	 * @param o
+	 * Observable
+	 * @param arg
+	 * Object
+	 */
+
 	@Override
 	public void update(Observable o, Object arg) {
 		
 	}
 	
+	/**
+	 * The paintComponent method
+	 * 
+	 * 
+	 */
 	protected void paintComponent(Graphics g) {
 		
 		Graphics2D g2=(Graphics2D)g;
-		//System.out.println(tabMonsters.get(0).getX());
 		
 		for(int i=0;i<24;i++) {
 			for(int j=0;j<51;j++) {
@@ -269,14 +272,13 @@ Timer time3=new Timer();
 			
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc")) {
 				
-				if(tabObjets[i][j].contactDroite(tabObjets[i][j+1])) {
+				if(tabObjets[i][j].RightContact(tabObjets[i][j+1])) {
 					tabObjets[i][j].setPushableRight(true);
 				}else {
 					tabObjets[i][j].setPushableRight(false);
 				}
 				
-				
-				if(tabObjets[i][j].contactGauche(tabObjets[i][j-1])) {
+				if(tabObjets[i][j].LeftContact(tabObjets[i][j-1])) {
 					tabObjets[i][j].setPushableLeft(true);
 				}else {
 					tabObjets[i][j].setPushableLeft(false);
@@ -294,7 +296,7 @@ Timer time3=new Timer();
 				
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc") || tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
 					
-					if(tabObjets[i][j].procheBas(tabObjets[i+1][j]) && tabObjets[i][j].contactBasDash(dash)==false) {
+					if(tabObjets[i][j].NearDown(tabObjets[i+1][j]) && tabObjets[i][j].DownContactDash(dash)==false) {
 						int x=tabObjets[i][j].getX();
 						int y=tabObjets[i][j].getY();
 						tabObjets[i][j].setFalling(true);
@@ -306,21 +308,16 @@ Timer time3=new Timer();
 						tabObjets[i][j].setFalling(false);
 						tabObjets[i][j].setVelocity(0);
 					}
-					
 				}
-					g2.drawImage(tabObjets[i][j].getImgObj(),tabObjets[i][j].getX(),tabObjets[i][j].getY(),null);	
-		
+					g2.drawImage(tabObjets[i][j].getImgObj(),tabObjets[i][j].getX(),tabObjets[i][j].getY(),null);
 			}
-		 
 		}
 
-	
 			for(int i=0;i<tabMonsters.size();i++) {
 				g2.drawImage(tabMonsters.get(i).getImgChar(),tabMonsters.get(i).getX(),tabMonsters.get(i).getY(),null);
-		
 			}
 			
-			if(nbr_diamant<=5) {
+			if(nbr_diamond<=5) {
 			this.exitable=true;
 		g2.drawImage(exit1.getImgObj(),exit1.getX(), exit1.getY(),null);
 			}
@@ -346,7 +343,6 @@ Timer time3=new Timer();
 				g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(),xstar+32,ystar,null);
 				g2.drawImage(dash.getImgChar(),dash.getX(),dash.getY(),null);	
 				deathcount++;
-				
 			}
 		
 		Font font = new Font("Courier", Font.BOLD, 20); 
@@ -360,7 +356,7 @@ Timer time3=new Timer();
 	     g2.drawRoundRect(100, 2, 63, 28, 20, 20);
 	     g2.drawRoundRect(100, 35, 63, 28, 20, 20);
 	     g2.setColor(Color.WHITE); 
-	     g2.drawString(Integer.toString(nbr_diamant),130, 22);
+	     g2.drawString(Integer.toString(nbr_diamond),130, 22);
 	     g2.drawString(Integer.toString(dash.getScore()),30, 22);
 	     g2.drawString(Integer.toString(timegame),125, 57);
 	     g2.drawImage(new ImageIcon(getClass().getResource("/images/diam_icon.png")).getImage(),105, 8,null);
@@ -368,20 +364,24 @@ Timer time3=new Timer();
 	
 	}
 
+	/**
+	 * 
+	 * @see ViewPanel3
+	 * 
+	 * @return tabObjets
+	 * the array of map
+	 */
 	private static Objet[][] mapImage(){
 		
 		Objet[][] tabObjets=new Objet[25][51];
 
 	Objet tmp2=null;
-	Monster tmp=null;
 	int xobj=0;
 	int yobj=0;
 
 		for(int j=0;j<25;j++) {
 
 			   for(int i=0;i<51;i++){
-				   
-				  
 				  if(level.getMap()[j][i]=='.') {
 					  tmp2=new Ground(xobj,yobj);
 			
@@ -413,12 +413,52 @@ Timer time3=new Timer();
 		
 	}
 
+	/**
+	 * 
+	 * @see ViewPanel3
+	 * @return exitable
+	 * 
+	 */
 	public boolean isExitable() {
 		return exitable;
 	}
+	/**
+	 * 
+	 * @see ViewPanel3
+	 * @param exitable
+	 * the new value of exitable
+	 */
 
 	public void setExitable(boolean exitable) {
 		this.exitable = exitable;
+	}
+	/**
+	 * 
+	 * @see ViewPanel3
+	 * @return nbr_diamond
+	 */
+
+	public int getNbr_diamond() {
+		return nbr_diamond;
+	}
+	/**
+	 * 
+	 * @see ViewPanel3
+	 * @param nbr_diamond
+	 * the new value of nbr_diamond
+	 */
+
+	public void setNbr_diamond(int nbr_diamond) {
+		this.nbr_diamond = nbr_diamond;
+	}
+	/**
+	 * 
+	 * @see ViewPanel3
+	 * @return timegame
+	 */
+
+	public int getTimegame() {
+		return timegame;
 	}
 	
 }
