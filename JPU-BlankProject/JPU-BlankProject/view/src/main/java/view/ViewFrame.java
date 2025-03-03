@@ -1,7 +1,4 @@
- package view;
-
-
-
+package view;
 import java.awt.CardLayout;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
