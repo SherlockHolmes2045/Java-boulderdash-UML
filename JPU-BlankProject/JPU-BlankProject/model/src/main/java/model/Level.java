@@ -4,7 +4,7 @@ import entity.Entity;
 
 /**
  * 
- * @author Tamandjou lesly
+ * @author Lemovou Ivan
  *		this class manages the map's levels
  */
 

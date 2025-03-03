@@ -1,7 +1,6 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 import entity.Entity;
 
@@ -23,10 +22,8 @@ abstract class DAOEntity<E extends Entity> {
 	 *
 	 * @param connection
 	 *          the connection
-	 * @throws SQLException
-	 *           the SQL exception
-	 */
-	public DAOEntity(final Connection connection) throws SQLException {
+     */
+	protected DAOEntity(final Connection connection) {
 		this.connection = connection;
 	}
 

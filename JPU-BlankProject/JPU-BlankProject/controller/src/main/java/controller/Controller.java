@@ -141,9 +141,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){
 
-				if(ViewPanel.dash.NearLeft(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.nearLeft(ViewPanel.tabObjets[j][i])) {
 
-				if(ViewPanel.dash.LeftContact(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.leftContact(ViewPanel.tabObjets[j][i])) {
 
 						if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -207,9 +207,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++){
 
-					if(ViewPanel2.dash.NearLeft(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.nearLeft(ViewPanel2.tabObjets[j][i])) {
 
-					if(ViewPanel2.dash.LeftContact(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.leftContact(ViewPanel2.tabObjets[j][i])) {
 
 							if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -269,9 +269,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++){
 
-					if(ViewPanel3.dash.NearLeft(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.nearLeft(ViewPanel3.tabObjets[j][i])) {
 
-					if(ViewPanel3.dash.LeftContact(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.leftContact(ViewPanel3.tabObjets[j][i])) {
 
 							if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -331,9 +331,9 @@ private void setView(final IView pview) {
 							   
 							for(int i=0;i<51;i++){
 
-						if(ViewPanel4.dash.NearLeft(ViewPanel4.tabObjets[j][i])) {
+						if(ViewPanel4.dash.nearLeft(ViewPanel4.tabObjets[j][i])) {
 
-						if(ViewPanel4.dash.LeftContact(ViewPanel4.tabObjets[j][i])) {
+						if(ViewPanel4.dash.leftContact(ViewPanel4.tabObjets[j][i])) {
 
 								if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -392,9 +392,9 @@ private void setView(final IView pview) {
 							   
 							for(int i=0;i<51;i++){
 
-						if(ViewPanel5.dash.NearLeft(ViewPanel5.tabObjets[j][i])) {
+						if(ViewPanel5.dash.nearLeft(ViewPanel5.tabObjets[j][i])) {
 
-						if(ViewPanel5.dash.LeftContact(ViewPanel5.tabObjets[j][i])) {
+						if(ViewPanel5.dash.leftContact(ViewPanel5.tabObjets[j][i])) {
 
 								if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -460,9 +460,9 @@ private void setView(final IView pview) {
 
 							   
 
-				if(ViewPanel.dash.NearUp(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.nearUp(ViewPanel.tabObjets[j][i])) {
 
-				if(ViewPanel.dash.UpContact(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.upContact(ViewPanel.tabObjets[j][i])) {
 
 						if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -511,9 +511,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){ 
 
-				if(ViewPanel2.dash.NearUp(ViewPanel2.tabObjets[j][i])) {
+				if(ViewPanel2.dash.nearUp(ViewPanel2.tabObjets[j][i])) {
 
-				if(ViewPanel2.dash.UpContact(ViewPanel2.tabObjets[j][i])) {
+				if(ViewPanel2.dash.upContact(ViewPanel2.tabObjets[j][i])) {
 
 						if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -560,9 +560,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){ 
 
-				if(ViewPanel3.dash.NearUp(ViewPanel3.tabObjets[j][i])) {
+				if(ViewPanel3.dash.nearUp(ViewPanel3.tabObjets[j][i])) {
 
-				if(ViewPanel3.dash.UpContact(ViewPanel3.tabObjets[j][i])) {
+				if(ViewPanel3.dash.upContact(ViewPanel3.tabObjets[j][i])) {
 
 						if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -611,9 +611,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){ 
 
-				if(ViewPanel4.dash.NearUp(ViewPanel4.tabObjets[j][i])) {
+				if(ViewPanel4.dash.nearUp(ViewPanel4.tabObjets[j][i])) {
 
-				if(ViewPanel4.dash.UpContact(ViewPanel4.tabObjets[j][i])) {
+				if(ViewPanel4.dash.upContact(ViewPanel4.tabObjets[j][i])) {
 
 						if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -658,9 +658,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){ 
 
-				if(ViewPanel5.dash.NearUp(ViewPanel5.tabObjets[j][i])) {
+				if(ViewPanel5.dash.nearUp(ViewPanel5.tabObjets[j][i])) {
 
-				if(ViewPanel5.dash.UpContact(ViewPanel5.tabObjets[j][i])) {
+				if(ViewPanel5.dash.upContact(ViewPanel5.tabObjets[j][i])) {
 
 						if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -710,9 +710,9 @@ private void setView(final IView pview) {
 					for(int i=0;i<51;i++){
 
 							   
-				if(ViewPanel.dash.NearDown(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.nearDown(ViewPanel.tabObjets[j][i])) {
 
-				if(ViewPanel.dash.DownContact(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.downContact(ViewPanel.tabObjets[j][i])) {
 
 						if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -762,9 +762,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++){
 
-				if(ViewPanel2.dash.NearDown(ViewPanel2.tabObjets[j][i])) {
+				if(ViewPanel2.dash.nearDown(ViewPanel2.tabObjets[j][i])) {
 
-					if(ViewPanel2.dash.DownContact(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.downContact(ViewPanel2.tabObjets[j][i])) {
 
 							if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -818,9 +818,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++){
 
-					if(ViewPanel3.dash.NearDown(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.nearDown(ViewPanel3.tabObjets[j][i])) {
 
-						if(ViewPanel3.dash.DownContact(ViewPanel3.tabObjets[j][i])) {
+						if(ViewPanel3.dash.downContact(ViewPanel3.tabObjets[j][i])) {
 
 								if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -868,9 +868,9 @@ private void setView(final IView pview) {
 							   
 							for(int i=0;i<51;i++){
 
-						if(ViewPanel4.dash.NearDown(ViewPanel4.tabObjets[j][i])) {
+						if(ViewPanel4.dash.nearDown(ViewPanel4.tabObjets[j][i])) {
 
-							if(ViewPanel4.dash.DownContact(ViewPanel4.tabObjets[j][i])) {
+							if(ViewPanel4.dash.downContact(ViewPanel4.tabObjets[j][i])) {
 
 									if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -916,9 +916,9 @@ private void setView(final IView pview) {
 								   
 								for(int i=0;i<51;i++){
 
-							if(ViewPanel5.dash.NearDown(ViewPanel5.tabObjets[j][i])) {
+							if(ViewPanel5.dash.nearDown(ViewPanel5.tabObjets[j][i])) {
 
-								if(ViewPanel5.dash.DownContact(ViewPanel5.tabObjets[j][i])) {
+								if(ViewPanel5.dash.downContact(ViewPanel5.tabObjets[j][i])) {
 
 										if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -966,9 +966,9 @@ private void setView(final IView pview) {
 					   
 					for(int i=0;i<51;i++) {
 
-				if(ViewPanel.dash.NearRight(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.nearRight(ViewPanel.tabObjets[j][i])) {
 
-				if(ViewPanel.dash.RightContact(ViewPanel.tabObjets[j][i])) {
+				if(ViewPanel.dash.rightContact(ViewPanel.tabObjets[j][i])) {
 
 						if(ViewPanel.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1035,9 +1035,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++) {
 
-					if(ViewPanel2.dash.NearRight(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.nearRight(ViewPanel2.tabObjets[j][i])) {
 
-					if(ViewPanel2.dash.RightContact(ViewPanel2.tabObjets[j][i])) {
+					if(ViewPanel2.dash.rightContact(ViewPanel2.tabObjets[j][i])) {
 
 							if(ViewPanel2.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1096,9 +1096,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++) {
 
-					if(ViewPanel3.dash.NearRight(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.nearRight(ViewPanel3.tabObjets[j][i])) {
 
-					if(ViewPanel3.dash.RightContact(ViewPanel3.tabObjets[j][i])) {
+					if(ViewPanel3.dash.rightContact(ViewPanel3.tabObjets[j][i])) {
 
 							if(ViewPanel3.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1156,9 +1156,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++) {
 
-					if(ViewPanel4.dash.NearRight(ViewPanel4.tabObjets[j][i])) {
+					if(ViewPanel4.dash.nearRight(ViewPanel4.tabObjets[j][i])) {
 
-					if(ViewPanel4.dash.RightContact(ViewPanel4.tabObjets[j][i])) {
+					if(ViewPanel4.dash.rightContact(ViewPanel4.tabObjets[j][i])) {
 
 							if(ViewPanel4.tabObjets[j][i].getClass().getName()=="model.Ground") {
 
@@ -1216,9 +1216,9 @@ private void setView(final IView pview) {
 						   
 						for(int i=0;i<51;i++) {
 
-					if(ViewPanel5.dash.NearRight(ViewPanel5.tabObjets[j][i])) {
+					if(ViewPanel5.dash.nearRight(ViewPanel5.tabObjets[j][i])) {
 
-					if(ViewPanel5.dash.RightContact(ViewPanel5.tabObjets[j][i])) {
+					if(ViewPanel5.dash.rightContact(ViewPanel5.tabObjets[j][i])) {
 
 							if(ViewPanel5.tabObjets[j][i].getClass().getName()=="model.Ground") {
 

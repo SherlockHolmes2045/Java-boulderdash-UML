@@ -219,13 +219,13 @@ public class ViewPanel extends JPanel implements Observer {
 			
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc")) {
 				
-				if(tabObjets[i][j].RightContact(ViewPanel.tabObjets[i][j+1])) {
+				if(tabObjets[i][j].rightContact(ViewPanel.tabObjets[i][j+1])) {
 					tabObjets[i][j].setPushableRight(true);
 				}else {
 					tabObjets[i][j].setPushableRight(false);
 				}
 				
-				if(tabObjets[i][j].LeftContact(ViewPanel.tabObjets[i][j-1])) {
+				if(tabObjets[i][j].leftContact(ViewPanel.tabObjets[i][j-1])) {
 					tabObjets[i][j].setPushableLeft(true);
 				}else {
 					tabObjets[i][j].setPushableLeft(false);
@@ -258,7 +258,7 @@ public class ViewPanel extends JPanel implements Observer {
 				if(tabObjets[i][j].getClass().getName().equals("model.Roc") ) {
 					
 					if(tabObjets[i][j].getVelocity()==0) {
-					if(tabObjets[i][j].NearDown(tabObjets[i+1][j]) && tabObjets[i][j].DownContactDash(dash)==false) {
+					if(tabObjets[i][j].nearDown(tabObjets[i+1][j]) && tabObjets[i][j].downContactDash(dash)==false) {
 						int x=tabObjets[i][j].getX();
 						int y=tabObjets[i][j].getY();
 						tabObjets[i][j].setFalling(true);
@@ -271,7 +271,7 @@ public class ViewPanel extends JPanel implements Observer {
 						tabObjets[i][j].setVelocity(0);
 					}
 					}else if (tabObjets[i][j].getVelocity()>0) {
-						if(tabObjets[i][j].NearDown(tabObjets[i+1][j])) {
+						if(tabObjets[i][j].nearDown(tabObjets[i+1][j])) {
 							int x=tabObjets[i][j].getX();
 							int y=tabObjets[i][j].getY();
 							tabObjets[i][j].setFalling(true);
@@ -287,7 +287,7 @@ public class ViewPanel extends JPanel implements Observer {
 					
 				}else if(tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
 					
-					if(tabObjets[i][j].NearDown(tabObjets[i+1][j]) && tabObjets[i][j].DownContactDash(dash)==false) {
+					if(tabObjets[i][j].nearDown(tabObjets[i+1][j]) && tabObjets[i][j].downContactDash(dash)==false) {
 						int x=tabObjets[i][j].getX();
 						int y=tabObjets[i][j].getY();
 						tabObjets[i][j].setFalling(true);
@@ -306,7 +306,7 @@ public class ViewPanel extends JPanel implements Observer {
 
 		//determine the method to call to get the hero image
 					if(dash.getDeath()==false && dash.isRest()==false) {
-						g2.drawImage(dash.Imagewalk(50),dash.getX(),dash.getY(),null);	
+						g2.drawImage(dash.imageWalk(50),dash.getX(),dash.getY(),null);
 					}else if(dash.isRest()==true && dash.getDeath()==false) {
 						g2.drawImage(dash.getImgChar(),dash.getX(),dash.getY(),null);	
 					}else if(dash.getDeath()==true){

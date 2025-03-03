@@ -4,29 +4,21 @@ import java.util.Observable;
 
 
 /**
- * 
- * @author Tamandjou lesly
- *		the class Objet
+ * @author Lemovou Ivan
+ * the class Objet
  */
 
-	public  class Model extends Observable{
+public class Model extends Observable {
 
-	/**
-	 * Instantiates a new model.
-	 */
-	public Model() {
-		
-	}	
 
-	/**
+    /**
      * Gets the observable.
      *
      * @return the observable
-	 *
-	 * @see contract.IModel#getObservable()
-	 */
-	public Observable getObservable() {
-		return this;
-	}
+     * @see contract.IModel#getObservable()
+     */
+    public Observable getObservable() {
+        return this;
+    }
 
 }
