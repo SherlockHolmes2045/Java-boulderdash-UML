@@ -31,6 +31,8 @@ public class Character {
      */
     protected boolean death;
 
+    private static final int COLLISION_OFFSET = 32;
+
     /**
      * @param x      the x coordinate
      * @param y      the y coordinate
@@ -72,6 +74,8 @@ public class Character {
     }
 
     /**
+     * Sets the x coordinate of the character.
+     *
      * @param x the new x coordinate
      * @see Objet
      */
@@ -134,7 +138,10 @@ public class Character {
      */
 
     public boolean leftContact(Objet objet) {
-        return this.x - 32 == objet.getX() && this.y == objet.getY();
+        if (objet == null) {
+            return false;
+        }
+        return this.x - COLLISION_OFFSET == objet.getX() && this.y == objet.getY();
     }
 
     /**
@@ -144,7 +151,10 @@ public class Character {
      */
 
     public boolean rightContact(Objet objet) {
-        return this.x + 32 == objet.getX() && this.y == objet.getY();
+        if (objet == null) {
+            return false;
+        }
+        return this.x + COLLISION_OFFSET == objet.getX() && this.y == objet.getY();
     }
 
     /**
@@ -154,7 +164,10 @@ public class Character {
      */
 
     public boolean upContact(Objet objet) {
-        return this.x == objet.getX() && this.y - 32 == objet.getY();
+        if (objet == null) {
+            return false;
+        }
+        return this.x == objet.getX() && this.y - COLLISION_OFFSET == objet.getY();
     }
 
     /**
@@ -164,7 +177,10 @@ public class Character {
      */
 
     public boolean downContact(Objet objet) {
-        return this.x == objet.getX() && this.y + 32 == objet.getY();
+        if (objet == null) {
+            return false;
+        }
+        return this.x == objet.getX() && this.y + COLLISION_OFFSET == objet.getY();
     }
 
     /**
@@ -174,7 +190,10 @@ public class Character {
      */
 
     public boolean nearLeft(Objet objet) {
-        return this.x - 32 == objet.getX() && this.y == objet.getY();
+        if (objet == null) {
+            return false;
+        }
+        return this.x - COLLISION_OFFSET == objet.getX() && this.y == objet.getY();
     }
 
     /**
@@ -184,7 +203,10 @@ public class Character {
      */
 
     public boolean nearRight(Objet objet) {
-        return this.x + 32 == objet.getX() && this.y == objet.getY();
+        if (objet == null) {
+            return false;
+        }
+        return this.x + COLLISION_OFFSET == objet.getX() && this.y == objet.getY();
     }
 
     /**
@@ -194,7 +216,10 @@ public class Character {
      */
 
     public boolean nearUp(Objet objet) {
-        return this.x == objet.getX() && this.y - 32 == objet.getY();
+        if (objet == null) {
+            return false;
+        }
+        return this.x == objet.getX() && this.y - COLLISION_OFFSET == objet.getY();
     }
 
     /**
@@ -204,7 +229,10 @@ public class Character {
      */
 
     public boolean nearDown(Objet objet) {
-        return this.x == objet.getX() && this.y + 32 == objet.getY();
+        if (objet == null) {
+            return false;
+        }
+        return this.x == objet.getX() && this.y + COLLISION_OFFSET == objet.getY();
     }
 
     /**
