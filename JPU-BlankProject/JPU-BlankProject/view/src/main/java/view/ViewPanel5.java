@@ -31,7 +31,7 @@ import model.Wall;
  * @author HIGHTECH
  */
 
-public class ViewPanel5 extends JPanel implements Observer {
+public class ViewPanel5 extends ApplicationPanel implements Observer {
 
     /**
      * The Constant serialVersionUID

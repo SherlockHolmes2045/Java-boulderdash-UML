@@ -32,7 +32,7 @@ import model.Wall;
  * @author Welaji chris-yvan.
  */
 
-public class ViewPanel extends JPanel implements Observer {
+public class ViewPanel extends ApplicationPanel implements Observer {
 
 	/** An instantiation of the Level class,the paramater of the constructor define the level to fetch. */
 	static Level level=new Level(1);
