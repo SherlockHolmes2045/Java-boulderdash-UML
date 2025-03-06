@@ -17,12 +17,12 @@ public abstract class Main {
 
     /**
      * The main method.
-     *
      */
-	public static View view;
+    public static View view;
+
     public static void main(final String[] args) {
-    
-         view = new View();
+
+        view = new View();
         final Controller controller = new Controller(view);
         view.setController(controller);
         controller.control();
