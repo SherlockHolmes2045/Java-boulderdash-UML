@@ -51,6 +51,8 @@ public class ViewPanel4 extends ApplicationPanel implements Observer {
     private static int deathcount;
     private boolean exitable;
 
+    private static final int PAUSE = 3;
+
     public ViewPanel4() {
         dash = new Dash(320, 576);
         tabObjets = new Objet[25][51];
@@ -243,7 +245,7 @@ public class ViewPanel4 extends ApplicationPanel implements Observer {
         };
         time4.schedule(task4, 10, 200);
 
-        Thread refresh = new Thread(new Refresh4());
+        Thread refresh = new Thread(new Refresh4(PAUSE));
         refresh.start();
 
     }

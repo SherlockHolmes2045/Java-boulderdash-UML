@@ -56,6 +56,8 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
      */
     public static ArrayList<Monster> tabMonsters;
 
+    private static final int PAUSE = 3;
+
 
     public ViewPanel2() {
 
@@ -287,7 +289,7 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
         };
         time4.schedule(task4, 10, 200);
 
-        Thread refresh = new Thread(new Refresh2());
+        Thread refresh = new Thread(new Refresh2(PAUSE));
         refresh.start();
     }
 

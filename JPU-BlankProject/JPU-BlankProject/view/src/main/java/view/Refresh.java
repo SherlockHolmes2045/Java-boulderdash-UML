@@ -1,25 +1,54 @@
 package view;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
+
 /**
- * Date:31-05-2019
- * The Class Refresh.
- * @author Welaji Chris-yvan
+ * The Refresh class implements the Runnable interface to periodically refresh
+ * the ViewFrame's panel1 by repainting it at a specified interval.
+ * The refresh interval is defined by the pause parameter, which can be set
+ * through the constructor or the setPause method. The refresh process can be
+ * stopped by calling the stop method, which sets the running flag to false.
+ * The run method contains the main loop that performs the repaint operation
+ * and handles any InterruptedException that may occur during the sleep period.
+ * Logging is used to report severe interruptions.
+ * Date: 31-05-2019
+ *
+ * @author Lemovou Ivan
  */
-public class Refresh implements Runnable{
-	
-	/**
-	 * The pause parameter defines the delay of refreshment
-	 */
+public class Refresh implements Runnable {
 
-	private final int PAUSE=3;
-	
-	
-	@Override
-	public void run() {
-		while(true) {
-			ViewFrame.panel1.repaint();
-	try {Thread.sleep(PAUSE);} catch (InterruptedException e) {e.printStackTrace();}
+    /**
+     * The pause parameter defines the delay of refreshment
+     */
 
-	}
-}
+    private int pause;
+    private volatile boolean running = true;
+    private static final Logger LOGGER = Logger.getLogger(Refresh.class.getName());
+
+    public Refresh(int pause) {
+        this.pause = pause;
+    }
+
+    public void setPause(int pause) {
+        this.pause = pause;
+    }
+
+    public void stop() {
+        running = false;
+    }
+
+    @Override
+    public void run() {
+        while (running) {
+            ViewFrame.panel1.repaint();
+            try {
+                Thread.sleep(pause);
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.SEVERE, "Thread was interrupted", e);
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
 }
