@@ -25,14 +25,12 @@ public final class Controller implements IController {
      * The view.
      */
 
-    @SuppressWarnings("unused")
     private IView view;
 
     /**
      * The model.
      */
 
-    @SuppressWarnings("unused")
     private IModel model;
 
     /**
@@ -76,6 +74,18 @@ public final class Controller implements IController {
         this.model = model;
 
     }
+
+    static final int STEP_SIZE = 32;
+
+    static final int EXIT_X_LEVEL_2 = 1344;
+    static final int EXIT_Y_LEVEL_2 = 544;
+
+
+    static final int EXIT_X_LEVEL_3 = 672;
+    static final int EXIT_Y_LEVEL_3 = 704;
+
+    static final int ROW = 51;
+    static final int COLUMN = 24;
 
     /**
      * @see contract.IController#orderPerform(contract.ControllerOrder)
@@ -148,9 +158,9 @@ public final class Controller implements IController {
         dash.setRest(false);
         dash.setWalksleft(true);
 
-        for (int j = 0; j < 24; j++) {
+        for (int j = 0; j < COLUMN; j++) {
 
-            for (int i = 0; i < 51; i++) {
+            for (int i = 0; i < ROW; i++) {
 
                 if (dash.nearLeft(tabObjets[j][i]) && dash.leftContact(tabObjets[j][i])) {
 
@@ -176,7 +186,7 @@ public final class Controller implements IController {
                         if (tabObjets[j][i].getPushableLeft()) {
                             int x = tabObjets[j][i].getX();
                             int y = tabObjets[j][i].getY();
-                            tabObjets[j][i].setX(tabObjets[j][i].getX() - 32);
+                            tabObjets[j][i].setX(tabObjets[j][i].getX() - STEP_SIZE);
                             tabObjets[j][i - 1] = tabObjets[j][i];
                             tabObjets[j][i] = new Back(x, y);
                             dash.setWalks(true);
@@ -197,7 +207,7 @@ public final class Controller implements IController {
 
         if (dash.getWalks()) {
 
-            dash.setX(dash.getX() - 32);
+            dash.setX(dash.getX() - STEP_SIZE);
 
         }
 
@@ -229,9 +239,9 @@ public final class Controller implements IController {
 
         dash.setWalksup(true);
 
-        for (int j = 0; j < 24; j++) {
+        for (int j = 0; j < COLUMN; j++) {
 
-            for (int i = 0; i < 51; i++) {
+            for (int i = 0; i < ROW; i++) {
 
                 if (tabObjets[j][i] != null && dash.nearUp(tabObjets[j][i]) && dash.upContact(tabObjets[j][i])) {
 
@@ -265,7 +275,7 @@ public final class Controller implements IController {
 
         if (dash.getWalks()) {
 
-            dash.setY(dash.getY() - 32);
+            dash.setY(dash.getY() - STEP_SIZE);
 
         }
     }
@@ -295,9 +305,9 @@ public final class Controller implements IController {
         dash.setRest(false);
         dash.setWalksright(true);
 
-        for (int j = 0; j < 24; j++) {
+        for (int j = 0; j < COLUMN; j++) {
 
-            for (int i = 0; i < 51; i++) {
+            for (int i = 0; i < ROW; i++) {
 
                 if (dash.nearRight(tabObjets[j][i]) && dash.rightContact(tabObjets[j][i])) {
 
@@ -323,7 +333,7 @@ public final class Controller implements IController {
                         if (tabObjets[j][i].getPushableRight()) {
                             int x = tabObjets[j][i].getX();
                             int y = tabObjets[j][i].getY();
-                            tabObjets[j][i].setX(tabObjets[j][i].getX() + 32);
+                            tabObjets[j][i].setX(tabObjets[j][i].getX() + STEP_SIZE);
                             tabObjets[j][i + 1] = tabObjets[j][i];
                             tabObjets[j][i] = new Back(x, y);
                             dash.setWalks(true);
@@ -343,10 +353,10 @@ public final class Controller implements IController {
 
         if (dash.getWalks()) {
 
-            dash.setX(dash.getX() + 32);
+            dash.setX(dash.getX() + STEP_SIZE);
 
 
-            if (level == 2 && dash.getX() == 1344 && dash.getY() == 544 && ViewFrame.panel1.isExitable()) {
+            if (level == 2 && dash.getX() == EXIT_X_LEVEL_2 && dash.getY() == EXIT_Y_LEVEL_2 && ViewFrame.panel1.isExitable()) {
 
                 View.viewFrame.setLevel_counter(View.viewFrame.getLevel_counter() + 1);
                 ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevel_counter());
@@ -359,7 +369,6 @@ public final class Controller implements IController {
     }
 
     private void moveDown(int level) {
-
         Dash dash = ViewPanel.dash;
         Objet[][] tabObjets = ViewPanel.tabObjets;
         ApplicationPanel panel = ViewFrame.panel1;
@@ -384,9 +393,9 @@ public final class Controller implements IController {
         dash.setRest(false);
         dash.setWalksdown(true);
 
-        for (int j = 0; j < 24; j++) {
+        for (int j = 0; j < COLUMN; j++) {
 
-            for (int i = 0; i < 51; i++) {
+            for (int i = 0; i < ROW; i++) {
 
 
                 if (dash.nearDown(tabObjets[j][i]) && dash.downContact(tabObjets[j][i])) {
@@ -421,9 +430,9 @@ public final class Controller implements IController {
 
         if (dash.getWalks()) {
 
-            dash.setY(dash.getY() + 32);
+            dash.setY(dash.getY() + STEP_SIZE);
 
-            if (level == 3 && ViewPanel2.dash.getX() == 672 && ViewPanel2.dash.getY() == 704 && ViewFrame.panel2.isExitable()) {
+            if (level == 3 && ViewPanel2.dash.getX() == EXIT_X_LEVEL_3 && ViewPanel2.dash.getY() == EXIT_Y_LEVEL_3 && ViewFrame.panel2.isExitable()) {
                 System.out.println("ok");
                 View.viewFrame.setLevel_counter(View.viewFrame.getLevel_counter() + 1);
                 ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevel_counter());
