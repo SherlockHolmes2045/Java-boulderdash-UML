@@ -123,7 +123,7 @@ public final class Controller implements IController {
         if (level == 2) {
             ViewFrame.panel1.setDiamondCount(ViewFrame.panel1.getDiamondCount() - 1);
         } else if (level == 3) {
-            ViewFrame.panel2.setNbr_diamond(ViewFrame.panel2.getNbr_diamond() - 1);
+            ViewFrame.panel2.setDiamondCount(ViewFrame.panel2.getDiamondCount() - 1);
         } else if (level == 4) {
             ViewFrame.panel3.setNbr_diamond(ViewFrame.panel3.getNbr_diamond() - 1);
         } else if (level == 5) {

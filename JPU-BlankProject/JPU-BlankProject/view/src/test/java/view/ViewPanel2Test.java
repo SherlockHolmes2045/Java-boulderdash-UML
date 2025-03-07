@@ -32,7 +32,7 @@ public class ViewPanel2Test {
 	public void testViewPanel2() {
 		assertNotNull(viewPanel.dash);
 		assertEquals(12,viewPanel.getNbr_diamond());
-		assertNotNull(viewPanel.exit1);
+		assertNotNull(viewPanel.getExit1());
 
 	}
 

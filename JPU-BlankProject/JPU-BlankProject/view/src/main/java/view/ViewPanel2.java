@@ -4,14 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.Serial;
+import java.util.*;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 import model.Back;
 import model.Dash;
@@ -36,37 +32,36 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
     /**
      * The Constant serialVersionUID
      */
+    @Serial
     private static final long serialVersionUID = 556761802292369776L;
 
     /**
      * @see ViewPanel
      */
-    private static Level level = new Level(2);
-    public static Objet[][] tabObjets;
-    public ExitDoor exit1;
-    private int nbr_diamond;
-    public static Dash dash;
-    private int timegame = 150;
-    int xstar = 0, ystar = 0;
-    private static int deathcount;
+    private static final Level level = new Level(2);
+    public static Objet[][] tabObjets = new Objet[25][51];
+    private ExitDoor exit1;
+    private int diamondCount;
+    public static Dash dash = new Dash(320, 576);
+    private int gameDuration = 150;
+    int xStart = 0;
+    int yStart = 0;
+    private int deathCount;
     private boolean exitable;
+    private final Random r = new Random();
 
     /**
      * Arraylist of monsters
      */
-    public static ArrayList<Monster> tabMonsters;
+    public static List<Monster> tabMonsters = new ArrayList<>();
 
     private static final int PAUSE = 3;
 
 
     public ViewPanel2() {
-
-        dash = new Dash(320, 576);
-        tabObjets = new Objet[25][51];
-        nbr_diamond = 12;
-        deathcount = 0;
-        exit1 = new ExitDoor(672, 704);
-        tabMonsters = new ArrayList<Monster>();
+        diamondCount = 12;
+        deathCount = 0;
+        setExit1(new ExitDoor(672, 704));
         tabObjets = mapImage();
         this.exitable = false;
 
@@ -76,14 +71,13 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
 
             @Override
             public void run() {
-                if (timegame <= 0) {
-                } else {
-                    timegame--;
+                if (gameDuration > 0) {
+                    gameDuration--;
                 }
-                if (timegame <= 0) {
+                if (gameDuration <= 0) {
                     dash.setDeath(true);
                 }
-                if (dash.getWalks() == false) {
+                if (!dash.getWalks()) {
                     dash.setRest(true);
                 }
             }
@@ -96,8 +90,8 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
 
             @Override
             public void run() {
-                for (int i = 0; i < tabMonsters.size(); i++) {
-                    if (dash.getX() == tabMonsters.get(i).getX() && dash.getY() == tabMonsters.get(i).getY()) {
+                for (Monster tabMonster : tabMonsters) {
+                    if (dash.getX() == tabMonster.getX() && dash.getY() == tabMonster.getY()) {
                         dash.setDeath(true);
                     }
                 }
@@ -111,76 +105,76 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
 
             @Override
             public void run() {
-                int nb = (int) (Math.random() * 4);
-                for (int k = 0; k < tabMonsters.size(); k++) {
+                int nb = r.nextInt() * 4;
+                for (Monster tabMonster : tabMonsters) {
 
-                    if (tabMonsters.get(k).getWalks() == false) {
+                    if (!tabMonster.getWalks()) {
 
                         for (int i = 0; i < 24; i++) {
                             for (int j = 0; j < 51; j++) {
 
                                 if (nb == 0) {
 
-                                    if (tabMonsters.get(k).movesRight(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesRight(true);
-                                    } else if (tabMonsters.get(k).movesLeft(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesLeft(true);
-                                    } else if (tabMonsters.get(k).movesUp(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesUp(true);
-                                    } else if (tabMonsters.get(k).movesDown(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesDown(true);
+                                    if (tabMonster.movesRight(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesRight(true);
+                                    } else if (tabMonster.movesLeft(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesLeft(true);
+                                    } else if (tabMonster.movesUp(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesUp(true);
+                                    } else if (tabMonster.movesDown(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesDown(true);
                                     }
 
                                 } else if (nb == 1) {
 
-                                    if (tabMonsters.get(k).movesLeft(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesLeft(true);
-                                    } else if (tabMonsters.get(k).movesRight(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesRight(true);
-                                    } else if (tabMonsters.get(k).movesUp(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesUp(true);
-                                    } else if (tabMonsters.get(k).movesDown(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesDown(true);
+                                    if (tabMonster.movesLeft(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesLeft(true);
+                                    } else if (tabMonster.movesRight(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesRight(true);
+                                    } else if (tabMonster.movesUp(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesUp(true);
+                                    } else if (tabMonster.movesDown(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesDown(true);
                                     }
 
                                 } else if (nb == 2) {
 
-                                    if (tabMonsters.get(k).movesUp(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesUp(true);
-                                    } else if (tabMonsters.get(k).movesLeft(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesLeft(true);
-                                    } else if (tabMonsters.get(k).movesRight(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesRight(true);
-                                    } else if (tabMonsters.get(k).movesDown(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesDown(true);
+                                    if (tabMonster.movesUp(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesUp(true);
+                                    } else if (tabMonster.movesLeft(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesLeft(true);
+                                    } else if (tabMonster.movesRight(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesRight(true);
+                                    } else if (tabMonster.movesDown(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesDown(true);
                                     }
 
                                 } else if (nb == 3) {
 
-                                    if (tabMonsters.get(k).movesDown(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesDown(true);
-                                    } else if (tabMonsters.get(k).movesLeft(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesLeft(true);
-                                    } else if (tabMonsters.get(k).movesUp(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesUp(true);
-                                    } else if (tabMonsters.get(k).movesRight(tabObjets[i][j])) {
-                                        tabMonsters.get(k).setWalks(true);
-                                        tabMonsters.get(k).setGoesRight(true);
+                                    if (tabMonster.movesDown(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesDown(true);
+                                    } else if (tabMonster.movesLeft(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesLeft(true);
+                                    } else if (tabMonster.movesUp(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesUp(true);
+                                    } else if (tabMonster.movesRight(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesRight(true);
                                     }
 
                                 }
@@ -195,26 +189,26 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
 
                                 if (tabObjets[i][j] != null) {
 
-                                    if (tabMonsters.get(k).isGoesRight()) {
+                                    if (tabMonster.isGoesRight()) {
 
-                                        if (tabMonsters.get(k).doesNotMoveRight(tabObjets[i][j])) {
-                                            tabMonsters.get(k).setWalks(false);
-                                            tabMonsters.get(k).setGoesRight(false);
+                                        if (tabMonster.doesNotMoveRight(tabObjets[i][j])) {
+                                            tabMonster.setWalks(false);
+                                            tabMonster.setGoesRight(false);
                                         }
-                                    } else if (tabMonsters.get(k).isGoesLeft()) {
-                                        if (tabMonsters.get(k).doesNotMoveLeft(tabObjets[i][j])) {
-                                            tabMonsters.get(k).setWalks(false);
-                                            tabMonsters.get(k).setGoesLeft(false);
+                                    } else if (tabMonster.isGoesLeft()) {
+                                        if (tabMonster.doesNotMoveLeft(tabObjets[i][j])) {
+                                            tabMonster.setWalks(false);
+                                            tabMonster.setGoesLeft(false);
                                         }
-                                    } else if (tabMonsters.get(k).isGoesUp()) {
-                                        if (tabMonsters.get(k).doesNotMoveUp(tabObjets[i][j])) {
-                                            tabMonsters.get(k).setWalks(false);
-                                            tabMonsters.get(k).setGoesUp(false);
+                                    } else if (tabMonster.isGoesUp()) {
+                                        if (tabMonster.doesNotMoveUp(tabObjets[i][j])) {
+                                            tabMonster.setWalks(false);
+                                            tabMonster.setGoesUp(false);
                                         }
-                                    } else if (tabMonsters.get(k).isGoesDown()) {
-                                        if (tabMonsters.get(k).doesNotMoveDown(tabObjets[i][j])) {
-                                            tabMonsters.get(k).setWalks(false);
-                                            tabMonsters.get(k).setGoesDown(false);
+                                    } else if (tabMonster.isGoesDown()) {
+                                        if (tabMonster.doesNotMoveDown(tabObjets[i][j])) {
+                                            tabMonster.setWalks(false);
+                                            tabMonster.setGoesDown(false);
                                         }
                                     }
                                 }
@@ -236,15 +230,15 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
                 for (int i = 0; i < 24; i++) {
 
                     for (int j = 0; j < 51; j++) {
-                        if (tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
+                        if (tabObjets[i][j] instanceof model.Diamond) {
 
-                            if ((tabObjets[i + 1][j].getClass().getName().equals("model.Roc") || tabObjets[i + 1][j].getClass().getName().equals("model.Diamond")) && tabObjets[i][j + 1].getClass().getName().equals("model.Back") && tabObjets[i + 1][j + 1].getClass().getName().equals("model.Back")) {
+                            if ((tabObjets[i + 1][j] instanceof model.Roc || tabObjets[i + 1][j] instanceof model.Diamond) && tabObjets[i][j + 1] instanceof model.Back && tabObjets[i + 1][j + 1] instanceof model.Back) {
                                 int x = tabObjets[i][j].getX();
                                 int y = tabObjets[i][j].getY();
                                 tabObjets[i][j + 1] = tabObjets[i][j];
                                 tabObjets[i][j] = new Back(x, y);
                                 tabObjets[i][j + 1].setX(tabObjets[i][j].getX() + 32);
-                            } else if ((tabObjets[i + 1][j].getClass().getName().equals("model.Roc") || tabObjets[i + 1][j].getClass().getName().equals("model.Diamond")) && tabObjets[i][j - 1].getClass().getName().equals("model.Back") && tabObjets[i + 1][j - 1].getClass().getName().equals("model.Back")) {
+                            } else if ((tabObjets[i + 1][j] instanceof model.Roc || tabObjets[i + 1][j] instanceof model.Diamond) && tabObjets[i][j - 1] instanceof model.Back && tabObjets[i + 1][j - 1] instanceof model.Back) {
                                 int x = tabObjets[i][j].getX();
                                 int y = tabObjets[i][j].getY();
                                 tabObjets[i][j - 1] = tabObjets[i][j];
@@ -267,15 +261,15 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
                 for (int i = 0; i < 24; i++) {
 
                     for (int j = 0; j < 51; j++) {
-                        if (tabObjets[i][j].getClass().getName().equals("model.Roc")) {
+                        if (tabObjets[i][j] instanceof model.Roc) {
 
-                            if ((tabObjets[i + 1][j].getClass().getName().equals("model.Roc") || tabObjets[i + 1][j].getClass().getName().equals("model.Diamond")) && tabObjets[i][j + 1].getClass().getName().equals("model.Back") && tabObjets[i + 1][j + 1].getClass().getName().equals("model.Back")) {
+                            if ((tabObjets[i + 1][j] instanceof model.Roc || tabObjets[i + 1][j] instanceof model.Diamond) && tabObjets[i][j + 1] instanceof model.Back && tabObjets[i + 1][j + 1] instanceof model.Back) {
                                 int x = tabObjets[i][j].getX();
                                 int y = tabObjets[i][j].getY();
                                 tabObjets[i][j + 1] = tabObjets[i][j];
                                 tabObjets[i][j] = new Back(x, y);
                                 tabObjets[i][j + 1].setX(tabObjets[i][j].getX() + 32);
-                            } else if ((tabObjets[i + 1][j].getClass().getName().equals("model.Roc") || tabObjets[i + 1][j].getClass().getName().equals("model.Diamond")) && tabObjets[i][j - 1].getClass().getName().equals("model.Back") && tabObjets[i + 1][j - 1].getClass().getName().equals("model.Back")) {
+                            } else if ((tabObjets[i + 1][j] instanceof model.Roc || tabObjets[i + 1][j] instanceof model.Diamond) && tabObjets[i][j - 1] instanceof model.Back && tabObjets[i + 1][j - 1] instanceof model.Back) {
                                 int x = tabObjets[i][j].getX();
                                 int y = tabObjets[i][j].getY();
                                 tabObjets[i][j - 1] = tabObjets[i][j];
@@ -306,29 +300,20 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
     /**
      * @see ViewPanel
      */
+    @Override
     protected void paintComponent(Graphics g) {
 
         Graphics2D g2 = (Graphics2D) g;
 
         for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 51; j++) {
-                if (tabObjets[i][j] != null) {
+                if (tabObjets[i][j] != null && tabObjets[i][j] instanceof model.Roc) {
 
-                    if (tabObjets[i][j].getClass().getName().equals("model.Roc")) {
+                    tabObjets[i][j].setPushableRight(tabObjets[i][j].rightContact(tabObjets[i][j + 1]));
+                    tabObjets[i][j].setPushableLeft(tabObjets[i][j].leftContact(tabObjets[i][j - 1]));
 
-                        if (tabObjets[i][j].rightContact(tabObjets[i][j + 1])) {
-                            tabObjets[i][j].setPushableRight(true);
-                        } else {
-                            tabObjets[i][j].setPushableRight(false);
-                        }
-                        if (tabObjets[i][j].leftContact(tabObjets[i][j - 1])) {
-                            tabObjets[i][j].setPushableLeft(true);
-                        } else {
-                            tabObjets[i][j].setPushableLeft(false);
-                        }
-
-                    }
                 }
+
             }
         }
 
@@ -336,9 +321,9 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
 
             for (int j = 0; j < 51; j++) {
 
-                if (tabObjets[i][j].getClass().getName().equals("model.Roc") || tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
+                if (tabObjets[i][j] instanceof model.Roc || tabObjets[i][j] instanceof model.Diamond) {
 
-                    if (tabObjets[i][j].nearDown(tabObjets[i + 1][j]) && tabObjets[i][j].downContactDash(dash) == false) {
+                    if (tabObjets[i][j].nearDown(tabObjets[i + 1][j]) && !tabObjets[i][j].downContactDash(dash)) {
                         int x = tabObjets[i][j].getX();
                         int y = tabObjets[i][j].getY();
                         tabObjets[i][j].setFalling(true);
@@ -351,42 +336,43 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
                         tabObjets[i][j].setVelocity(0);
                     }
                 }
+                assert tabObjets[i][j] != null;
                 g2.drawImage(tabObjets[i][j].getImgObj(), tabObjets[i][j].getX(), tabObjets[i][j].getY(), null);
             }
         }
 
 
-        for (int i = 0; i < tabMonsters.size(); i++) {
-            g2.drawImage(tabMonsters.get(i).getImgChar(), tabMonsters.get(i).getX(), tabMonsters.get(i).getY(), null);
+        for (Monster tabMonster : tabMonsters) {
+            g2.drawImage(tabMonster.getImgChar(), tabMonster.getX(), tabMonster.getY(), null);
 
         }
 
-        if (nbr_diamond <= 5) {
+        if (diamondCount <= 5) {
             this.exitable = true;
-            g2.drawImage(exit1.getImgObj(), exit1.getX(), exit1.getY(), null);
+            g2.drawImage(getExit1().getImgObj(), getExit1().getX(), getExit1().getY(), null);
         }
 
-        if (dash.getDeath() == false && dash.isRest() == false) {
+        if (!dash.getDeath() && !dash.isRest()) {
             g2.drawImage(dash.imageWalk(50), dash.getX(), dash.getY(), null);
-        } else if (dash.isRest() == true && dash.getDeath() == false) {
+        } else if (dash.isRest() && !dash.getDeath()) {
             g2.drawImage(dash.getImgChar(), dash.getX(), dash.getY(), null);
-        } else if (dash.getDeath() == true) {
-            if (deathcount == 0) {
-                xstar = dash.getX();
-                ystar = dash.getY();
+        } else if (dash.getDeath()) {
+            if (deathCount == 0) {
+                xStart = dash.getX();
+                yStart = dash.getY();
             }
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar - 32, ystar - 64, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar, ystar - 64, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar + 32, ystar - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart, yStart - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart - 64, null);
 
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar - 32, ystar - 32, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar, ystar - 32, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar + 32, ystar - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart, yStart - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart - 32, null);
 
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar - 32, ystar, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar + 32, ystar, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart, null);
             g2.drawImage(dash.getImgChar(), dash.getX(), dash.getY(), null);
-            deathcount++;
+            deathCount++;
 
         }
 
@@ -401,11 +387,11 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
         g2.drawRoundRect(100, 2, 63, 28, 20, 20);
         g2.drawRoundRect(100, 35, 63, 28, 20, 20);
         g2.setColor(Color.WHITE);
-        g2.drawString(Integer.toString(nbr_diamond), 130, 22);
+        g2.drawString(Integer.toString(diamondCount), 130, 22);
         g2.drawString(Integer.toString(dash.getScore()), 30, 22);
-        g2.drawString(Integer.toString(timegame), 125, 57);
-        g2.drawImage(new ImageIcon(getClass().getResource("/images/diam_icon.png")).getImage(), 105, 8, null);
-        g2.drawImage(new ImageIcon(getClass().getResource("/images/horloge_icon.png")).getImage(), 105, 40, null);
+        g2.drawString(Integer.toString(gameDuration), 125, 57);
+        g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/diam_icon.png"))).getImage(), 105, 8, null);
+        g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/horloge_icon.png"))).getImage(), 105, 40, null);
 
     }
 
@@ -413,11 +399,11 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
      * @return tabObjets
      * @see ViewPanel
      */
-    private static Objet[][] mapImage() {
+    private Objet[][] mapImage() {
 
         Objet[][] tabObjets = new Objet[25][51];
 
-        Objet tmp2 = null;
+        Objet tmp2;
         int xobj = 0;
         int yobj = 0;
 
@@ -447,7 +433,6 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
                     tmp2 = new Ground(xobj, yobj);
                 }
                 tabObjets[j][i] = tmp2;
-                tmp2 = null;
                 xobj += 32;
             }
             xobj = 0;
@@ -458,20 +443,20 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
     }
 
     /**
-     * @return nbr_diamond
+     * @return diamondCount
      * @see ViewPanel
      */
-    public int getNbr_diamond() {
-        return nbr_diamond;
+    public int getDiamondCount() {
+        return diamondCount;
     }
 
     /**
-     * @param nbr_diamond the actual number of diamond
+     * @param diamondCount the actual number of diamond
      * @see ViewPanel
      */
 
-    public void setNbr_diamond(int nbr_diamond) {
-        this.nbr_diamond = nbr_diamond;
+    public void setDiamondCount(int diamondCount) {
+        this.diamondCount = diamondCount;
     }
 
     /**
@@ -493,13 +478,20 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
     }
 
     /**
-     * @return timegame
+     * @return gameDuration
      * @see ViewPanel
      */
 
     public int getTimegame() {
-        return timegame;
+        return gameDuration;
     }
 
 
+    public ExitDoor getExit1() {
+        return exit1;
+    }
+
+    public void setExit1(ExitDoor exit1) {
+        this.exit1 = exit1;
+    }
 }

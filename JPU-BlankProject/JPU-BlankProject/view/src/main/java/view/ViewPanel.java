@@ -37,12 +37,13 @@ public class ViewPanel extends ApplicationPanel implements Observer {
     /**
      * An array of all the immobile elements of the game
      */
-    public static Objet[][] tabObjets;
+    public static Objet[][] tabObjets = new Objet[25][51];
 
     /**
      * The hero
      */
-    public static Dash dash;
+    public static Dash dash = new Dash(224, 128);
+
 
     private final ExitDoor exit1;
 
@@ -54,15 +55,15 @@ public class ViewPanel extends ApplicationPanel implements Observer {
      */
     private int gameDuration = 120;
 
-    private static int deathCount;
+    private int deathCount;
     /**
      * A boolean that defines if we can exit the level or not
      */
 
     private boolean exitable;
 
-    int xstar = 0;
-    int ystar = 0;
+    int xStart = 0;
+    int yStart = 0;
 
     /**
      * The Constant serialVersionUID.
@@ -81,8 +82,6 @@ public class ViewPanel extends ApplicationPanel implements Observer {
     public ViewPanel() {
 
         setDiamondCount(20);
-        dash = new Dash(224, 128);
-        tabObjets = new Objet[25][51];
         tabObjets = mapImage();
         exit1 = new ExitDoor(1344, 544);
         this.exitable = false;
@@ -180,7 +179,7 @@ public class ViewPanel extends ApplicationPanel implements Observer {
 
         // The refresh thread
 
-        Thread refresh = new Thread(new Refresh(PAUSE,this));
+        Thread refresh = new Thread(new Refresh(PAUSE, this));
         refresh.start();
     }
 
@@ -299,19 +298,19 @@ public class ViewPanel extends ApplicationPanel implements Observer {
             g2.drawImage(dash.getImgChar(), dash.getX(), dash.getY(), null);
         } else if (dash.getDeath()) {
             if (deathCount == 0) {
-                xstar = dash.getX();
-                ystar = dash.getY();
+                xStart = dash.getX();
+                yStart = dash.getY();
             }
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar - 32, ystar - 64, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar, ystar - 64, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar + 32, ystar - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart, yStart - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart - 64, null);
 
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar - 32, ystar - 32, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar, ystar - 32, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar + 32, ystar - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart, yStart - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart - 32, null);
 
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar - 32, ystar, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar + 32, ystar, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart, null);
             g2.drawImage(dash.getImgChar(), dash.getX(), dash.getY(), null);
             deathCount++;
 
@@ -420,7 +419,8 @@ public class ViewPanel extends ApplicationPanel implements Observer {
 
     /**
      * The number of diamond of the level
-     */ /**
+     */
+    /**
      * @return diamondCount
      * <p>
      * getter for the number diamond
