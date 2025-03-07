@@ -245,7 +245,7 @@ public class ViewPanel4 extends ApplicationPanel implements Observer {
         };
         time4.schedule(task4, 10, 200);
 
-        Thread refresh = new Thread(new Refresh4(PAUSE));
+        Thread refresh = new Thread(new Refresh(PAUSE,this));
         refresh.start();
 
     }

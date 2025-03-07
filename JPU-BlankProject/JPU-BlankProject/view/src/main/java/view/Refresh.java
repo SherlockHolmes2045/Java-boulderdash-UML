@@ -24,11 +24,13 @@ public class Refresh implements Runnable {
      */
 
     private int pause;
+    private final ApplicationPanel panel;
     private volatile boolean running = true;
     private static final Logger LOGGER = Logger.getLogger(Refresh.class.getName());
 
-    public Refresh(int pause) {
+    public Refresh(int pause, ApplicationPanel panel) {
         this.pause = pause;
+        this.panel = panel;
     }
 
     public void setPause(int pause) {
@@ -42,7 +44,7 @@ public class Refresh implements Runnable {
     @Override
     public void run() {
         while (running) {
-            ViewFrame.panel1.repaint();
+            panel.repaint();
             try {
                 Thread.sleep(pause);
             } catch (InterruptedException e) {

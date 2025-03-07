@@ -97,22 +97,22 @@ public final class Controller implements IController {
 
             case LEFT:
 
-                moveLeft(View.viewFrame.getLevel_counter());
+                moveLeft(View.viewFrame.getLevelCounter());
 
                 break;
 
             case UP:
 
-                moveUp(View.viewFrame.getLevel_counter());
+                moveUp(View.viewFrame.getLevelCounter());
 
                 break;
 
             case DOWN:
-                moveDown(View.viewFrame.getLevel_counter());
+                moveDown(View.viewFrame.getLevelCounter());
                 break;
 
             case RIGHT:
-                moveRight(View.viewFrame.getLevel_counter());
+                moveRight(View.viewFrame.getLevelCounter());
                 break;
             default:
                 break;
@@ -121,7 +121,7 @@ public final class Controller implements IController {
 
     private void decreaseDiamonds(int level) {
         if (level == 2) {
-            ViewFrame.panel1.setNbr_diamond(ViewFrame.panel1.getNbr_diamond() - 1);
+            ViewFrame.panel1.setDiamondCount(ViewFrame.panel1.getDiamondCount() - 1);
         } else if (level == 3) {
             ViewFrame.panel2.setNbr_diamond(ViewFrame.panel2.getNbr_diamond() - 1);
         } else if (level == 4) {
@@ -358,8 +358,8 @@ public final class Controller implements IController {
 
             if (level == 2 && dash.getX() == EXIT_X_LEVEL_2 && dash.getY() == EXIT_Y_LEVEL_2 && ViewFrame.panel1.isExitable()) {
 
-                View.viewFrame.setLevel_counter(View.viewFrame.getLevel_counter() + 1);
-                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevel_counter());
+                View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
+                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
 
             }
 
@@ -434,8 +434,8 @@ public final class Controller implements IController {
 
             if (level == 3 && ViewPanel2.dash.getX() == EXIT_X_LEVEL_3 && ViewPanel2.dash.getY() == EXIT_Y_LEVEL_3 && ViewFrame.panel2.isExitable()) {
                 System.out.println("ok");
-                View.viewFrame.setLevel_counter(View.viewFrame.getLevel_counter() + 1);
-                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevel_counter());
+                View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
+                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
             }
 
 

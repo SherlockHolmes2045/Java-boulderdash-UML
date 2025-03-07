@@ -289,7 +289,7 @@ public class ViewPanel2 extends ApplicationPanel implements Observer {
         };
         time4.schedule(task4, 10, 200);
 
-        Thread refresh = new Thread(new Refresh2(PAUSE));
+        Thread refresh = new Thread(new Refresh(PAUSE, this));
         refresh.start();
     }
 

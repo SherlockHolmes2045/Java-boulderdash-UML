@@ -9,39 +9,41 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ViewPanelTest {
-	ViewPanel viewPanel;
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
+    ViewPanel viewPanel;
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		this.viewPanel=new ViewPanel();
-	}
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+    }
 
-	@After
-	public void tearDown() throws Exception {
-	}
+    @Before
+    public void setUp() throws Exception {
+        this.viewPanel = new ViewPanel();
+    }
 
-	@SuppressWarnings("static-access")
-	@Test
-	public void testViewPanel() {
-		assertNotNull(viewPanel.dash);
-		assertEquals(20,viewPanel.getNbr_diamond());
-		assertNotNull(viewPanel.exit1);
-	}
+    @After
+    public void tearDown() throws Exception {
+    }
 
-	@Test
-	public void testIsExitable() {
-		assertFalse(viewPanel.isExitable());
-	}
-	@SuppressWarnings("static-access")
-	@Test 
-	public void testMapImage() {
-		assertNotNull(viewPanel.tabObjets);
-	}
+    @SuppressWarnings("static-access")
+    @Test
+    public void testViewPanel() {
+        assertNotNull(viewPanel.dash);
+        assertEquals(20, viewPanel.getDiamondCount());
+        assertNotNull(viewPanel.getExit1());
+    }
+
+    @Test
+    public void testIsExitable() {
+        assertFalse(viewPanel.isExitable());
+    }
+
+    @SuppressWarnings("static-access")
+    @Test
+    public void testMapImage() {
+        assertNotNull(viewPanel.tabObjets);
+    }
 }

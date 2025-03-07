@@ -5,13 +5,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.Serial;
+import java.util.*;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 import model.Back;
 import model.Dash;
@@ -47,37 +44,31 @@ public class ViewPanel extends ApplicationPanel implements Observer {
      */
     public static Dash dash;
 
-    /**
-     * The exitdoor of the level
-     */
-    public ExitDoor exit1;
+    private final ExitDoor exit1;
 
-    /**
-     * The number of diamond of the level
-     */
-    private int nbr_diamond;
+    private int diamondCount;
 
-
-    //private static int compt=8;
 
     /**
      * The duration of the game in seconds
      */
-    private int timegame = 120;
+    private int gameDuration = 120;
 
-    private static int deathcount;
+    private static int deathCount;
     /**
      * A boolean that defines if we can exit the level or not
      */
 
     private boolean exitable;
 
-    int xstar = 0, ystar = 0;
+    int xstar = 0;
+    int ystar = 0;
 
     /**
      * The Constant serialVersionUID.
      */
 
+    @Serial
     private static final long serialVersionUID = -998294702363713521L;
 
     private static final int PAUSE = 3;
@@ -89,7 +80,7 @@ public class ViewPanel extends ApplicationPanel implements Observer {
 
     public ViewPanel() {
 
-        nbr_diamond = 20;
+        setDiamondCount(20);
         dash = new Dash(224, 128);
         tabObjets = new Objet[25][51];
         tabObjets = mapImage();
@@ -102,16 +93,15 @@ public class ViewPanel extends ApplicationPanel implements Observer {
 
             @Override
             public void run() {
-                if (timegame <= 0) {
-                } else {
-                    timegame--;
+                if (gameDuration > 0) {
+                    gameDuration--;
                 }
 
-                if (timegame <= 0) {
+                if (gameDuration <= 0) {
                     dash.setDeath(true);
                 }
 
-                if (dash.getWalks() == false) {
+                if (!dash.getWalks()) {
                     dash.setRest(true);
                 }
             }
@@ -129,15 +119,15 @@ public class ViewPanel extends ApplicationPanel implements Observer {
                 for (int i = 0; i < 24; i++) {
 
                     for (int j = 0; j < 51; j++) {
-                        if (tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
+                        if (tabObjets[i][j] instanceof model.Diamond) {
 
-                            if ((tabObjets[i + 1][j].getClass().getName().equals("model.Roc") || tabObjets[i + 1][j].getClass().getName().equals("model.Diamond")) && tabObjets[i][j + 1].getClass().getName().equals("model.Back") && tabObjets[i + 1][j + 1].getClass().getName().equals("model.Back") && ((tabObjets[i][j].getX() + 32 != dash.getX() && tabObjets[i][j].getY() != dash.getY()) || (tabObjets[i][j].getX() + 32 != dash.getX() && tabObjets[i][j].getY() + 32 != dash.getY()))) {
+                            if ((tabObjets[i + 1][j] instanceof model.Roc || tabObjets[i + 1][j] instanceof model.Diamond) && tabObjets[i][j + 1] instanceof model.Back && tabObjets[i + 1][j + 1] instanceof model.Back && ((tabObjets[i][j].getX() + 32 != dash.getX() && tabObjets[i][j].getY() != dash.getY()) || (tabObjets[i][j].getX() + 32 != dash.getX() && tabObjets[i][j].getY() + 32 != dash.getY()))) {
                                 int x = tabObjets[i][j].getX();
                                 int y = tabObjets[i][j].getY();
                                 tabObjets[i][j + 1] = tabObjets[i][j];
                                 tabObjets[i][j] = new Back(x, y);
                                 tabObjets[i][j + 1].setX(tabObjets[i][j].getX() + 32);
-                            } else if ((tabObjets[i + 1][j].getClass().getName().equals("model.Roc") || tabObjets[i + 1][j].getClass().getName().equals("model.Diamond")) && tabObjets[i][j - 1].getClass().getName().equals("model.Back") && tabObjets[i + 1][j - 1].getClass().getName().equals("model.Back") && ((tabObjets[i][j].getX() - 32 != dash.getX() && tabObjets[i][j].getY() != dash.getY()) || (tabObjets[i][j].getX() - 32 != dash.getX() && tabObjets[i][j].getY() + 32 != dash.getY()))) {
+                            } else if ((tabObjets[i + 1][j] instanceof model.Roc || tabObjets[i + 1][j] instanceof model.Diamond) && tabObjets[i][j - 1] instanceof model.Back && tabObjets[i + 1][j - 1] instanceof model.Back && ((tabObjets[i][j].getX() - 32 != dash.getX() && tabObjets[i][j].getY() != dash.getY()) || (tabObjets[i][j].getX() - 32 != dash.getX() && tabObjets[i][j].getY() + 32 != dash.getY()))) {
                                 int x = tabObjets[i][j].getX();
                                 int y = tabObjets[i][j].getY();
                                 tabObjets[i][j - 1] = tabObjets[i][j];
@@ -162,15 +152,15 @@ public class ViewPanel extends ApplicationPanel implements Observer {
                 for (int i = 0; i < 24; i++) {
 
                     for (int j = 0; j < 51; j++) {
-                        if (tabObjets[i][j].getClass().getName().equals("model.Roc")) {
+                        if (tabObjets[i][j] instanceof model.Roc) {
 
-                            if ((tabObjets[i + 1][j].getClass().getName().equals("model.Roc") || tabObjets[i + 1][j].getClass().getName().equals("model.Diamond")) && tabObjets[i][j + 1].getClass().getName().equals("model.Back") && tabObjets[i + 1][j + 1].getClass().getName().equals("model.Back") && ((tabObjets[i][j].getX() + 32 != dash.getX() && tabObjets[i][j].getY() != dash.getY()) || (tabObjets[i][j].getX() + 32 != dash.getX() && tabObjets[i][j].getY() + 32 != dash.getY()))) {
+                            if ((tabObjets[i + 1][j] instanceof model.Roc || tabObjets[i + 1][j] instanceof model.Diamond) && tabObjets[i][j + 1] instanceof model.Back && tabObjets[i + 1][j + 1] instanceof model.Back && ((tabObjets[i][j].getX() + 32 != dash.getX() && tabObjets[i][j].getY() != dash.getY()) || (tabObjets[i][j].getX() + 32 != dash.getX() && tabObjets[i][j].getY() + 32 != dash.getY()))) {
                                 int x = tabObjets[i][j].getX();
                                 int y = tabObjets[i][j].getY();
                                 tabObjets[i][j + 1] = tabObjets[i][j];
                                 tabObjets[i][j] = new Back(x, y);
                                 tabObjets[i][j + 1].setX(tabObjets[i][j].getX() + 32);
-                            } else if ((tabObjets[i + 1][j].getClass().getName().equals("model.Roc") || tabObjets[i + 1][j].getClass().getName().equals("model.Diamond")) && tabObjets[i][j - 1].getClass().getName().equals("model.Back") && tabObjets[i + 1][j - 1].getClass().getName().equals("model.Back") && ((tabObjets[i][j].getX() - 32 != dash.getX() && tabObjets[i][j].getY() != dash.getY()) || (tabObjets[i][j].getX() - 32 != dash.getX() && tabObjets[i][j].getY() + 32 != dash.getY()))) {
+                            } else if ((tabObjets[i + 1][j] instanceof model.Roc || tabObjets[i + 1][j] instanceof model.Diamond) && tabObjets[i][j - 1] instanceof model.Back && tabObjets[i + 1][j - 1] instanceof model.Back && ((tabObjets[i][j].getX() - 32 != dash.getX() && tabObjets[i][j].getY() != dash.getY()) || (tabObjets[i][j].getX() - 32 != dash.getX() && tabObjets[i][j].getY() + 32 != dash.getY()))) {
                                 int x = tabObjets[i][j].getX();
                                 int y = tabObjets[i][j].getY();
                                 tabObjets[i][j - 1] = tabObjets[i][j];
@@ -190,7 +180,7 @@ public class ViewPanel extends ApplicationPanel implements Observer {
 
         // The refresh thread
 
-        Thread refresh = new Thread(new Refresh(PAUSE));
+        Thread refresh = new Thread(new Refresh(PAUSE,this));
         refresh.start();
     }
 
@@ -223,19 +213,11 @@ public class ViewPanel extends ApplicationPanel implements Observer {
         for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 51; j++) {
 
-                if (tabObjets[i][j].getClass().getName().equals("model.Roc")) {
+                if (tabObjets[i][j] instanceof model.Roc) {
 
-                    if (tabObjets[i][j].rightContact(ViewPanel.tabObjets[i][j + 1])) {
-                        tabObjets[i][j].setPushableRight(true);
-                    } else {
-                        tabObjets[i][j].setPushableRight(false);
-                    }
+                    tabObjets[i][j].setPushableRight(tabObjets[i][j].rightContact(ViewPanel.tabObjets[i][j + 1]));
 
-                    if (tabObjets[i][j].leftContact(ViewPanel.tabObjets[i][j - 1])) {
-                        tabObjets[i][j].setPushableLeft(true);
-                    } else {
-                        tabObjets[i][j].setPushableLeft(false);
-                    }
+                    tabObjets[i][j].setPushableLeft(tabObjets[i][j].leftContact(ViewPanel.tabObjets[i][j - 1]));
                 }
             }
         }
@@ -261,10 +243,10 @@ public class ViewPanel extends ApplicationPanel implements Observer {
 
             for (int j = 0; j < 51; j++) {
 
-                if (tabObjets[i][j].getClass().getName().equals("model.Roc")) {
+                if (tabObjets[i][j] instanceof model.Roc) {
 
                     if (tabObjets[i][j].getVelocity() == 0) {
-                        if (tabObjets[i][j].nearDown(tabObjets[i + 1][j]) && tabObjets[i][j].downContactDash(dash) == false) {
+                        if (tabObjets[i][j].nearDown(tabObjets[i + 1][j]) && !tabObjets[i][j].downContactDash(dash)) {
                             int x = tabObjets[i][j].getX();
                             int y = tabObjets[i][j].getY();
                             tabObjets[i][j].setFalling(true);
@@ -291,9 +273,9 @@ public class ViewPanel extends ApplicationPanel implements Observer {
                         }
                     }
 
-                } else if (tabObjets[i][j].getClass().getName().equals("model.Diamond")) {
+                } else if (tabObjets[i][j] instanceof model.Diamond) {
 
-                    if (tabObjets[i][j].nearDown(tabObjets[i + 1][j]) && tabObjets[i][j].downContactDash(dash) == false) {
+                    if (tabObjets[i][j].nearDown(tabObjets[i + 1][j]) && !tabObjets[i][j].downContactDash(dash)) {
                         int x = tabObjets[i][j].getX();
                         int y = tabObjets[i][j].getY();
                         tabObjets[i][j].setFalling(true);
@@ -311,27 +293,27 @@ public class ViewPanel extends ApplicationPanel implements Observer {
         }
 
         //determine the method to call to get the hero image
-        if (dash.getDeath() == false && dash.isRest() == false) {
+        if (!dash.getDeath() && !dash.isRest()) {
             g2.drawImage(dash.imageWalk(50), dash.getX(), dash.getY(), null);
-        } else if (dash.isRest() == true && dash.getDeath() == false) {
+        } else if (dash.isRest() && !dash.getDeath()) {
             g2.drawImage(dash.getImgChar(), dash.getX(), dash.getY(), null);
-        } else if (dash.getDeath() == true) {
-            if (deathcount == 0) {
+        } else if (dash.getDeath()) {
+            if (deathCount == 0) {
                 xstar = dash.getX();
                 ystar = dash.getY();
             }
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar - 32, ystar - 64, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar, ystar - 64, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar + 32, ystar - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar - 32, ystar - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar, ystar - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar + 32, ystar - 64, null);
 
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar - 32, ystar - 32, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar, ystar - 32, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar + 32, ystar - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar - 32, ystar - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar, ystar - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar + 32, ystar - 32, null);
 
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar - 32, ystar, null);
-            g2.drawImage(new ImageIcon(getClass().getResource("/images/upstar.png")).getImage(), xstar + 32, ystar, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar - 32, ystar, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xstar + 32, ystar, null);
             g2.drawImage(dash.getImgChar(), dash.getX(), dash.getY(), null);
-            deathcount++;
+            deathCount++;
 
         }
 
@@ -347,9 +329,9 @@ public class ViewPanel extends ApplicationPanel implements Observer {
 						}*/
 
         //Draw the score,the time and the number of diamond remaining
-        if (nbr_diamond <= 10) {
+        if (getDiamondCount() <= 10) {
             this.exitable = true;
-            g2.drawImage(exit1.getImgObj(), exit1.getX(), exit1.getY(), null);
+            g2.drawImage(getExit1().getImgObj(), getExit1().getX(), getExit1().getY(), null);
         }
 
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -363,11 +345,11 @@ public class ViewPanel extends ApplicationPanel implements Observer {
         g2.drawRoundRect(100, 2, 63, 28, 20, 20);
         g2.drawRoundRect(100, 35, 63, 28, 20, 20);
         g2.setColor(Color.WHITE);
-        g2.drawString(Integer.toString(nbr_diamond), 130, 22);
+        g2.drawString(Integer.toString(getDiamondCount()), 130, 22);
         g2.drawString(Integer.toString(dash.getScore()), 30, 22);
-        g2.drawString(Integer.toString(timegame), 125, 57);
-        g2.drawImage(new ImageIcon(getClass().getResource("/images/diam_icon.png")).getImage(), 105, 8, null);
-        g2.drawImage(new ImageIcon(getClass().getResource("/images/horloge_icon.png")).getImage(), 105, 40, null);
+        g2.drawString(Integer.toString(gameDuration), 125, 57);
+        g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/diam_icon.png"))).getImage(), 105, 8, null);
+        g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/horloge_icon.png"))).getImage(), 105, 40, null);
     }
 
 
@@ -377,7 +359,7 @@ public class ViewPanel extends ApplicationPanel implements Observer {
      * Instanciate the correspondant objet for the character read from the array
      */
 
-    private static Objet[][] mapImage() {
+    private Objet[][] mapImage() {
 
         Objet[][] tabObjets = new Objet[25][51];
 
@@ -428,29 +410,37 @@ public class ViewPanel extends ApplicationPanel implements Observer {
     }
 
     /**
-     * @return timegame
+     * @return gameDuration
      * <p>
-     * getter for the timegame
+     * getter for the gameDuration
      */
     public int getTimegame() {
-        return timegame;
+        return gameDuration;
     }
 
     /**
-     * @return nbr_diamond
+     * The number of diamond of the level
+     */ /**
+     * @return diamondCount
      * <p>
      * getter for the number diamond
      */
-    public int getNbr_diamond() {
-        return nbr_diamond;
+    public int getDiamondCount() {
+        return diamondCount;
     }
 
     /**
-     * @param nbr_diamond setter for the number of diamond
+     * @param diamondCount setter for the number of diamond
      */
-    public void setNbr_diamond(int nbr_diamond) {
-        this.nbr_diamond = nbr_diamond;
+    public void setDiamondCount(int diamondCount) {
+        this.diamondCount = diamondCount;
     }
 
 
+    /**
+     * The exitdoor of the level
+     */
+    public ExitDoor getExit1() {
+        return exit1;
+    }
 }

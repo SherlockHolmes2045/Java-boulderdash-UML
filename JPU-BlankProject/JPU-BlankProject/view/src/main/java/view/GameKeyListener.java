@@ -54,7 +54,7 @@ public class GameKeyListener implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         try {
-            int level = View.viewFrame.getLevel_counter();
+            int level = View.viewFrame.getLevelCounter();
             Dash dash = switch (level) {
                 case 2 -> ViewPanel.dash;
                 case 3 -> ViewPanel2.dash;

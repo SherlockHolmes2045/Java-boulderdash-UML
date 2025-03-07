@@ -47,7 +47,7 @@ ViewFrame viewFrame;
 
 	@Test
 	public void testGetCompteur() {
-		assertEquals(2,this.viewFrame.getLevel_counter());
+		assertEquals(2,this.viewFrame.getLevelCounter());
 	}
 
 	@Test
