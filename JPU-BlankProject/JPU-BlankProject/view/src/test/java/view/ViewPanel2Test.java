@@ -31,7 +31,7 @@ public class ViewPanel2Test {
 	@Test
 	public void testViewPanel2() {
 		assertNotNull(viewPanel.dash);
-		assertEquals(12,viewPanel.getNbr_diamond());
+		assertEquals(12,viewPanel.getDiamondCount());
 		assertNotNull(viewPanel.getExit1());
 
 	}

@@ -4,10 +4,21 @@ import java.awt.CardLayout;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.io.Serial;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 import javax.swing.*;
 
 import contract.IController;
 import contract.IModel;
+import model.DAOLevel;
+import model.Dash;
+import model.ExitDoor;
+import model.Level;
 
 /**
  * The ViewFrame class represents the main window of the application, extending JFrame.
@@ -38,29 +49,10 @@ public class ViewFrame extends JFrame {
     public static final CardLayout card = new CardLayout();
 
     /**
-     * The panel for the level 1.
+     * List of panels for all levels.
      */
-    public static final ViewPanel panel1 = new ViewPanel();
+    public static List<LevelPanel> panels = getLevels();
 
-    /**
-     * The panel for the level 2.
-     */
-    public static final ViewPanel2 panel2 = new ViewPanel2();
-
-    /**
-     * The panel for the level 3.
-     */
-    public static final ViewPanel3 panel3 = new ViewPanel3();
-
-    /**
-     * The panel for the level 4.
-     */
-    public static final ViewPanel4 panel4 = new ViewPanel4();
-
-    /**
-     * The panel for the level 5.
-     */
-    public static final ViewPanel5 panel5 = new ViewPanel5();
 
     /**
      * The model.
@@ -116,7 +108,7 @@ public class ViewFrame extends JFrame {
      */
 
     public ViewFrame() {
-        this.buildViewFrame();
+        this.buildViewFrame(null);
     }
 
 
@@ -171,6 +163,14 @@ public class ViewFrame extends JFrame {
     }
 
 
+    public static List<LevelPanel> getLevels() {
+        DAOLevel dao = new DAOLevel();
+        List<Map<String, Integer>> levelsData = dao.getLevelsData();
+        levelsData = List.of(levelsData.get(0));
+        return levelsData.stream().map(map -> new LevelPanel(new Level(map.get("level")), map.get("diamond_count"), new ExitDoor(map.get("exitX"), map.get("exitY")), new Dash(map.get("dashX"), map.get("dashY")), map.get("game_duration"))).toList();
+    }
+
+
     /**
      * Builds the view frame.
      *
@@ -179,41 +179,22 @@ public class ViewFrame extends JFrame {
 
     private void buildViewFrame(final IModel model) {
         container.setLayout(card);
-        panel1.setLayout(null);
-        this.levelCounter = 2;
-        container.add(panel1, "2");
-        container.add(panel2, "3");
-        container.add(panel3, "4");
-        container.add(panel4, "5");
-        container.add(panel5, "6");
-        card.show(container, "1");
-        this.setModel(model);
+        panels.get(0).setLayout(null);
+        this.levelCounter = 1;
+        IntStream.range(0, panels.size()).forEachOrdered(i -> container.add(panels.get(i), String.valueOf(i + 1)));
+        container.getComponent(0);
+        card.show(container, String.valueOf(this.levelCounter));
+        if (model != null) {
+            this.setModel(model);
+        }
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("BoulderDash");
         this.setResizable(false);
         this.add(container);
         this.setSize(1638, 802);
         this.setLocationRelativeTo(null);
+        container.revalidate();
         this.setVisible(true);
     }
 
-    private void buildViewFrame() {
-        container.setLayout(card);
-        panel1.setLayout(null);
-        this.levelCounter = 2;
-        container.add(panel1, "2");
-        container.add(panel2, "3");
-        container.add(panel3, "4");
-        container.add(panel4, "5");
-        container.add(panel5, "6");
-        card.show(container, "1");
-        this.setModel(model);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setTitle("BoulderDash");
-        this.setResizable(false);
-        this.add(container);
-        this.setSize(1638, 802);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-    }
 }

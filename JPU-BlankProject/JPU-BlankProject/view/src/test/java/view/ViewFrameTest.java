@@ -65,10 +65,10 @@ ViewFrame viewFrame;
 	@Test 
 	public void testViewFrame() {
 		
-	assertNotNull(viewFrame.panel1);
-	assertNotNull(viewFrame.panel2);
-	assertNotNull(viewFrame.panel3);
-	assertNotNull(viewFrame.panel4);
-	assertNotNull(viewFrame.panel5);
+	assertNotNull(ViewFrame.panels);
+//	assertNotNull(viewFrame.panel2);
+//	assertNotNull(viewFrame.panel3);
+//	assertNotNull(viewFrame.panel4);
+//	assertNotNull(viewFrame.panel5);
 		}
 }

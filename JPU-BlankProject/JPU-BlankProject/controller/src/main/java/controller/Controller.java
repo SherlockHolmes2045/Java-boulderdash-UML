@@ -119,41 +119,12 @@ public final class Controller implements IController {
         }
     }
 
-    private void decreaseDiamonds(int level) {
-        if (level == 2) {
-            ViewFrame.panel1.setDiamondCount(ViewFrame.panel1.getDiamondCount() - 1);
-        } else if (level == 3) {
-            ViewFrame.panel2.setDiamondCount(ViewFrame.panel2.getDiamondCount() - 1);
-        } else if (level == 4) {
-            ViewFrame.panel3.setNbr_diamond(ViewFrame.panel3.getNbr_diamond() - 1);
-        } else if (level == 5) {
-            ViewFrame.panel4.setNbr_diamond(ViewFrame.panel4.getNbr_diamond() - 1);
-        } else if (level == 6) {
-            ViewFrame.panel5.setNbr_diamond(ViewFrame.panel5.getNbr_diamond() - 1);
-        }
-    }
 
     private void moveLeft(int level) {
-        Dash dash = ViewPanel.dash;
-        Objet[][] tabObjets = ViewPanel.tabObjets;
-        ApplicationPanel panel = ViewFrame.panel1;
-        if (level == 3) {
-            dash = ViewPanel2.dash;
-            tabObjets = ViewPanel2.tabObjets;
-            panel = ViewFrame.panel2;
-        } else if (level == 4) {
-            dash = ViewPanel3.dash;
-            tabObjets = ViewPanel3.tabObjets;
-            panel = ViewFrame.panel3;
-        } else if (level == 5) {
-            dash = ViewPanel4.dash;
-            tabObjets = ViewPanel4.tabObjets;
-            panel = ViewFrame.panel4;
-        } else if (level == 6) {
-            dash = ViewPanel5.dash;
-            tabObjets = ViewPanel5.tabObjets;
-            panel = ViewFrame.panel5;
-        }
+        LevelPanel panel = ViewFrame.panels.stream().filter(p -> p.getLevel().getLevelNumber() == level).findFirst().orElse(ViewFrame.panels.get(0));
+        Dash dash = panel.getDash();
+        Objet[][] tabObjets = panel.getTabObjets();
+
 
         dash.setRest(false);
         dash.setWalksleft(true);
@@ -175,8 +146,7 @@ public final class Controller implements IController {
                         dash.setWalks(true);
 
                     } else if (tabObjets[j][i] instanceof model.Diamond) {
-                        decreaseDiamonds(level);
-
+                        panel.setDiamondCount(panel.getDiamondCount() - 1);
                         dash.setScore(dash.getScore() + 20);
                         tabObjets[j][i] = new Back(tabObjets[j][i].getX(), tabObjets[j][i].getY());
                         dash.setWalks(true);
@@ -215,26 +185,10 @@ public final class Controller implements IController {
 
     private void moveUp(int level) {
 
-        Dash dash = ViewPanel.dash;
-        Objet[][] tabObjets = ViewPanel.tabObjets;
-        ApplicationPanel panel = ViewFrame.panel1;
-        if (level == 3) {
-            dash = ViewPanel2.dash;
-            tabObjets = ViewPanel2.tabObjets;
-            panel = ViewFrame.panel2;
-        } else if (level == 4) {
-            dash = ViewPanel3.dash;
-            tabObjets = ViewPanel3.tabObjets;
-            panel = ViewFrame.panel3;
-        } else if (level == 5) {
-            dash = ViewPanel4.dash;
-            tabObjets = ViewPanel4.tabObjets;
-            panel = ViewFrame.panel4;
-        } else if (level == 6) {
-            dash = ViewPanel5.dash;
-            tabObjets = ViewPanel5.tabObjets;
-            panel = ViewFrame.panel5;
-        }
+        LevelPanel panel = ViewFrame.panels.stream().filter(p -> p.getLevel().getLevelNumber() == level).findFirst().orElse(ViewFrame.panels.get(0));
+        Dash dash = panel.getDash();
+        Objet[][] tabObjets = panel.getTabObjets();
+
         dash.setRest(false);
 
         dash.setWalksup(true);
@@ -257,7 +211,7 @@ public final class Controller implements IController {
 
                     } else if (tabObjets[j][i] instanceof model.Diamond) {
 
-                        decreaseDiamonds(level);
+                        panel.setDiamondCount(panel.getDiamondCount() - 1);
                         dash.setScore(dash.getScore() + 20);
                         tabObjets[j][i] = new Back(tabObjets[j][i].getX(), tabObjets[j][i].getY());
                         dash.setWalks(true);
@@ -282,26 +236,10 @@ public final class Controller implements IController {
 
     private void moveRight(int level) {
 
-        Dash dash = ViewPanel.dash;
-        Objet[][] tabObjets = ViewPanel.tabObjets;
-        ApplicationPanel panel = ViewFrame.panel1;
-        if (level == 3) {
-            dash = ViewPanel2.dash;
-            tabObjets = ViewPanel2.tabObjets;
-            panel = ViewFrame.panel2;
-        } else if (level == 4) {
-            dash = ViewPanel3.dash;
-            tabObjets = ViewPanel3.tabObjets;
-            panel = ViewFrame.panel3;
-        } else if (level == 5) {
-            dash = ViewPanel4.dash;
-            tabObjets = ViewPanel4.tabObjets;
-            panel = ViewFrame.panel4;
-        } else if (level == 6) {
-            dash = ViewPanel5.dash;
-            tabObjets = ViewPanel5.tabObjets;
-            panel = ViewFrame.panel5;
-        }
+        LevelPanel panel = ViewFrame.panels.stream().filter(p -> p.getLevel().getLevelNumber() == level).findFirst().orElse(ViewFrame.panels.get(0));
+        Dash dash = panel.getDash();
+        Objet[][] tabObjets = panel.getTabObjets();
+
         dash.setRest(false);
         dash.setWalksright(true);
 
@@ -323,7 +261,7 @@ public final class Controller implements IController {
 
                     } else if (tabObjets[j][i] instanceof model.Diamond) {
 
-                        decreaseDiamonds(level);
+                        panel.setDiamondCount(panel.getDiamondCount() - 1);
                         dash.setScore(dash.getScore() + 20);
                         tabObjets[j][i] = new Back(tabObjets[j][i].getX(), tabObjets[j][i].getY());
                         dash.setWalks(true);
@@ -356,7 +294,7 @@ public final class Controller implements IController {
             dash.setX(dash.getX() + STEP_SIZE);
 
 
-            if (level == 2 && dash.getX() == EXIT_X_LEVEL_2 && dash.getY() == EXIT_Y_LEVEL_2 && ViewFrame.panel1.isExitable()) {
+            if (level == 1 && dash.getX() == EXIT_X_LEVEL_2 && dash.getY() == EXIT_Y_LEVEL_2 && /* ViewFrame.panel1.isExitable()*/ panel.isExitable()) {
 
                 View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
                 ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
@@ -369,26 +307,10 @@ public final class Controller implements IController {
     }
 
     private void moveDown(int level) {
-        Dash dash = ViewPanel.dash;
-        Objet[][] tabObjets = ViewPanel.tabObjets;
-        ApplicationPanel panel = ViewFrame.panel1;
-        if (level == 3) {
-            dash = ViewPanel2.dash;
-            tabObjets = ViewPanel2.tabObjets;
-            panel = ViewFrame.panel2;
-        } else if (level == 4) {
-            dash = ViewPanel3.dash;
-            tabObjets = ViewPanel3.tabObjets;
-            panel = ViewFrame.panel3;
-        } else if (level == 5) {
-            dash = ViewPanel4.dash;
-            tabObjets = ViewPanel4.tabObjets;
-            panel = ViewFrame.panel4;
-        } else if (level == 6) {
-            dash = ViewPanel5.dash;
-            tabObjets = ViewPanel5.tabObjets;
-            panel = ViewFrame.panel5;
-        }
+        LevelPanel panel = ViewFrame.panels.stream().filter(p -> p.getLevel().getLevelNumber() == level).findFirst().orElse(ViewFrame.panels.get(0));
+        Dash dash = panel.getDash();
+        Objet[][] tabObjets = panel.getTabObjets();
+
 
         dash.setRest(false);
         dash.setWalksdown(true);
@@ -412,7 +334,7 @@ public final class Controller implements IController {
 
                     } else if (tabObjets[j][i] instanceof model.Diamond) {
 
-                        decreaseDiamonds(level);
+                        panel.setDiamondCount(panel.getDiamondCount() - 1);
                         dash.setScore(dash.getScore() + 20);
                         tabObjets[j][i] = new Back(tabObjets[j][i].getX(), tabObjets[j][i].getY());
                         dash.setWalks(true);
@@ -432,7 +354,7 @@ public final class Controller implements IController {
 
             dash.setY(dash.getY() + STEP_SIZE);
 
-            if (level == 3 && ViewPanel2.dash.getX() == EXIT_X_LEVEL_3 && ViewPanel2.dash.getY() == EXIT_Y_LEVEL_3 && ViewFrame.panel2.isExitable()) {
+            if (level == 2 && ViewPanel2.dash.getX() == EXIT_X_LEVEL_3 && ViewPanel2.dash.getY() == EXIT_Y_LEVEL_3 /*&& ViewFrame.panel2.isExitable()*/) {
                 System.out.println("ok");
                 View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
                 ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());

@@ -4,6 +4,7 @@
  */
 package main;
 
+import contract.ControllerOrder;
 import controller.Controller;
 import view.View;
 
@@ -25,5 +26,6 @@ public abstract class Main {
         final Controller controller = new Controller(view);
         view.setController(controller);
         controller.control();
+        //controller.orderPerform(ControllerOrder.LEFT);
     }
 }

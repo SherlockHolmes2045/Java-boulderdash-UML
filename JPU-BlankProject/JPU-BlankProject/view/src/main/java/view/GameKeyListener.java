@@ -55,14 +55,7 @@ public class GameKeyListener implements KeyListener {
     public void keyReleased(KeyEvent e) {
         try {
             int level = View.viewFrame.getLevelCounter();
-            Dash dash = switch (level) {
-                case 2 -> ViewPanel.dash;
-                case 3 -> ViewPanel2.dash;
-                case 4 -> ViewPanel3.dash;
-                case 5 -> ViewPanel4.dash;
-                case 6 -> ViewPanel5.dash;
-                default -> null;
-            };
+            Dash dash = ViewFrame.panels.stream().filter(p -> p.getLevel().getLevelNumber() == level).findFirst().orElse(ViewFrame.panels.get(0)).getDash();
             if (dash != null) {
                 dash.setWalks(false);
                 dash.setWalksdown(false);
