@@ -267,7 +267,7 @@ public class LevelPanel extends JPanel implements Observer {
         };
         time4.schedule(task4, 10, 200);
 
-        Thread refresh = new Thread(new RefreshLevelPanel(PAUSE, this));
+        Thread refresh = new Thread(new Refresh(PAUSE, this));
         refresh.start();
     }
 
@@ -302,9 +302,6 @@ public class LevelPanel extends JPanel implements Observer {
 
     }
 
-    /**
-     * @see ViewPanel
-     */
     @Override
     protected void paintComponent(Graphics g) {
 
@@ -402,7 +399,6 @@ public class LevelPanel extends JPanel implements Observer {
 
     /**
      * @return tabObjets
-     * @see ViewPanel
      */
     private Objet[][] mapImage() {
 
@@ -449,7 +445,6 @@ public class LevelPanel extends JPanel implements Observer {
 
     /**
      * @return diamondCount
-     * @see ViewPanel
      */
     public int getDiamondCount() {
         return diamondCount;
@@ -457,7 +452,6 @@ public class LevelPanel extends JPanel implements Observer {
 
     /**
      * @param diamondCount the actual number of diamond
-     * @see ViewPanel
      */
 
     public void setDiamondCount(int diamondCount) {
@@ -466,7 +460,6 @@ public class LevelPanel extends JPanel implements Observer {
 
     /**
      * @return exitable
-     * @see ViewPanel
      */
 
     public boolean isExitable() {
@@ -475,7 +468,6 @@ public class LevelPanel extends JPanel implements Observer {
 
     /**
      * @param exitable the new value of exitable
-     * @see ViewPanel
      */
 
     public void setExitable(boolean exitable) {
@@ -484,7 +476,6 @@ public class LevelPanel extends JPanel implements Observer {
 
     /**
      * @return gameDuration
-     * @see ViewPanel
      */
 
     public int getTimegame() {
@@ -513,7 +504,7 @@ public class LevelPanel extends JPanel implements Observer {
     }
 
     /**
-     * @see ViewPanel
+     * Get panel current level
      */
     public Level getLevel() {
         return level;

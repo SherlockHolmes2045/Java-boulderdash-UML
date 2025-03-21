@@ -31,7 +31,7 @@ import model.Wall;
  * @author HIGHTECH
  */
 
-public class ViewPanel5 extends ApplicationPanel implements Observer {
+public class ViewPanel5 extends JPanel implements Observer {
 
     /**
      * The Constant serialVersionUID
@@ -40,7 +40,7 @@ public class ViewPanel5 extends ApplicationPanel implements Observer {
     private static final long serialVersionUID = -5227028877178452720L;
 
     /**
-     * @see ViewPanel3
+     * @see LevelPanel
      */
     public static Level level = new Level(5);
     public static Objet[][] tabObjets;

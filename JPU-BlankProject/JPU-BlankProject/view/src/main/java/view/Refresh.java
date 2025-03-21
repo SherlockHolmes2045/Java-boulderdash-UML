@@ -1,5 +1,6 @@
 package view;
 
+import javax.swing.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -24,11 +25,11 @@ public class Refresh implements Runnable {
      */
 
     private int pause;
-    private final ApplicationPanel panel;
+    private final JPanel panel;
     private volatile boolean running = true;
     private static final Logger LOGGER = Logger.getLogger(Refresh.class.getName());
 
-    public Refresh(int pause, ApplicationPanel panel) {
+    public Refresh(int pause, JPanel panel) {
         this.pause = pause;
         this.panel = panel;
     }
