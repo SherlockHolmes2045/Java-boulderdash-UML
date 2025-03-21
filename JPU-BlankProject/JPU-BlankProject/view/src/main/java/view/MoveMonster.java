@@ -1,5 +1,9 @@
 package view;
 
+import model.Monster;
+import model.Objet;
+
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,29 +18,31 @@ public class MoveMonster /*implements Runnable*/ {
 
             @Override
             public void run() {
+                int currentLevel = View.viewFrame.getLevelCounter();
+                LevelPanel panel = ViewFrame.panels.stream().filter(p -> p.getLevel().getLevelNumber() == currentLevel).findFirst().orElse(ViewFrame.panels.get(0));
+                List<Monster> tabMonsters = panel.getTabMonsters();
+                Objet[][] tabObjets = panel.getTabObjets();
+                for (Monster tabMonster : tabMonsters) {
 
-                for (int k = 0; k < ViewPanel2.tabMonsters.size(); k++) {
-
-                    if (ViewPanel2.tabMonsters.get(k).getWalks() == false) {
-                        //	System.out.println("nope");
+                    if (!tabMonster.getWalks()) {
                         for (int i = 0; i < 24; i++) {
 
                             for (int j = 0; j < 51; j++) {
 
-                                if (ViewPanel2.tabObjets[i][j] != null) {
+                                if (tabObjets[i][j] != null) {
 
-                                    if (ViewPanel2.tabMonsters.get(k).movesRight(ViewPanel2.tabObjets[i][j])) {
-                                        ViewPanel2.tabMonsters.get(k).setWalks(true);
-                                        ViewPanel2.tabMonsters.get(k).setGoesRight(true);
-                                    } else if (ViewPanel2.tabMonsters.get(k).movesLeft(ViewPanel2.tabObjets[i][j])) {
-                                        ViewPanel2.tabMonsters.get(k).setWalks(true);
-                                        ViewPanel2.tabMonsters.get(k).setGoesLeft(true);
-                                    } else if (ViewPanel2.tabMonsters.get(k).movesUp(ViewPanel2.tabObjets[i][j])) {
-                                        ViewPanel2.tabMonsters.get(k).setWalks(true);
-                                        ViewPanel2.tabMonsters.get(k).setGoesUp(true);
-                                    } else if (ViewPanel2.tabMonsters.get(k).movesDown(ViewPanel2.tabObjets[i][j])) {
-                                        ViewPanel2.tabMonsters.get(k).setWalks(true);
-                                        ViewPanel2.tabMonsters.get(k).setGoesDown(true);
+                                    if (tabMonster.movesRight(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesRight(true);
+                                    } else if (tabMonster.movesLeft(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesLeft(true);
+                                    } else if (tabMonster.movesUp(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesUp(true);
+                                    } else if (tabMonster.movesDown(tabObjets[i][j])) {
+                                        tabMonster.setWalks(true);
+                                        tabMonster.setGoesDown(true);
                                     }
 
                                 }
@@ -49,28 +55,28 @@ public class MoveMonster /*implements Runnable*/ {
 
                             for (int j = 0; j < 51; j++) {
 
-                                if (ViewPanel2.tabObjets[i][j] != null) {
+                                if (tabObjets[i][j] != null) {
 
-                                    if (ViewPanel2.tabMonsters.get(k).isGoesRight()) {
+                                    if (tabMonster.isGoesRight()) {
 
-                                        if (ViewPanel2.tabMonsters.get(k).doesNotMoveRight(ViewPanel2.tabObjets[i][j])) {
-                                            ViewPanel2.tabMonsters.get(k).setWalks(false);
-                                            ViewPanel2.tabMonsters.get(k).setGoesRight(false);
+                                        if (tabMonster.doesNotMoveRight(tabObjets[i][j])) {
+                                            tabMonster.setWalks(false);
+                                            tabMonster.setGoesRight(false);
                                         }
-                                    } else if (ViewPanel2.tabMonsters.get(k).isGoesLeft()) {
-                                        if (ViewPanel2.tabMonsters.get(k).doesNotMoveLeft(ViewPanel2.tabObjets[i][j])) {
-                                            ViewPanel2.tabMonsters.get(k).setWalks(false);
-                                            ViewPanel2.tabMonsters.get(k).setGoesLeft(false);
+                                    } else if (tabMonster.isGoesLeft()) {
+                                        if (tabMonster.doesNotMoveLeft(tabObjets[i][j])) {
+                                            tabMonster.setWalks(false);
+                                            tabMonster.setGoesLeft(false);
                                         }
-                                    } else if (ViewPanel2.tabMonsters.get(k).isGoesUp()) {
-                                        if (ViewPanel2.tabMonsters.get(k).doesNotMoveUp(ViewPanel2.tabObjets[i][j])) {
-                                            ViewPanel2.tabMonsters.get(k).setWalks(false);
-                                            ViewPanel2.tabMonsters.get(k).setGoesUp(false);
+                                    } else if (tabMonster.isGoesUp()) {
+                                        if (tabMonster.doesNotMoveUp(tabObjets[i][j])) {
+                                            tabMonster.setWalks(false);
+                                            tabMonster.setGoesUp(false);
                                         }
-                                    } else if (ViewPanel2.tabMonsters.get(k).isGoesDown()) {
-                                        if (ViewPanel2.tabMonsters.get(k).doesNotMoveDown(ViewPanel2.tabObjets[i][j])) {
-                                            ViewPanel2.tabMonsters.get(k).setWalks(false);
-                                            ViewPanel2.tabMonsters.get(k).setGoesDown(false);
+                                    } else if (tabMonster.isGoesDown()) {
+                                        if (tabMonster.doesNotMoveDown(tabObjets[i][j])) {
+                                            tabMonster.setWalks(false);
+                                            tabMonster.setGoesDown(false);
                                         }
 
                                     }

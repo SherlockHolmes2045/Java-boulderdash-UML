@@ -48,10 +48,7 @@ public class LevelPanel extends JPanel implements Observer {
     private boolean exitable;
     private final Random r = new Random();
 
-    /**
-     * Arraylist of monsters
-     */
-    public static List<Monster> tabMonsters = new ArrayList<>();
+    private List<Monster> tabMonsters = new ArrayList<>();
 
     private static final int PAUSE = 3;
 
@@ -74,7 +71,7 @@ public class LevelPanel extends JPanel implements Observer {
 
             @Override
             public void run() {
-                for (Monster tabMonster : tabMonsters) {
+                for (Monster tabMonster : getTabMonsters()) {
                     if (dash.getX() == tabMonster.getX() && dash.getY() == tabMonster.getY()) {
                         dash.setDeath(true);
                     }
@@ -90,7 +87,7 @@ public class LevelPanel extends JPanel implements Observer {
             @Override
             public void run() {
                 int nb = r.nextInt() * 4;
-                for (Monster tabMonster : tabMonsters) {
+                for (Monster tabMonster : getTabMonsters()) {
 
                     if (!tabMonster.getWalks()) {
 
@@ -189,12 +186,11 @@ public class LevelPanel extends JPanel implements Observer {
                                             tabMonster.setWalks(false);
                                             tabMonster.setGoesUp(false);
                                         }
-                                    } else if (tabMonster.isGoesDown()) {
-                                        if (tabMonster.doesNotMoveDown(getTabObjets()[i][j])) {
-                                            tabMonster.setWalks(false);
-                                            tabMonster.setGoesDown(false);
-                                        }
+                                    } else if (tabMonster.isGoesDown() && tabMonster.doesNotMoveDown(getTabObjets()[i][j])) {
+                                        tabMonster.setWalks(false);
+                                        tabMonster.setGoesDown(false);
                                     }
+
                                 }
                             }
                         }
@@ -309,7 +305,7 @@ public class LevelPanel extends JPanel implements Observer {
 
         for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 51; j++) {
-                if (getTabObjets()[i][j] != null && getTabObjets()[i][j] instanceof model.Roc) {
+                if (getTabObjets()[i][j] instanceof model.Roc) {
 
                     getTabObjets()[i][j].setPushableRight(getTabObjets()[i][j].rightContact(getTabObjets()[i][j + 1]));
                     getTabObjets()[i][j].setPushableLeft(getTabObjets()[i][j].leftContact(getTabObjets()[i][j - 1]));
@@ -344,7 +340,7 @@ public class LevelPanel extends JPanel implements Observer {
         }
 
 
-        for (Monster tabMonster : tabMonsters) {
+        for (Monster tabMonster : getTabMonsters()) {
             g2.drawImage(tabMonster.getImgChar(), tabMonster.getX(), tabMonster.getY(), null);
 
         }
@@ -402,7 +398,7 @@ public class LevelPanel extends JPanel implements Observer {
      */
     private Objet[][] mapImage() {
 
-        Objet[][] tabObjets = new Objet[25][51];
+        Objet[][] mapObjects = new Objet[25][51];
 
         Objet tmp2;
         int xobj = 0;
@@ -429,17 +425,17 @@ public class LevelPanel extends JPanel implements Observer {
                     tmp2 = new Back(xobj, yobj);
                 } else if (getLevel().getMap()[j][i] == 'M') {
                     tmp2 = new Back(xobj, yobj);
-                    tabMonsters.add(new Monster(xobj, yobj));
+                    getTabMonsters().add(new Monster(xobj, yobj));
                 } else {
                     tmp2 = new Ground(xobj, yobj);
                 }
-                tabObjets[j][i] = tmp2;
+                mapObjects[j][i] = tmp2;
                 xobj += 32;
             }
             xobj = 0;
             yobj += 32;
         }
-        return tabObjets;
+        return mapObjects;
 
     }
 
@@ -514,7 +510,10 @@ public class LevelPanel extends JPanel implements Observer {
         return tabObjets;
     }
 
-    public void setTabObjets(Objet[][] tabObjets) {
-        this.tabObjets = tabObjets;
+    /**
+     * Arraylist of monsters
+     */
+    public List<Monster> getTabMonsters() {
+        return tabMonsters;
     }
 }
