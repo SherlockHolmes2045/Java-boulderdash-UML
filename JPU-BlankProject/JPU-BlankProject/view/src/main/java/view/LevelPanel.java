@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 import java.util.Timer;
 
@@ -28,7 +29,7 @@ import model.Wall;
  * @author Welaji chris-yvan
  */
 
-public class LevelPanel extends JPanel implements Observer {
+public class LevelPanel extends JPanel implements Observer, Serializable {
 
     /**
      * The Constant serialVersionUID
@@ -36,11 +37,11 @@ public class LevelPanel extends JPanel implements Observer {
     @Serial
     private static final long serialVersionUID = 556761802292369776L;
 
-    private Level level;
+    private final Level level;
     private Objet[][] tabObjets;
     private ExitDoor exit;
     private int diamondCount;
-    private int exitableDiamond;
+    private final int exitableDiamond;
     private Dash dash;
     private int gameDuration;
     int xStart = 0;
@@ -72,9 +73,9 @@ public class LevelPanel extends JPanel implements Observer {
 
         startMonsterMovementTask();
 
-        startDiamondFallTask();
+        startDiamondSlideTask();
 
-        startRocFallTask();
+        startRocSlideTask();
 
         Thread refresh = new Thread(new Refresh(PAUSE, this));
         refresh.start();
@@ -132,7 +133,7 @@ public class LevelPanel extends JPanel implements Observer {
     }
 
 
-    private void startRocFallTask() {
+    private void startRocSlideTask() {
         Timer time = new Timer();
         TimerTask task = new TimerTask() {
 
@@ -143,13 +144,13 @@ public class LevelPanel extends JPanel implements Observer {
                     for (int j = 0; j < 51; j++) {
                         if (getTabObjets()[i][j] instanceof model.Roc) {
 
-                            if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back) {
+                            if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back && !isDashBlockingSlideRight(getTabObjets()[i][j])) {
                                 int x = getTabObjets()[i][j].getX();
                                 int y = getTabObjets()[i][j].getY();
                                 getTabObjets()[i][j + 1] = getTabObjets()[i][j];
                                 getTabObjets()[i][j] = new Back(x, y);
                                 getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + 32);
-                            } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back) {
+                            } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back && !isDashBlockingSlideLeft(getTabObjets()[i][j])) {
                                 int x = getTabObjets()[i][j].getX();
                                 int y = getTabObjets()[i][j].getY();
                                 getTabObjets()[i][j - 1] = getTabObjets()[i][j];
@@ -164,7 +165,15 @@ public class LevelPanel extends JPanel implements Observer {
         time.schedule(task, 10, 200);
     }
 
-    private void startDiamondFallTask() {
+    private boolean isDashBlockingSlideRight(Objet objet) {
+        return (objet.getX() == dash.getX() - 32 && objet.getY() == dash.getY()) || (objet.getX() == dash.getX() - 32 && objet.getY() == dash.getY() - 32);
+    }
+
+    private boolean isDashBlockingSlideLeft(Objet objet) {
+        return (objet.getX() == dash.getX() + 32 && objet.getY() == dash.getY()) || (objet.getX() == dash.getX() + 32 && objet.getY() == dash.getY() - 32);
+    }
+
+    private void startDiamondSlideTask() {
 
         Timer time = new Timer();
         TimerTask task = new TimerTask() {
@@ -177,13 +186,13 @@ public class LevelPanel extends JPanel implements Observer {
                     for (int j = 0; j < 51; j++) {
                         if (getTabObjets()[i][j] instanceof model.Diamond) {
 
-                            if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back) {
+                            if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back && !isDashBlockingSlideRight(getTabObjets()[i][j])) {
                                 int x = getTabObjets()[i][j].getX();
                                 int y = getTabObjets()[i][j].getY();
                                 getTabObjets()[i][j + 1] = getTabObjets()[i][j];
                                 getTabObjets()[i][j] = new Back(x, y);
                                 getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + 32);
-                            } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back) {
+                            } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back && !isDashBlockingSlideLeft(getTabObjets()[i][j])) {
                                 int x = getTabObjets()[i][j].getX();
                                 int y = getTabObjets()[i][j].getY();
                                 getTabObjets()[i][j - 1] = getTabObjets()[i][j];
@@ -380,15 +389,12 @@ public class LevelPanel extends JPanel implements Observer {
         if (diamondCount <= exitableDiamond) {
             this.exitable = true;
             for (int i = 0; i < 24; i++) {
-
                 for (int j = 0; j < 51; j++) {
                     if (getTabObjets()[i][j].getX() == this.exit.getX() && getTabObjets()[i][j].getY() == this.exit.getY()) {
                         tabObjets[i][j] = this.exit;
                     }
-
                 }
             }
-            //g2.drawImage(getExit1().getImgObj(), getExit1().getX(), getExit1().getY(), null);
         }
 
         if (!getDash().getDeath() && !getDash().isRest()) {
