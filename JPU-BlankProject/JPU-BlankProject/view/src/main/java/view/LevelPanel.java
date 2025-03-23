@@ -38,8 +38,9 @@ public class LevelPanel extends JPanel implements Observer {
 
     private Level level;
     private Objet[][] tabObjets;
-    private ExitDoor exit1;
+    private ExitDoor exit;
     private int diamondCount;
+    private int exitableDiamond;
     private Dash dash;
     private int gameDuration;
     int xStart = 0;
@@ -53,21 +54,70 @@ public class LevelPanel extends JPanel implements Observer {
     private static final int PAUSE = 3;
 
 
-    public LevelPanel(Level level, int diamondCount, ExitDoor exit, Dash dash, int gameDuration) {
+    public LevelPanel(Level level, int exitableDiamond, ExitDoor exit, Dash dash, int gameDuration) {
         this.level = level;
+        tabObjets = this.mapImage();
         this.setGameDuration(gameDuration);
-        this.diamondCount = diamondCount;
+        this.diamondCount = this.getLevelDiamonds();
+        this.exitableDiamond = exitableDiamond;
         this.dash = dash;
         deathCount = 0;
         setExit1(exit);
-        setTabObjets(mapImage());
+
         this.exitable = false;
 
         startGameTime();
 
+        startMonsterCollisionTask();
+
+        startMonsterMovementTask();
+
+        startDiamondFallTask();
+
+        startRocFallTask();
+
+        Thread refresh = new Thread(new Refresh(PAUSE, this));
+        refresh.start();
+    }
+
+    private int getLevelDiamonds() {
+        int levelDiamonds = 0;
+        for (int i = 0; i < 24; i++) {
+
+            for (int j = 0; j < 51; j++) {
+                if (tabObjets[i][j] instanceof model.Diamond) {
+                    levelDiamonds++;
+                }
+            }
+        }
+        return levelDiamonds;
+    }
+
+    private void startGameTime() {
+        //timer to handle the gametime
+        Timer time = new Timer();
+        TimerTask task = new TimerTask() {
+
+            @Override
+            public void run() {
+                if (getGameDuration() > 0) {
+                    setGameDuration(getGameDuration() - 1);
+                }
+                if (gameDuration <= 0) {
+                    dash.setDeath(true);
+                }
+                if (!dash.getWalks()) {
+                    dash.setRest(true);
+                }
+            }
+        };
+        time.schedule(task, 0, 1000);
+    }
+
+    private void startMonsterCollisionTask() {
         //timer for collision between monster and hero
-        Timer time2 = new Timer();
-        TimerTask task2 = new TimerTask() {
+        Timer time = new Timer();
+        TimerTask task = new TimerTask() {
 
             @Override
             public void run() {
@@ -78,15 +128,84 @@ public class LevelPanel extends JPanel implements Observer {
                 }
             }
         };
-        time2.schedule(task2, 10, 100);
+        time.schedule(task, 10, 100);
+    }
 
-        Timer time5 = new Timer();
 
-        TimerTask task5 = new TimerTask() {
+    private void startRocFallTask() {
+        Timer time = new Timer();
+        TimerTask task = new TimerTask() {
 
             @Override
             public void run() {
-                int nb = r.nextInt() * 4;
+                for (int i = 0; i < 24; i++) {
+
+                    for (int j = 0; j < 51; j++) {
+                        if (getTabObjets()[i][j] instanceof model.Roc) {
+
+                            if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back) {
+                                int x = getTabObjets()[i][j].getX();
+                                int y = getTabObjets()[i][j].getY();
+                                getTabObjets()[i][j + 1] = getTabObjets()[i][j];
+                                getTabObjets()[i][j] = new Back(x, y);
+                                getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + 32);
+                            } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back) {
+                                int x = getTabObjets()[i][j].getX();
+                                int y = getTabObjets()[i][j].getY();
+                                getTabObjets()[i][j - 1] = getTabObjets()[i][j];
+                                getTabObjets()[i][j] = new Back(x, y);
+                                getTabObjets()[i][j - 1].setX(getTabObjets()[i][j].getX() - 32);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        time.schedule(task, 10, 200);
+    }
+
+    private void startDiamondFallTask() {
+
+        Timer time = new Timer();
+        TimerTask task = new TimerTask() {
+
+            @Override
+            public void run() {
+
+                for (int i = 0; i < 24; i++) {
+
+                    for (int j = 0; j < 51; j++) {
+                        if (getTabObjets()[i][j] instanceof model.Diamond) {
+
+                            if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back) {
+                                int x = getTabObjets()[i][j].getX();
+                                int y = getTabObjets()[i][j].getY();
+                                getTabObjets()[i][j + 1] = getTabObjets()[i][j];
+                                getTabObjets()[i][j] = new Back(x, y);
+                                getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + 32);
+                            } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back) {
+                                int x = getTabObjets()[i][j].getX();
+                                int y = getTabObjets()[i][j].getY();
+                                getTabObjets()[i][j - 1] = getTabObjets()[i][j];
+                                getTabObjets()[i][j] = new Back(x, y);
+                                getTabObjets()[i][j - 1].setX(getTabObjets()[i][j].getX() - 32);
+                            }
+                        }
+
+                    }
+                }
+            }
+        };
+        time.schedule(task, 10, 200);
+    }
+
+    private void startMonsterMovementTask() {
+        Timer time = new Timer();
+        TimerTask task = new TimerTask() {
+
+            @Override
+            public void run() {
+                int nb = r.nextInt(4);
                 for (Monster tabMonster : getTabMonsters()) {
 
                     if (!tabMonster.getWalks()) {
@@ -142,7 +261,7 @@ public class LevelPanel extends JPanel implements Observer {
                                         tabMonster.setGoesDown(true);
                                     }
 
-                                } else if (nb == 3) {
+                                } else {
 
                                     if (tabMonster.movesDown(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
@@ -198,94 +317,7 @@ public class LevelPanel extends JPanel implements Observer {
                 }
             }
         };
-        time5.schedule(task5, 300, 100);
-
-
-        Timer time3 = new Timer();
-        TimerTask task3 = new TimerTask() {
-
-            @Override
-            public void run() {
-
-                for (int i = 0; i < 24; i++) {
-
-                    for (int j = 0; j < 51; j++) {
-                        if (getTabObjets()[i][j] instanceof model.Diamond) {
-
-                            if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back) {
-                                int x = getTabObjets()[i][j].getX();
-                                int y = getTabObjets()[i][j].getY();
-                                getTabObjets()[i][j + 1] = getTabObjets()[i][j];
-                                getTabObjets()[i][j] = new Back(x, y);
-                                getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + 32);
-                            } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back) {
-                                int x = getTabObjets()[i][j].getX();
-                                int y = getTabObjets()[i][j].getY();
-                                getTabObjets()[i][j - 1] = getTabObjets()[i][j];
-                                getTabObjets()[i][j] = new Back(x, y);
-                                getTabObjets()[i][j - 1].setX(getTabObjets()[i][j].getX() - 32);
-                            }
-                        }
-
-                    }
-                }
-            }
-        };
-        time3.schedule(task3, 10, 200);
-
-        Timer time4 = new Timer();
-        TimerTask task4 = new TimerTask() {
-
-            @Override
-            public void run() {
-                for (int i = 0; i < 24; i++) {
-
-                    for (int j = 0; j < 51; j++) {
-                        if (getTabObjets()[i][j] instanceof model.Roc) {
-
-                            if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back) {
-                                int x = getTabObjets()[i][j].getX();
-                                int y = getTabObjets()[i][j].getY();
-                                getTabObjets()[i][j + 1] = getTabObjets()[i][j];
-                                getTabObjets()[i][j] = new Back(x, y);
-                                getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + 32);
-                            } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back) {
-                                int x = getTabObjets()[i][j].getX();
-                                int y = getTabObjets()[i][j].getY();
-                                getTabObjets()[i][j - 1] = getTabObjets()[i][j];
-                                getTabObjets()[i][j] = new Back(x, y);
-                                getTabObjets()[i][j - 1].setX(getTabObjets()[i][j].getX() - 32);
-                            }
-                        }
-                    }
-                }
-            }
-        };
-        time4.schedule(task4, 10, 200);
-
-        Thread refresh = new Thread(new Refresh(PAUSE, this));
-        refresh.start();
-    }
-
-    private void startGameTime() {
-        //timer to handle the gametime
-        Timer time = new Timer();
-        TimerTask task = new TimerTask() {
-
-            @Override
-            public void run() {
-                if (getGameDuration() > 0) {
-                    setGameDuration(getGameDuration() - 1);
-                }
-                if (gameDuration <= 0) {
-                    dash.setDeath(true);
-                }
-                if (!dash.getWalks()) {
-                    dash.setRest(true);
-                }
-            }
-        };
-        time.schedule(task, 0, 1000);
+        time.schedule(task, 300, 100);
     }
 
     /**
@@ -345,9 +377,18 @@ public class LevelPanel extends JPanel implements Observer {
 
         }
 
-        if (diamondCount <= 5) {
+        if (diamondCount <= exitableDiamond) {
             this.exitable = true;
-            g2.drawImage(getExit1().getImgObj(), getExit1().getX(), getExit1().getY(), null);
+            for (int i = 0; i < 24; i++) {
+
+                for (int j = 0; j < 51; j++) {
+                    if (getTabObjets()[i][j].getX() == this.exit.getX() && getTabObjets()[i][j].getY() == this.exit.getY()) {
+                        tabObjets[i][j] = this.exit;
+                    }
+
+                }
+            }
+            //g2.drawImage(getExit1().getImgObj(), getExit1().getX(), getExit1().getY(), null);
         }
 
         if (!getDash().getDeath() && !getDash().isRest()) {
@@ -479,12 +520,12 @@ public class LevelPanel extends JPanel implements Observer {
     }
 
 
-    public ExitDoor getExit1() {
-        return exit1;
+    public ExitDoor getExit() {
+        return exit;
     }
 
-    public void setExit1(ExitDoor exit1) {
-        this.exit1 = exit1;
+    public void setExit1(ExitDoor exit) {
+        this.exit = exit;
     }
 
     public Dash getDash() {

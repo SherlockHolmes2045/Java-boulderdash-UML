@@ -141,7 +141,7 @@ public final class Controller implements IController {
 
                         dash.setWalks(true);
 
-                    } else if (tabObjets[j][i] instanceof model.Back) {
+                    } else if (tabObjets[j][i] instanceof model.Back || tabObjets[j][i] instanceof model.ExitDoor) {
 
                         dash.setWalks(true);
 
@@ -179,6 +179,13 @@ public final class Controller implements IController {
 
             dash.setX(dash.getX() - STEP_SIZE);
 
+            if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
+
+                View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
+                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
+
+            }
+
         }
 
     }
@@ -205,7 +212,7 @@ public final class Controller implements IController {
 
                         dash.setWalks(true);
 
-                    } else if (tabObjets[j][i] instanceof model.Back) {
+                    } else if (tabObjets[j][i] instanceof model.Back || tabObjets[j][i] instanceof model.ExitDoor) {
 
                         dash.setWalks(true);
 
@@ -231,6 +238,13 @@ public final class Controller implements IController {
 
             dash.setY(dash.getY() - STEP_SIZE);
 
+            if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
+
+                View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
+                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
+
+            }
+
         }
     }
 
@@ -255,7 +269,7 @@ public final class Controller implements IController {
 
                         dash.setWalks(true);
 
-                    } else if (tabObjets[j][i] instanceof model.Back) {
+                    } else if (tabObjets[j][i] instanceof model.Back || tabObjets[j][i] instanceof model.ExitDoor) {
 
                         dash.setWalks(true);
 
@@ -294,10 +308,11 @@ public final class Controller implements IController {
             dash.setX(dash.getX() + STEP_SIZE);
 
 
-            if (level == 1 && dash.getX() == EXIT_X_LEVEL_2 && dash.getY() == EXIT_Y_LEVEL_2 && /* ViewFrame.panel1.isExitable()*/ panel.isExitable()) {
+            if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
 
                 View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
-                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
+                View.viewFrame.changeLevelPanel(View.viewFrame.getLevelCounter());
+                //ViewFrame.card.show(ViewFrame.container, String.valueOf(View.viewFrame.getLevelCounter()) );
 
             }
 
@@ -328,7 +343,7 @@ public final class Controller implements IController {
 
                         dash.setWalks(true);
 
-                    } else if (tabObjets[j][i] instanceof model.Back) {
+                    } else if (tabObjets[j][i] instanceof model.Back || tabObjets[j][i] instanceof model.ExitDoor) {
 
                         dash.setWalks(true);
 
@@ -354,10 +369,11 @@ public final class Controller implements IController {
 
             dash.setY(dash.getY() + STEP_SIZE);
 
-            if (level == 2 && ViewPanel2.dash.getX() == EXIT_X_LEVEL_3 && ViewPanel2.dash.getY() == EXIT_Y_LEVEL_3 /*&& ViewFrame.panel2.isExitable()*/) {
-                System.out.println("ok");
+            if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
+
                 View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
                 ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
+
             }
 
 

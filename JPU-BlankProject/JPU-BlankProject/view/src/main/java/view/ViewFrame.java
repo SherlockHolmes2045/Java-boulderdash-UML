@@ -166,7 +166,6 @@ public class ViewFrame extends JFrame {
     public static List<LevelPanel> getLevels() {
         DAOLevel dao = new DAOLevel();
         List<Map<String, Integer>> levelsData = dao.getLevelsData();
-        levelsData = List.of(levelsData.get(0));
         return levelsData.stream().map(map -> new LevelPanel(new Level(map.get("level")), map.get("diamond_count"), new ExitDoor(map.get("exitX"), map.get("exitY")), new Dash(map.get("dashX"), map.get("dashY")), map.get("game_duration"))).toList();
     }
 
@@ -182,7 +181,6 @@ public class ViewFrame extends JFrame {
         panels.get(0).setLayout(null);
         this.levelCounter = 1;
         IntStream.range(0, panels.size()).forEachOrdered(i -> container.add(panels.get(i), String.valueOf(i + 1)));
-        container.getComponent(0);
         card.show(container, String.valueOf(this.levelCounter));
         if (model != null) {
             this.setModel(model);
@@ -195,6 +193,14 @@ public class ViewFrame extends JFrame {
         this.setLocationRelativeTo(null);
         container.revalidate();
         this.setVisible(true);
+    }
+
+
+    public void changeLevelPanel(int level) {
+        if (level != 0 && level < panels.size()) {
+            //panels.get(0).setLayout(null);
+            card.show(container, String.valueOf(level));
+        }
     }
 
 }
