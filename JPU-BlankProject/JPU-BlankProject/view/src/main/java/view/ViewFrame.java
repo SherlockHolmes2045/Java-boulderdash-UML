@@ -198,7 +198,6 @@ public class ViewFrame extends JFrame {
 
     public void changeLevelPanel(int level) {
         if (level != 0 && level < panels.size()) {
-            //panels.get(0).setLayout(null);
             card.show(container, String.valueOf(level));
         }
     }

@@ -77,13 +77,6 @@ public final class Controller implements IController {
 
     static final int STEP_SIZE = 32;
 
-    static final int EXIT_X_LEVEL_2 = 1344;
-    static final int EXIT_Y_LEVEL_2 = 544;
-
-
-    static final int EXIT_X_LEVEL_3 = 672;
-    static final int EXIT_Y_LEVEL_3 = 704;
-
     static final int ROW = 51;
     static final int COLUMN = 24;
 
@@ -182,7 +175,7 @@ public final class Controller implements IController {
             if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
 
                 View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
-                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
+                View.viewFrame.changeLevelPanel(View.viewFrame.getLevelCounter());
 
             }
 
@@ -241,7 +234,7 @@ public final class Controller implements IController {
             if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
 
                 View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
-                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
+                View.viewFrame.changeLevelPanel(View.viewFrame.getLevelCounter());
 
             }
 
@@ -312,7 +305,6 @@ public final class Controller implements IController {
 
                 View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
                 View.viewFrame.changeLevelPanel(View.viewFrame.getLevelCounter());
-                //ViewFrame.card.show(ViewFrame.container, String.valueOf(View.viewFrame.getLevelCounter()) );
 
             }
 
@@ -372,7 +364,7 @@ public final class Controller implements IController {
             if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
 
                 View.viewFrame.setLevelCounter(View.viewFrame.getLevelCounter() + 1);
-                ViewFrame.card.show(ViewFrame.container, "" + View.viewFrame.getLevelCounter());
+                View.viewFrame.changeLevelPanel(View.viewFrame.getLevelCounter());
 
             }
 
