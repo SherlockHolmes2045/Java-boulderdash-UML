@@ -22,7 +22,7 @@ public class GameConstants {
     public static final String GROUND_IMAGE = "/images/sol.png";
     public static final String MONSTER_IMAGE = "/images/monster.png";
     public static final String ROC_IMAGE = "/images/roche.png";
-    public static final String WALL_IMAGE = "/images/roche.png";
+    public static final String WALL_IMAGE = "/images/mur.png";
 
 
     private GameConstants() {
