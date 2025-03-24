@@ -21,10 +21,10 @@ public class Level extends Entity {
      * @param levelNumber The number of the level to fetch in the database
      */
 
-    public Level(int levelNumber) {
+    public Level(int levelNumber,int maxLevel) {
         DAOLevel dao = new DAOLevel();
         this.levelNumber = levelNumber;
-        this.map = dao.fetchMap(this.getLevelNumber());
+        this.map = dao.fetchMap(this.getLevelNumber(),maxLevel);
     }
 
     /**

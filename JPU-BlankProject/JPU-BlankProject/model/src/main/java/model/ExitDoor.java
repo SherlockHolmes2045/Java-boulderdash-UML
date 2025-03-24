@@ -19,44 +19,49 @@ public class ExitDoor extends Objet {
      */
 
     public ExitDoor(int x, int y) {
-        super(x, y, 32, 32);
-        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/Exit1.PNG")));
+        super(x, y, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.EXIT_IMAGE)));
         super.imgObj = super.icoObj.getImage();
-        Timer time = new Timer();
-        TimerTask task = new TimerTask() {
+        exitDoorAnimationTask();
+    }
 
-            @Override
-            public void run() {
-                setImgObj("2");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setImgObj("3");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setImgObj("4");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setImgObj("1");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+    private Timer time;
+    private TimerTask task;
 
-            }
-
-        };
-        time.schedule(task, 10, 420);
-
+    private void exitDoorAnimationTask() {
+        if (task == null) {
+            time = new Timer();
+            task = new TimerTask() {
+                @Override
+                public void run() {
+                    setImgObj("2");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    setImgObj("3");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    setImgObj("4");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    setImgObj("1");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            };
+            time.schedule(task, 10, 420);
+        }
     }
 
     /**

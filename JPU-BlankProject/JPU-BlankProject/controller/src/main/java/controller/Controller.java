@@ -10,6 +10,7 @@ import contract.IView;
 
 import model.Back;
 import model.Dash;
+import model.GameConstants;
 import model.Objet;
 import view.*;
 
@@ -75,10 +76,6 @@ public final class Controller implements IController {
 
     }
 
-    static final int STEP_SIZE = 32;
-
-    static final int ROW = 51;
-    static final int COLUMN = 24;
 
     /**
      * @see contract.IController#orderPerform(contract.ControllerOrder)
@@ -122,11 +119,11 @@ public final class Controller implements IController {
         dash.setRest(false);
         dash.setWalksleft(true);
 
-        for (int j = 0; j < COLUMN; j++) {
+        for (int j = 0; j < GameConstants.COLUMN; j++) {
 
-            for (int i = 0; i < ROW; i++) {
+            for (int i = 0; i < GameConstants.ROW; i++) {
 
-                if (dash.nearLeft(tabObjets[j][i]) && dash.leftContact(tabObjets[j][i])) {
+                if (dash.leftContact(tabObjets[j][i])) {
 
                     if (tabObjets[j][i] instanceof model.Ground) {
 
@@ -149,7 +146,7 @@ public final class Controller implements IController {
                         if (tabObjets[j][i].getPushableLeft()) {
                             int x = tabObjets[j][i].getX();
                             int y = tabObjets[j][i].getY();
-                            tabObjets[j][i].setX(tabObjets[j][i].getX() - STEP_SIZE);
+                            tabObjets[j][i].setX(tabObjets[j][i].getX() - GameConstants.PIXEL_SIZE);
                             tabObjets[j][i - 1] = tabObjets[j][i];
                             tabObjets[j][i] = new Back(x, y);
                             dash.setWalks(true);
@@ -170,7 +167,7 @@ public final class Controller implements IController {
 
         if (dash.getWalks()) {
 
-            dash.setX(dash.getX() - STEP_SIZE);
+            dash.setX(dash.getX() - GameConstants.PIXEL_SIZE);
 
             if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
 
@@ -193,11 +190,11 @@ public final class Controller implements IController {
 
         dash.setWalksup(true);
 
-        for (int j = 0; j < COLUMN; j++) {
+        for (int j = 0; j < GameConstants.COLUMN; j++) {
 
-            for (int i = 0; i < ROW; i++) {
+            for (int i = 0; i < GameConstants.ROW; i++) {
 
-                if (tabObjets[j][i] != null && dash.nearUp(tabObjets[j][i]) && dash.upContact(tabObjets[j][i])) {
+                if (tabObjets[j][i] != null  && dash.upContact(tabObjets[j][i])) {
 
                     if (tabObjets[j][i] instanceof model.Ground) {
 
@@ -229,7 +226,7 @@ public final class Controller implements IController {
 
         if (dash.getWalks()) {
 
-            dash.setY(dash.getY() - STEP_SIZE);
+            dash.setY(dash.getY() - GameConstants.PIXEL_SIZE);
 
             if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
 
@@ -250,11 +247,11 @@ public final class Controller implements IController {
         dash.setRest(false);
         dash.setWalksright(true);
 
-        for (int j = 0; j < COLUMN; j++) {
+        for (int j = 0; j < GameConstants.COLUMN; j++) {
 
-            for (int i = 0; i < ROW; i++) {
+            for (int i = 0; i < GameConstants.ROW; i++) {
 
-                if (dash.nearRight(tabObjets[j][i]) && dash.rightContact(tabObjets[j][i])) {
+                if (dash.rightContact(tabObjets[j][i])) {
 
                     if (tabObjets[j][i] instanceof model.Ground) {
 
@@ -278,7 +275,7 @@ public final class Controller implements IController {
                         if (tabObjets[j][i].getPushableRight()) {
                             int x = tabObjets[j][i].getX();
                             int y = tabObjets[j][i].getY();
-                            tabObjets[j][i].setX(tabObjets[j][i].getX() + STEP_SIZE);
+                            tabObjets[j][i].setX(tabObjets[j][i].getX() + GameConstants.PIXEL_SIZE);
                             tabObjets[j][i + 1] = tabObjets[j][i];
                             tabObjets[j][i] = new Back(x, y);
                             dash.setWalks(true);
@@ -298,7 +295,7 @@ public final class Controller implements IController {
 
         if (dash.getWalks()) {
 
-            dash.setX(dash.getX() + STEP_SIZE);
+            dash.setX(dash.getX() + GameConstants.PIXEL_SIZE);
 
 
             if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
@@ -322,12 +319,12 @@ public final class Controller implements IController {
         dash.setRest(false);
         dash.setWalksdown(true);
 
-        for (int j = 0; j < COLUMN; j++) {
+        for (int j = 0; j < GameConstants.COLUMN; j++) {
 
-            for (int i = 0; i < ROW; i++) {
+            for (int i = 0; i < GameConstants.ROW; i++) {
 
 
-                if (dash.nearDown(tabObjets[j][i]) && dash.downContact(tabObjets[j][i])) {
+                if (dash.downContact(tabObjets[j][i])) {
 
                     if (tabObjets[j][i] instanceof model.Ground) {
 
@@ -359,7 +356,7 @@ public final class Controller implements IController {
 
         if (dash.getWalks()) {
 
-            dash.setY(dash.getY() + STEP_SIZE);
+            dash.setY(dash.getY() + GameConstants.PIXEL_SIZE);
 
             if (dash.getX() == panel.getExit().getX() && dash.getY() == panel.getExit().getY() && panel.isExitable()) {
 

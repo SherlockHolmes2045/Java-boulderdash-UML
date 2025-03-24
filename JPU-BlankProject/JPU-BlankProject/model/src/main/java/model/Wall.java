@@ -13,8 +13,8 @@ public class Wall extends Objet {
      * @param y the y coordinate
      */
     public Wall(int x, int y) {
-        super(x, y, 32, 32);
-        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/mur.png")));
+        super(x, y, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.WALL_IMAGE)));
         super.imgObj = super.icoObj.getImage();
     }
 

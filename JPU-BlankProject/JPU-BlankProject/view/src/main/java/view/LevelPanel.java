@@ -11,16 +11,7 @@ import java.util.Timer;
 
 import javax.swing.*;
 
-import model.Back;
-import model.Dash;
-import model.Diamond;
-import model.ExitDoor;
-import model.Ground;
-import model.Level;
-import model.Monster;
-import model.Objet;
-import model.Roc;
-import model.Wall;
+import model.*;
 
 /**
  * Date:02-06-2019
@@ -77,15 +68,17 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
         startRocSlideTask();
 
+        rockFallingTask();
+
         Thread refresh = new Thread(new Refresh(PAUSE, this));
         refresh.start();
     }
 
     private int getLevelDiamonds() {
         int levelDiamonds = 0;
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < GameConstants.COLUMN; i++) {
 
-            for (int j = 0; j < 51; j++) {
+            for (int j = 0; j < GameConstants.ROW; j++) {
                 if (tabObjets[i][j] instanceof model.Diamond) {
                     levelDiamonds++;
                 }
@@ -105,7 +98,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
                     setGameDuration(getGameDuration() - 1);
                 }
                 if (gameDuration <= 0) {
-                    dash.setDeath(true);
+                    dash.setDead(true);
                 }
                 if (!dash.getWalks()) {
                     dash.setRest(true);
@@ -124,7 +117,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
             public void run() {
                 for (Monster tabMonster : getTabMonsters()) {
                     if (dash.getX() == tabMonster.getX() && dash.getY() == tabMonster.getY()) {
-                        dash.setDeath(true);
+                        dash.setDead(true);
                     }
                 }
             }
@@ -139,9 +132,9 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
             @Override
             public void run() {
-                for (int i = 0; i < 24; i++) {
+                for (int i = 0; i < GameConstants.COLUMN; i++) {
 
-                    for (int j = 0; j < 51; j++) {
+                    for (int j = 0; j < GameConstants.ROW; j++) {
                         if (getTabObjets()[i][j] instanceof model.Roc) {
 
                             if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back && !isDashBlockingSlideRight(getTabObjets()[i][j])) {
@@ -149,13 +142,13 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
                                 int y = getTabObjets()[i][j].getY();
                                 getTabObjets()[i][j + 1] = getTabObjets()[i][j];
                                 getTabObjets()[i][j] = new Back(x, y);
-                                getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + 32);
+                                getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + GameConstants.PIXEL_SIZE);
                             } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back && !isDashBlockingSlideLeft(getTabObjets()[i][j])) {
                                 int x = getTabObjets()[i][j].getX();
                                 int y = getTabObjets()[i][j].getY();
                                 getTabObjets()[i][j - 1] = getTabObjets()[i][j];
                                 getTabObjets()[i][j] = new Back(x, y);
-                                getTabObjets()[i][j - 1].setX(getTabObjets()[i][j].getX() - 32);
+                                getTabObjets()[i][j - 1].setX(getTabObjets()[i][j].getX() - GameConstants.PIXEL_SIZE);
                             }
                         }
                     }
@@ -166,11 +159,11 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
     }
 
     private boolean isDashBlockingSlideRight(Objet objet) {
-        return (objet.getX() == dash.getX() - 32 && objet.getY() == dash.getY()) || (objet.getX() == dash.getX() - 32 && objet.getY() == dash.getY() - 32);
+        return (objet.getX() == dash.getX() - GameConstants.PIXEL_SIZE && objet.getY() == dash.getY()) || (objet.getX() == dash.getX() - GameConstants.PIXEL_SIZE && objet.getY() == dash.getY() - GameConstants.PIXEL_SIZE);
     }
 
     private boolean isDashBlockingSlideLeft(Objet objet) {
-        return (objet.getX() == dash.getX() + 32 && objet.getY() == dash.getY()) || (objet.getX() == dash.getX() + 32 && objet.getY() == dash.getY() - 32);
+        return (objet.getX() == dash.getX() + GameConstants.PIXEL_SIZE && objet.getY() == dash.getY()) || (objet.getX() == dash.getX() + GameConstants.PIXEL_SIZE && objet.getY() == dash.getY() - GameConstants.PIXEL_SIZE);
     }
 
     private void startDiamondSlideTask() {
@@ -181,9 +174,9 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
             @Override
             public void run() {
 
-                for (int i = 0; i < 24; i++) {
+                for (int i = 0; i < GameConstants.COLUMN; i++) {
 
-                    for (int j = 0; j < 51; j++) {
+                    for (int j = 0; j < GameConstants.ROW; j++) {
                         if (getTabObjets()[i][j] instanceof model.Diamond) {
 
                             if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j + 1] instanceof model.Back && getTabObjets()[i + 1][j + 1] instanceof model.Back && !isDashBlockingSlideRight(getTabObjets()[i][j])) {
@@ -191,13 +184,13 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
                                 int y = getTabObjets()[i][j].getY();
                                 getTabObjets()[i][j + 1] = getTabObjets()[i][j];
                                 getTabObjets()[i][j] = new Back(x, y);
-                                getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + 32);
+                                getTabObjets()[i][j + 1].setX(getTabObjets()[i][j].getX() + GameConstants.PIXEL_SIZE);
                             } else if ((getTabObjets()[i + 1][j] instanceof model.Roc || getTabObjets()[i + 1][j] instanceof model.Diamond) && getTabObjets()[i][j - 1] instanceof model.Back && getTabObjets()[i + 1][j - 1] instanceof model.Back && !isDashBlockingSlideLeft(getTabObjets()[i][j])) {
                                 int x = getTabObjets()[i][j].getX();
                                 int y = getTabObjets()[i][j].getY();
                                 getTabObjets()[i][j - 1] = getTabObjets()[i][j];
                                 getTabObjets()[i][j] = new Back(x, y);
-                                getTabObjets()[i][j - 1].setX(getTabObjets()[i][j].getX() - 32);
+                                getTabObjets()[i][j - 1].setX(getTabObjets()[i][j].getX() - GameConstants.PIXEL_SIZE);
                             }
                         }
 
@@ -219,8 +212,8 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
                     if (!tabMonster.getWalks()) {
 
-                        for (int i = 0; i < 24; i++) {
-                            for (int j = 0; j < 51; j++) {
+                        for (int i = 0; i < GameConstants.COLUMN; i++) {
+                            for (int j = 0; j < GameConstants.ROW; j++) {
 
                                 if (nb == 0) {
 
@@ -292,9 +285,9 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
                         }
                     } else {
-                        for (int i = 0; i < 24; i++) {
+                        for (int i = 0; i < GameConstants.COLUMN; i++) {
 
-                            for (int j = 0; j < 51; j++) {
+                            for (int j = 0; j < GameConstants.ROW; j++) {
 
                                 if (getTabObjets()[i][j] != null) {
 
@@ -329,6 +322,37 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
         time.schedule(task, 300, 100);
     }
 
+    private void rockFallingTask() {
+        Timer time = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                for (int i = 0; i < GameConstants.COLUMN; i++) {
+
+                    for (int j = 0; j < GameConstants.ROW; j++) {
+
+                        if (getTabObjets()[i][j] instanceof model.Roc || getTabObjets()[i][j] instanceof model.Diamond) {
+
+                            if (getTabObjets()[i][j].nearDown(getTabObjets()[i + 1][j]) && !getTabObjets()[i][j].downContactDash(getDash())) {
+                                getTabObjets()[i][j].setFalling(true);
+                                getTabObjets()[i + 1][j] = getTabObjets()[i][j];
+                                getTabObjets()[i][j] = new Back(getTabObjets()[i][j].getX(), getTabObjets()[i][j].getY());
+                                getTabObjets()[i + 1][j].setY(getTabObjets()[i + 1][j].getY() + GameConstants.PIXEL_SIZE);
+                                getTabObjets()[i + 1][j].setVelocity(getTabObjets()[i + 1][j].getVelocity() + 1);
+                            } else {
+                                getTabObjets()[i][j].setFalling(false);
+                                getTabObjets()[i][j].setVelocity(0);
+                            }
+                        }
+                    }
+                }
+                repaint();
+            }
+        };
+        time.schedule(task, 300, 500);
+    }
+
+
     /**
      * @param o   observable
      * @param arg object
@@ -344,8 +368,10 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        for (int i = 0; i < 24; i++) {
-            for (int j = 0; j < 51; j++) {
+
+        for (int i = 0; i < GameConstants.COLUMN; i++) {
+
+            for (int j = 0; j < GameConstants.ROW; j++) {
                 if (getTabObjets()[i][j] instanceof model.Roc) {
 
                     getTabObjets()[i][j].setPushableRight(getTabObjets()[i][j].rightContact(getTabObjets()[i][j + 1]));
@@ -353,29 +379,6 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
                 }
 
-            }
-        }
-
-        for (int i = 0; i < 24; i++) {
-
-            for (int j = 0; j < 51; j++) {
-
-                if (getTabObjets()[i][j] instanceof model.Roc || getTabObjets()[i][j] instanceof model.Diamond) {
-
-                    if (getTabObjets()[i][j].nearDown(getTabObjets()[i + 1][j]) && !getTabObjets()[i][j].downContactDash(getDash())) {
-                        int x = getTabObjets()[i][j].getX();
-                        int y = getTabObjets()[i][j].getY();
-                        getTabObjets()[i][j].setFalling(true);
-                        getTabObjets()[i + 1][j] = getTabObjets()[i][j];
-                        getTabObjets()[i][j] = new Back(x, y);
-                        getTabObjets()[i + 1][j].setY(getTabObjets()[i + 1][j].getY() + 32);
-                        getTabObjets()[i + 1][j].setVelocity(getTabObjets()[i + 1][j].getVelocity() + 1);
-                    } else {
-                        getTabObjets()[i][j].setFalling(false);
-                        getTabObjets()[i][j].setVelocity(0);
-                    }
-                }
-                assert getTabObjets()[i][j] != null;
                 g2.drawImage(getTabObjets()[i][j].getImgObj(), getTabObjets()[i][j].getX(), getTabObjets()[i][j].getY(), null);
             }
         }
@@ -388,8 +391,8 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
         if (diamondCount <= exitableDiamond) {
             this.exitable = true;
-            for (int i = 0; i < 24; i++) {
-                for (int j = 0; j < 51; j++) {
+            for (int i = 0; i < GameConstants.COLUMN; i++) {
+                for (int j = 0; j < GameConstants.ROW; j++) {
                     if (getTabObjets()[i][j].getX() == this.exit.getX() && getTabObjets()[i][j].getY() == this.exit.getY()) {
                         tabObjets[i][j] = this.exit;
                     }
@@ -397,25 +400,25 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
             }
         }
 
-        if (!getDash().getDeath() && !getDash().isRest()) {
+        if (!getDash().isDead() && !getDash().isRest()) {
             g2.drawImage(getDash().imageWalk(50), getDash().getX(), getDash().getY(), null);
-        } else if (getDash().isRest() && !getDash().getDeath()) {
+        } else if (getDash().isRest() && !getDash().isDead()) {
             g2.drawImage(getDash().getImgChar(), getDash().getX(), getDash().getY(), null);
-        } else if (getDash().getDeath()) {
+        } else if (getDash().isDead()) {
             if (deathCount == 0) {
                 xStart = getDash().getX();
                 yStart = getDash().getY();
             }
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart - 64, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart, yStart - 64, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart - 64, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.STAR_IMAGE))).getImage(), xStart - GameConstants.PIXEL_SIZE, yStart - GameConstants.PIXEL_SIZE * 2, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.STAR_IMAGE))).getImage(), xStart, yStart - GameConstants.PIXEL_SIZE * 2, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.STAR_IMAGE))).getImage(), xStart + GameConstants.PIXEL_SIZE, yStart - GameConstants.PIXEL_SIZE * 2, null);
 
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart - 32, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart, yStart - 32, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart - 32, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.STAR_IMAGE))).getImage(), xStart - GameConstants.PIXEL_SIZE, yStart - GameConstants.PIXEL_SIZE, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.STAR_IMAGE))).getImage(), xStart, yStart - GameConstants.PIXEL_SIZE, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.STAR_IMAGE))).getImage(), xStart + GameConstants.PIXEL_SIZE, yStart - GameConstants.PIXEL_SIZE, null);
 
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart - 32, yStart, null);
-            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/upstar.png"))).getImage(), xStart + 32, yStart, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.STAR_IMAGE))).getImage(), xStart - GameConstants.PIXEL_SIZE, yStart, null);
+            g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.STAR_IMAGE))).getImage(), xStart + GameConstants.PIXEL_SIZE, yStart, null);
             g2.drawImage(getDash().getImgChar(), getDash().getX(), getDash().getY(), null);
             deathCount++;
 
@@ -435,8 +438,8 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
         g2.drawString(Integer.toString(diamondCount), 130, 22);
         g2.drawString(Integer.toString(getDash().getScore()), 30, 22);
         g2.drawString(Integer.toString(getGameDuration()), 125, 57);
-        g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/diam_icon.png"))).getImage(), 105, 8, null);
-        g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/horloge_icon.png"))).getImage(), 105, 40, null);
+        g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.DIAMOND_ICON))).getImage(), 105, 8, null);
+        g2.drawImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.HORLOGE_ICON))).getImage(), 105, 40, null);
 
     }
 
@@ -445,7 +448,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
      */
     private Objet[][] mapImage() {
 
-        Objet[][] mapObjects = new Objet[25][51];
+        Objet[][] mapObjects = new Objet[25][GameConstants.ROW];
 
         Objet tmp2;
         int xobj = 0;
@@ -453,7 +456,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
         for (int j = 0; j < 25; j++) {
 
-            for (int i = 0; i < 51; i++) {
+            for (int i = 0; i < GameConstants.ROW; i++) {
 
 
                 if (getLevel().getMap()[j][i] == '.') {
@@ -477,10 +480,10 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
                     tmp2 = new Ground(xobj, yobj);
                 }
                 mapObjects[j][i] = tmp2;
-                xobj += 32;
+                xobj += GameConstants.PIXEL_SIZE;
             }
             xobj = 0;
-            yobj += 32;
+            yobj += GameConstants.PIXEL_SIZE;
         }
         return mapObjects;
 
@@ -507,22 +510,6 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
     public boolean isExitable() {
         return exitable;
-    }
-
-    /**
-     * @param exitable the new value of exitable
-     */
-
-    public void setExitable(boolean exitable) {
-        this.exitable = exitable;
-    }
-
-    /**
-     * @return gameDuration
-     */
-
-    public int getTimegame() {
-        return getGameDuration();
     }
 
 

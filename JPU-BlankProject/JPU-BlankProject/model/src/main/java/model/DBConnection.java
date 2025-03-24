@@ -13,7 +13,7 @@ final class DBConnection {
     /**
      * The instance.
      */
-    private static DBConnection INSTANCE = null;
+    private static DBConnection instance = null;
 
     /**
      * The connection.
@@ -33,10 +33,10 @@ final class DBConnection {
      * @return single instance of DBConnection
      */
     public static synchronized DBConnection getInstance() {
-        if (DBConnection.INSTANCE == null) {
-            DBConnection.INSTANCE = new DBConnection();
+        if (DBConnection.instance == null) {
+            DBConnection.instance = new DBConnection();
         }
-        return DBConnection.INSTANCE;
+        return DBConnection.instance;
     }
 
     /**
@@ -44,7 +44,7 @@ final class DBConnection {
      *
      * @return the boolean
      */
-    private Boolean open() {
+    private void open() {
         final DBProperties dbProperties = new DBProperties();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -52,7 +52,6 @@ final class DBConnection {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-        return true;
     }
 
     /**

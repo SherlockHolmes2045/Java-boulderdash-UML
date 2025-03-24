@@ -4,10 +4,6 @@ import java.awt.CardLayout;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.io.Serial;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -15,10 +11,7 @@ import javax.swing.*;
 
 import contract.IController;
 import contract.IModel;
-import model.DAOLevel;
-import model.Dash;
-import model.ExitDoor;
-import model.Level;
+import model.*;
 
 /**
  * The ViewFrame class represents the main window of the application, extending JFrame.
@@ -166,7 +159,7 @@ public class ViewFrame extends JFrame {
     public static List<LevelPanel> getLevels() {
         DAOLevel dao = new DAOLevel();
         List<Map<String, Integer>> levelsData = dao.getLevelsData();
-        return levelsData.stream().map(map -> new LevelPanel(new Level(map.get("level")), map.get("diamond_count"), new ExitDoor(map.get("exitX"), map.get("exitY")), new Dash(map.get("dashX"), map.get("dashY")), map.get("game_duration"))).toList();
+        return levelsData.stream().map(map -> new LevelPanel(new Level(map.get("level"), levelsData.size()), map.get("diamond_count"), new ExitDoor(map.get("exitX"), map.get("exitY")), new Dash(map.get("dashX"), map.get("dashY")), map.get("game_duration"))).toList();
     }
 
 
@@ -189,7 +182,7 @@ public class ViewFrame extends JFrame {
         this.setTitle("BoulderDash");
         this.setResizable(false);
         this.add(container);
-        this.setSize(1638, 802);
+        this.setSize(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
         this.setLocationRelativeTo(null);
         container.revalidate();
         this.setVisible(true);

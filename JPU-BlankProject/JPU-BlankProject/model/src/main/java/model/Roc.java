@@ -1,8 +1,11 @@
 package model;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
@@ -13,40 +16,27 @@ import javax.swing.ImageIcon;
  */
 public class Roc extends Objet {
 
+    private ScheduledExecutorService executor;
 
     public Roc(int x, int y) {
-        super(x, y, 32, 32);
-        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/roche.png")));
+        super(x, y, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.ROC_IMAGE)));
         super.imgObj = super.icoObj.getImage();
         super.falling = false;
         super.velocity = 0;
+        rocAnimation();
+    }
 
-        Timer time = new Timer();
-        TimerTask task = new TimerTask() {
-
-            @Override
-            public void run() {
-                if (!falling) {
-
-                    setImgObj2("rocher_droite");
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    setImgObj2("rocher_gauche");
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
+    private void rocAnimation() {
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(() -> {
+            if (!falling) {
+                setImgObj2("rocher_droite");
+                executor.schedule(() -> setImgObj2("rocher_gauche"), 300, TimeUnit.MILLISECONDS);
+            } else {
+                executor.shutdown();
             }
-        };
-        time.schedule(task, 10, 640);
-
+        }, 10, 640, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -56,7 +46,5 @@ public class Roc extends Objet {
         String str = "/images/" + name + ".png";
         super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
         super.imgObj = super.icoObj.getImage();
-
     }
-
 }

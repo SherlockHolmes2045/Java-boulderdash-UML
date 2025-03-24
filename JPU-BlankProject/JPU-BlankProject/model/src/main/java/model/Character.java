@@ -31,7 +31,6 @@ public class Character {
      */
     protected boolean death;
 
-    private static final int COLLISION_OFFSET = 32;
 
     /**
      * @param x      the x coordinate
@@ -54,15 +53,16 @@ public class Character {
      */
 
     public Image getImgChar() {
+        if (imgChar == null) {
+            loadCharacterImage();
+        }
         return imgChar;
     }
 
-    /**
-     * @param imgChar This operation it is to modify the image
-     */
-
-    public void setImgChar(Image imgChar) {
-        this.imgChar = imgChar;
+    private void loadCharacterImage() {
+        String imagePath = "/images/character.png"; // Example path
+        this.icoChar = new ImageIcon(imagePath);
+        this.imgChar = this.icoChar.getImage();
     }
 
     /**
@@ -141,7 +141,7 @@ public class Character {
         if (objet == null) {
             return false;
         }
-        return this.x - COLLISION_OFFSET == objet.getX() && this.y == objet.getY();
+        return this.x - GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY();
     }
 
     /**
@@ -154,7 +154,7 @@ public class Character {
         if (objet == null) {
             return false;
         }
-        return this.x + COLLISION_OFFSET == objet.getX() && this.y == objet.getY();
+        return this.x + GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY();
     }
 
     /**
@@ -167,7 +167,7 @@ public class Character {
         if (objet == null) {
             return false;
         }
-        return this.x == objet.getX() && this.y - COLLISION_OFFSET == objet.getY();
+        return this.x == objet.getX() && this.y - GameConstants.PIXEL_SIZE == objet.getY();
     }
 
     /**
@@ -180,59 +180,7 @@ public class Character {
         if (objet == null) {
             return false;
         }
-        return this.x == objet.getX() && this.y + COLLISION_OFFSET == objet.getY();
-    }
-
-    /**
-     * @param objet the object to test the collison with
-     * @return boolean parameter
-     * To detect an object that it is near of the character
-     */
-
-    public boolean nearLeft(Objet objet) {
-        if (objet == null) {
-            return false;
-        }
-        return this.x - COLLISION_OFFSET == objet.getX() && this.y == objet.getY();
-    }
-
-    /**
-     * @param objet the object to test the collison with
-     * @return boolean parameter
-     * To detect an object that it is near of the character
-     */
-
-    public boolean nearRight(Objet objet) {
-        if (objet == null) {
-            return false;
-        }
-        return this.x + COLLISION_OFFSET == objet.getX() && this.y == objet.getY();
-    }
-
-    /**
-     * @param objet the object to test the collison with
-     * @return boolean parameter
-     * To detect an object that it is near of the character
-     */
-
-    public boolean nearUp(Objet objet) {
-        if (objet == null) {
-            return false;
-        }
-        return this.x == objet.getX() && this.y - COLLISION_OFFSET == objet.getY();
-    }
-
-    /**
-     * @param objet the object to test the collison with
-     * @return boolean parameter
-     * To detect an object that it is near of the character
-     */
-
-    public boolean nearDown(Objet objet) {
-        if (objet == null) {
-            return false;
-        }
-        return this.x == objet.getX() && this.y + COLLISION_OFFSET == objet.getY();
+        return this.x == objet.getX() && this.y + GameConstants.PIXEL_SIZE == objet.getY();
     }
 
     /**
@@ -240,14 +188,14 @@ public class Character {
      * getter for death
      */
 
-    public boolean getDeath() {
+    public boolean isDead() {
         return death;
     }
 
     /**
      * @param death setter for death
      */
-    public void setDeath(boolean death) {
+    public void setDead(boolean death) {
         this.death = death;
     }
 

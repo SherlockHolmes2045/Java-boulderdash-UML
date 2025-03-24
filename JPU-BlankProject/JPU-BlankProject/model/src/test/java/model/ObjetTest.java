@@ -73,12 +73,6 @@ public class ObjetTest {
         assertFalse(instance.downContactDash(dash));
     }
 
-    @Test
-    public void testProcheBas() {
-        assertFalse(instance.nearDown(instance));
-        assertFalse(instance.nearDown(instance));
-
-    }
 
     @Test
     public void testGetX() {

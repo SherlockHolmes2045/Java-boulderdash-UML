@@ -18,8 +18,8 @@ public class Ground extends Objet {
      */
 
     public Ground(int x, int y) {
-        super(x, y, 32, 32);
-        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/sol.png")));
+        super(x, y, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.GROUND_IMAGE)));
         super.imgObj = super.icoObj.getImage();
     }
 

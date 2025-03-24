@@ -9,31 +9,32 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DAOLevelTest {
-DAOLevel daolevel;
-char[][] map;
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
+    DAOLevel daolevel;
+    char[][] map;
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		this.daolevel=new DAOLevel();
-			}
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+    }
 
-	@After
-	public void tearDown() throws Exception {
-	}
+    @Before
+    public void setUp() throws Exception {
+        this.daolevel = new DAOLevel();
+    }
 
-	@Test
-	public void testFetchmap() {
-		
-		map=daolevel.fetchMap(1);
-		assertNotNull(map);
-		
-	}
+    @After
+    public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void testFetchmap() {
+
+        map = daolevel.fetchMap(1, 5);
+        assertNotNull(map);
+
+    }
 
 }

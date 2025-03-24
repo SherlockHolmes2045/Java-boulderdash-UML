@@ -1,76 +1,67 @@
 package model;
 
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+
 
 /**
  * @author Lemovou Ivan
- * this class is about the exitDoor
+ * This class is about the exitDoor
  */
 
+
 public class Diamond extends Objet {
+
+    private static final Logger logger = Logger.getLogger(Diamond.class.getName());
+    private static final int SLEEP_DURATION = 100;
+    private static final String[] IMAGE_SEQUENCE = {"2", "3", "4", "1"};
 
     /**
      * @param x the x coordinate
      * @param y the y coordinate
      * @see Objet
      */
-
     public Diamond(int x, int y) {
-        super(x, y, 32, 32);
+        super(x, y, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+        initializeImage();
+        startImageCycling();
+    }
 
-        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/diam1.png")));
+    private void initializeImage() {
+        super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.DIAMOND_IMAGE)));
         super.imgObj = super.icoObj.getImage();
         super.falling = false;
         super.velocity = 0;
-        Timer time = new Timer();
-        TimerTask task = new TimerTask() {
+    }
 
-            @Override
-            public void run() {
-                setImgObj("2");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setImgObj("3");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setImgObj("4");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setImgObj("1");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+    private void startImageCycling() {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(this::cycleImages, 10, 420, TimeUnit.MILLISECONDS);
+    }
 
+    private void cycleImages() {
+        for (String num : IMAGE_SEQUENCE) {
+            setImgObj(num);
+            try {
+                TimeUnit.MILLISECONDS.sleep(SLEEP_DURATION);
+            } catch (InterruptedException e) {
+                logger.log(Level.SEVERE, "Thread was interrupted", e);
+                Thread.currentThread().interrupt();
             }
-
-        };
-        time.schedule(task, 10, 420);
+        }
     }
 
     /**
      * @param num to set an image
      */
-
     public void setImgObj(String num) {
         String str = "/images/diam" + num + ".png";
         super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
         super.imgObj = super.icoObj.getImage();
-
     }
-
 }

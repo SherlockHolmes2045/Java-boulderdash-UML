@@ -2,6 +2,7 @@
 package model;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,38 +22,38 @@ public class DAOLevel {
      * instanciate a DBConnection
      */
     private static final DBConnection cnx = DBConnection.getInstance();
-    private static final int ROWS = 25;
-    private static final int COLUMNS = 51;
-    private static final int MAX_LEVEL = 5;
+    private static final int COLUMN = 25;
     private static final Logger logger = Logger.getLogger(DAOLevel.class.getName());
 
+
+
     /**
-     * @param indLvl the number of the level to fetch in the DB
+     * @param levels the number of the level to fetch in the DB
      * @return map
      * Fetch the map for the level precise in paramaters and return it
      */
-    public char[][] fetchMap(int indLvl) {
-        if (indLvl < 0 || indLvl > MAX_LEVEL) {
-            throw new IllegalArgumentException("Invalid level index: " + indLvl);
+    public char[][] fetchMap(int levels,int maxLevel) {
+        if (levels < 1 || levels > maxLevel) {
+            throw new IllegalArgumentException("Invalid level index: " + levels);
         }
 
-        char[][] elements = new char[ROWS][COLUMNS];
+        char[][] elements = new char[COLUMN][GameConstants.ROW];
         String strCurrentline;
         int j = 0;
         try {
             final String sql = "{call fetchMapById(?)}";
             try (CallableStatement call = cnx.getConnection().prepareCall(sql)) {
-                call.setInt(1, indLvl);
+                call.setInt(1, levels);
                 call.execute();
                 try (ResultSet resultSet = call.getResultSet()) {
-                    if (resultSet != null) {
-                        while (resultSet.next()) {
+                    if (resultSet != null && resultSet.next()) {
+                        do {
                             strCurrentline = resultSet.getString("map");
-                            for (int i = 0; i < COLUMNS; i++) {
+                            for (int i = 0; i < GameConstants.ROW; i++) {
                                 elements[j][i] = strCurrentline.charAt(i);
                             }
                             j++;
-                        }
+                        } while (resultSet.next());
                     }
                 }
             }
@@ -67,21 +68,19 @@ public class DAOLevel {
         List<Map<String, Integer>> levelsData = new ArrayList<>();
         try {
             final String sql = "SELECT * FROM levels_properties;";
-            try (CallableStatement call = cnx.getConnection().prepareCall(sql)) {
-                call.execute();
-                try (ResultSet resultSet = call.getResultSet()) {
+            try (PreparedStatement stmt = cnx.getConnection().prepareStatement(sql)) {
+                try (ResultSet resultSet = stmt.executeQuery()) {
                     if (resultSet != null) {
                         while (resultSet.next()) {
                             Map<String, Integer> data = new HashMap<>();
-                            data.put("level", Integer.parseInt(resultSet.getString("level")));
-                            data.put("dashX", Integer.parseInt(resultSet.getString("dashX")));
-                            data.put("dashY", Integer.parseInt(resultSet.getString("dashY")));
-                            data.put("exitX", Integer.parseInt(resultSet.getString("exitX")));
-                            data.put("exitY", Integer.parseInt(resultSet.getString("exitY")));
-                            data.put("diamond_count", Integer.parseInt(resultSet.getString("diamond_count")));
-                            data.put("game_duration", Integer.parseInt(resultSet.getString("game_duration")));
+                            data.put("level", resultSet.getInt("level"));
+                            data.put("dashX", resultSet.getInt("dashX"));
+                            data.put("dashY", resultSet.getInt("dashY"));
+                            data.put("exitX", resultSet.getInt("exitX"));
+                            data.put("exitY", resultSet.getInt("exitY"));
+                            data.put("diamond_count", resultSet.getInt("diamond_count"));
+                            data.put("game_duration", resultSet.getInt("game_duration"));
                             levelsData.add(data);
-
                         }
                     }
                 }

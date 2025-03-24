@@ -9,11 +9,10 @@ import java.util.logging.Logger;
 
 /**
  * The class Character, it is the class that manages every character in the video game
- *
+ * 
  * @author Lemovou Ivan
  */
 public class Back extends Objet {
-    private static final String IMAGE_PATH = "/images/solnoir.png";
     private static final Logger logger = Logger.getLogger(Back.class.getName());
 
     /**
@@ -22,17 +21,17 @@ public class Back extends Objet {
      * @see Objet
      */
     public Back(int x, int y) {
-        super(x, y, 32, 32);
+        super(x, y, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
     }
 
     @Override
     public Image getImgObj() {
         if (super.imgObj == null) {
             try {
-                super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(IMAGE_PATH)));
+                super.icoObj = new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.BACK_IMAGE)));
                 super.imgObj = super.icoObj.getImage();
             } catch (NullPointerException e) {
-                logger.log(Level.SEVERE, "Resource not found: " + IMAGE_PATH, e);
+                logger.log(Level.SEVERE, "Resource not found: " + GameConstants.BACK_IMAGE, e);
             }
         }
         return super.imgObj;

@@ -1,16 +1,19 @@
 package model;
 
-import java.awt.Image;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
+import java.awt.Image;
+
 
 /**
  * @author Lemovou Ivan
  * This class manages the heros of the video game
  */
+
 
 public class Dash extends Character {
 
@@ -34,7 +37,7 @@ public class Dash extends Character {
 
     int countanimation = 0;
 
-    private static final String DASH_IMAGE = "/images/Dash.png";
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     /**
      * @param x the x coordinate
@@ -43,9 +46,14 @@ public class Dash extends Character {
      */
 
     public Dash(int x, int y) {
-        super(x, y, 32, 32);
+        super(x, y, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
         this.score = 0;
-        super.icoChar = new ImageIcon(Objects.requireNonNull(getClass().getResource(DASH_IMAGE)));
+        try {
+            super.icoChar = new ImageIcon(Objects.requireNonNull(getClass().getResource(GameConstants.DASH_IMAGE)));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            // Handle the error, e.g., set a default image or log the error
+        }
         super.imgChar = super.icoChar.getImage();
         super.walks = false;
         this.walksLeft = false;
@@ -54,76 +62,50 @@ public class Dash extends Character {
         this.walksDown = false;
         this.rest = true;
         this.counter = 0;
-        Timer time = new Timer();
-        TimerTask task = new TimerTask() {
 
-            @Override
-            public void run() {
-                if (death) {
-                    setImgObj("1");
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    setImgObj("2");
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        deathAnimationTask();
+        deathFallTask();
+        idleAnimationTask();
+
+    }
+
+    private void deathAnimationTask() {
+        Runnable task = () -> {
+            if (death) {
+                setImgObj("1");
+                setImgObj("2");
+            }
+        };
+        scheduler.scheduleAtFixedRate(task, 10, 640, TimeUnit.MILLISECONDS);
+    }
+
+    private void deathFallTask() {
+        Runnable task = () -> {
+            if (death) {
+                if (countanimation < 7) {
+                    setY(getY() - 10);
+                    countanimation++;
+                } else {
+                    setY(getY() + 10);
                 }
             }
-
         };
-        time.schedule(task, 10, 640);
+        scheduler.scheduleAtFixedRate(task, 10, 100, TimeUnit.MILLISECONDS);
+    }
 
-        Timer time2 = new Timer();
-        TimerTask task2 = new TimerTask() {
-
-            @Override
-            public void run() {
-
-                if (death) {
-
-                    if (countanimation < 7) {
-                        setY(getY() - 10);
-                        countanimation++;
-                    } else {
-                        setY(getY() + 10);
-                    }
-
+    private void idleAnimationTask() {
+        Runnable task = () -> {
+            if (rest && !death) {
+                setImgObj2("Dash");
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-
+                setImgObj2("persoface2");
             }
-
         };
-        time2.schedule(task2, 10, 100);
-
-        Timer time3 = new Timer();
-        TimerTask task3 = new TimerTask() {
-
-            @Override
-            public void run() {
-                if (rest && !death) {
-                    setImgObj2("Dash");
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    setImgObj2("persoface2");
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-
-        };
-        time3.schedule(task3, 10, 640);
+        scheduler.scheduleAtFixedRate(task, 10, 640, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -132,9 +114,13 @@ public class Dash extends Character {
 
     public void setImgObj(String num) {
         String str = "/images/persomort" + num + ".png";
-        super.icoChar = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
+        try {
+            super.icoChar = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            // Handle the error, e.g., set a default image or log the error
+        }
         super.imgChar = super.icoChar.getImage();
-
     }
 
     /**
@@ -143,25 +129,13 @@ public class Dash extends Character {
 
     public void setImgObj2(String nom) {
         String str = "/images/" + nom + ".png";
-        super.icoChar = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
+        try {
+            super.icoChar = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            // Handle the error, e.g., set a default image or log the error
+        }
         super.imgChar = super.icoChar.getImage();
-
-    }
-
-    public int getCompteur() {
-        return counter;
-    }
-
-    public void setCompteur(int counter) {
-        this.counter = counter;
-    }
-
-    /**
-     * @return walksRight
-     */
-
-    public boolean getWalksright() {
-        return walksRight;
     }
 
     /**
@@ -172,14 +146,6 @@ public class Dash extends Character {
     }
 
     /**
-     * @return walksLeft
-     */
-
-    public boolean getWalksleft() {
-        return walksLeft;
-    }
-
-    /**
      * @param walksLeft setter for walksLeft
      */
     public void setWalksleft(boolean walksLeft) {
@@ -187,26 +153,10 @@ public class Dash extends Character {
     }
 
     /**
-     * @return walksDown
-     */
-
-    public boolean getWalksdown() {
-        return walksDown;
-    }
-
-    /**
      * @param walksDown setter for walksDown
      */
     public void setWalksdown(boolean walksDown) {
         this.walksDown = walksDown;
-    }
-
-    /**
-     * @return walksUp
-     */
-
-    public boolean getWalksup() {
-        return walksUp;
     }
 
     /**
@@ -238,42 +188,30 @@ public class Dash extends Character {
      */
 
     public Image imageWalk(int frequence) {
-        String str = DASH_IMAGE;
-        ImageIcon ico;
-        Image img;
+        Map<String, String> walkImages = Map.of(
+                "right0", "/images/Dasharretdroit.png",
+                "left0", "/images/Dasharretgauche.png",
+                "up0", "/images/Dashcreusegauche.png",
+                "down0", "/images/Dashcreusegauchebas.png",
+                "right1", "/images/Dashmarchedroitemain.png",
+                "left1", "/images/Dashmarchegauchemain.png",
+                "up1", "/images/DashcreuseDroite.png",
+                "down1", "/images/Dashcreusedroitebas.png"
+        );
+
+        String key = "";
         if (this.walks) {
             this.counter++;
-            if (this.counter / frequence == 0) {
-                if (this.walksRight) {
-                    str = "/images/Dasharretdroit.png";
-                } else if (this.walksLeft) {
-                    str = "/images/Dasharretgauche.png";
-                } else if (this.walksUp) {
-                    str = "/images/Dashcreusegauche.png";
-                } else if (this.walksDown) {
-                    str = "/images/Dashcreusegauchebas.png";
-                }
-
-            } else {
-                if (this.walksRight) {
-                    str = "/images/Dashmarchedroitemain.png";
-                } else if (this.walksLeft) {
-                    str = "/images/Dashmarchegauchemain.png";
-                } else if (this.walksUp) {
-                    str = "/images/DashcreuseDroite.png";
-                } else if (this.walksDown) {
-                    str = "/images/Dashcreusedroitebas.png";
-                }
-                if (this.counter == 2 * frequence) {
-                    this.counter = 0;
-                }
+            key += this.walksRight ? "right" : this.walksLeft ? "left" : this.walksUp ? "up" : "down";
+            key += this.counter / frequence == 0 ? "0" : "1";
+            if (this.counter == 2 * frequence) {
+                this.counter = 0;
             }
         }
-        ico = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
-        img = ico.getImage();
-        return img;
+        String str = walkImages.getOrDefault(key, GameConstants.DASH_IMAGE);
+        ImageIcon ico = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
+        return ico.getImage();
     }
-
 
     /**
      * @return rest
@@ -291,12 +229,4 @@ public class Dash extends Character {
         this.rest = rest;
     }
 
-    /**
-     * @param objet the object to test the collison with
-     * @return true or false if the heros is in life or death
-     */
-
-    public boolean verifyDashLife(Objet objet) {
-        return this.x == objet.getX() && this.y - 32 == objet.getY() && objet.velocity > 0;
-    }
 }

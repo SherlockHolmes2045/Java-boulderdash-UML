@@ -108,7 +108,7 @@ public class Objet {
      * @return return true if there is a collision and false if not
      */
     public boolean downContact(Objet objet) {
-        return this.x == objet.getX() && this.y + 32 == objet.getY();
+        return this.x == objet.getX() && this.y + GameConstants.PIXEL_SIZE == objet.getY();
     }
 
     /**
@@ -117,7 +117,7 @@ public class Objet {
      */
 
     public boolean leftContact(Objet objet) {
-        return this.x - 32 == objet.getX() && this.y == objet.getY() && objet instanceof Back;
+        return this.x - GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && objet instanceof Back;
     }
 
     /**
@@ -126,7 +126,7 @@ public class Objet {
      */
 
     public boolean rightContact(Objet objet) {
-        return this.x + 32 == objet.getX() && this.y == objet.getY() && objet instanceof model.Back;
+        return this.x + GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && objet instanceof model.Back;
     }
 
     /**
@@ -134,7 +134,7 @@ public class Objet {
      * @return return true if there is a collision and false if not
      */
     public boolean downContactDash(Character character) {
-        return this.x == character.getX() && this.y + 32 == character.getY();
+        return this.x == character.getX() && this.y + GameConstants.PIXEL_SIZE == character.getY();
     }
 
     /**
@@ -142,7 +142,7 @@ public class Objet {
      * @return return true if there is a collision and false if not
      */
     public boolean nearDown(Objet objet) {
-        return this.x == objet.getX() && this.y + 32 == objet.getY() && objet instanceof Back;
+        return this.x == objet.getX() && this.y + GameConstants.PIXEL_SIZE == objet.getY() && objet instanceof Back;
     }
 
     /**

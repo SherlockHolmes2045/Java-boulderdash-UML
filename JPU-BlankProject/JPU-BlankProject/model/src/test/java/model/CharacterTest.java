@@ -104,33 +104,11 @@ public class CharacterTest {
         assertFalse(character.downContact(objet));
     }
 
-    @Test
-    public void testProcheGauche() {
-        assertFalse(character.nearLeft(objet));
-    }
-
-    @Test
-    public void testProcheDroite() {
-
-        assertFalse(character.nearRight(objet));
-    }
-
-    @Test
-    public void testProcheHaut() {
-
-        assertFalse(character.nearUp(objet));
-    }
-
-    @Test
-    public void testProcheBas() {
-
-        assertFalse(character.nearDown(objet));
-    }
 
     @Test
     public void testGetDeath() {
 
-        assertFalse(character.getDeath());
+        assertFalse(character.isDead());
     }
 
     @Test
