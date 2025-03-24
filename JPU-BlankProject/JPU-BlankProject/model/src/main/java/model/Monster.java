@@ -55,7 +55,7 @@ public class Monster extends Character {
                 }
             }
         };
-        time.schedule(task, 100, 110);
+        time.schedule(task, 100, 1000);
     }
 
     /**
@@ -118,7 +118,7 @@ public class Monster extends Character {
      * @param objet the object to test the collision with
      * @return tells if the right object is a back
      */
-    public boolean movesRight(Objet objet) {
+    public boolean canMoveRight(Objet objet) {
 
         return this.x + GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && objet instanceof model.Back;
     }
@@ -127,7 +127,7 @@ public class Monster extends Character {
      * @param objet the Object to test the collision with
      * @return tells if the left object is a back
      */
-    public boolean movesLeft(Objet objet) {
+    public boolean canMoveLeft(Objet objet) {
 
         return this.x - GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && objet instanceof model.Back;
     }
@@ -136,7 +136,7 @@ public class Monster extends Character {
      * @param objet the Object to test the collision with
      * @return tells if the up object is a back
      */
-    public boolean movesUp(Objet objet) {
+    public boolean canMoveUp(Objet objet) {
 
         return this.x == objet.getX() && this.y - GameConstants.PIXEL_SIZE == objet.getY() && objet instanceof model.Back;
     }
@@ -145,7 +145,7 @@ public class Monster extends Character {
      * @param objet the Object to test the collision with
      * @return tells if the down object is back
      */
-    public boolean movesDown(Objet objet) {
+    public boolean canMoveDown(Objet objet) {
 
         return this.x == objet.getX() && this.y + GameConstants.PIXEL_SIZE == objet.getY() && objet instanceof model.Back;
     }

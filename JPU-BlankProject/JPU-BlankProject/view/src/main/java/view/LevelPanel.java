@@ -217,64 +217,64 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
                                 if (nb == 0) {
 
-                                    if (tabMonster.movesRight(getTabObjets()[i][j])) {
+                                    if (tabMonster.canMoveRight(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesRight(true);
-                                    } else if (tabMonster.movesLeft(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveLeft(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.movesUp(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveUp(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.movesDown(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveDown(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesDown(true);
                                     }
 
                                 } else if (nb == 1) {
 
-                                    if (tabMonster.movesLeft(getTabObjets()[i][j])) {
+                                    if (tabMonster.canMoveLeft(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.movesRight(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveRight(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesRight(true);
-                                    } else if (tabMonster.movesUp(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveUp(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.movesDown(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveDown(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesDown(true);
                                     }
 
                                 } else if (nb == 2) {
 
-                                    if (tabMonster.movesUp(getTabObjets()[i][j])) {
+                                    if (tabMonster.canMoveUp(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.movesLeft(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveLeft(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.movesRight(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveRight(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesRight(true);
-                                    } else if (tabMonster.movesDown(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveDown(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesDown(true);
                                     }
 
                                 } else {
 
-                                    if (tabMonster.movesDown(getTabObjets()[i][j])) {
+                                    if (tabMonster.canMoveDown(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesDown(true);
-                                    } else if (tabMonster.movesLeft(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveLeft(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.movesUp(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveUp(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.movesRight(getTabObjets()[i][j])) {
+                                    } else if (tabMonster.canMoveRight(getTabObjets()[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesRight(true);
                                     }
