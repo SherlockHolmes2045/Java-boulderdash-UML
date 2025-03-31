@@ -31,16 +31,16 @@ public class MoveMonster /*implements Runnable*/ {
 
                                 if (tabObjets[i][j] != null) {
 
-                                    if (tabMonster.movesRight(tabObjets[i][j])) {
+                                    if (tabMonster.canMoveRight(tabObjets[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesRight(true);
-                                    } else if (tabMonster.movesLeft(tabObjets[i][j])) {
+                                    } else if (tabMonster.canMoveLeft(tabObjets[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.movesUp(tabObjets[i][j])) {
+                                    } else if (tabMonster.canMoveUp(tabObjets[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.movesDown(tabObjets[i][j])) {
+                                    } else if (tabMonster.canMoveDown(tabObjets[i][j])) {
                                         tabMonster.setWalks(true);
                                         tabMonster.setGoesDown(true);
                                     }

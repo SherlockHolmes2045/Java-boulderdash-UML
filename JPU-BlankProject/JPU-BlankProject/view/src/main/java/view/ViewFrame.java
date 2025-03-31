@@ -160,7 +160,7 @@ public class ViewFrame extends JFrame {
         DAOLevel dao = new DAOLevel();
         List<Map<String, Integer>> levelsData = dao.getLevelsData();
         levelsData = List.of(levelsData.get(1));
-        return levelsData.stream().map(map -> new LevelPanel(new Level(map.get("level"), 5), map.get("diamond_count"), new ExitDoor(map.get("exitX"), map.get("exitY")), new Dash(map.get("dashX"), map.get("dashY")), map.get("game_duration"))).toList();
+        return levelsData.stream().map(map -> new LevelPanel(new Level(map.get("level"), 5/*levelsData.size()*/), map.get("diamond_count"), new ExitDoor(map.get("exitX"), map.get("exitY")), new Dash(map.get("dashX"), map.get("dashY")), map.get("game_duration"))).toList();
     }
 
 

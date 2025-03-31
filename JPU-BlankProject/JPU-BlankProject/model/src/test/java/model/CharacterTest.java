@@ -1,122 +1,59 @@
 package model;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.awt.Image;
 
-public class CharacterTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    Character character;
-    int x = 32, y = 32, height = 32, width = 32;
-    Objet objet;
+class CharacterTest {
+    private Character character;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-
-        character = new Character(x, y, height, width);
-        objet = new Objet(128, 128, 32, 32);
-    }
-
-    @After
-    public void tearDown() throws Exception {
+    @BeforeEach
+    void setUp() {
+        character = new Character(GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE * 2, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
     }
 
     @Test
-    public void testGetX() {
-        int value = character.getX() % 32;
-        int expected = 0;
-        assertEquals(expected, value);
+    void testConstructor() {
+        assertEquals(GameConstants.PIXEL_SIZE, character.getX());
+        assertEquals(GameConstants.PIXEL_SIZE * 2, character.getY());
+        assertEquals(GameConstants.PIXEL_SIZE, character.getWidth());
+        assertEquals(GameConstants.PIXEL_SIZE, character.getHeight());
+        assertFalse(character.isDead(), "Character should not be dead initially");
     }
 
     @Test
-    public void testSetX() {
-        int param = 64;
-        int expected = param % 32;
-        assertEquals(expected, param % 32);
+    void testGetImgChar() {
+        Image img = character.getImgChar();
+        assertNotNull(img, "Character image should not be null");
     }
 
     @Test
-    public void testGetY() {
-        int value = character.getY() % 32;
-        int expected = 0;
-        assertEquals(expected, value);
+    void testMovement() {
+        character.setX(GameConstants.PIXEL_SIZE * 3);
+        character.setY(GameConstants.PIXEL_SIZE * 4);
+        assertEquals(GameConstants.PIXEL_SIZE * 3, character.getX());
+        assertEquals(GameConstants.PIXEL_SIZE * 4, character.getY());
     }
 
     @Test
-    public void testSetY() {
-        int param = 64;
-        int expected = param % 32;
-        assertEquals(expected, param % 32);
+    void testDeathState() {
+        character.setDead(true);
+        assertTrue(character.isDead(), "Character should be marked as dead");
     }
 
     @Test
-    public void testGetWidth() {
-        assertEquals(32, character.getWidth());
+    void testCollisionDetection() {
+        Objet objLeft = new Objet(0, GameConstants.PIXEL_SIZE * 2, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+        Objet objRight = new Objet(GameConstants.PIXEL_SIZE * 2, GameConstants.PIXEL_SIZE * 2, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+        Objet objUp = new Objet(GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+        Objet objDown = new Objet(GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE * 3, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
+
+        assertTrue(character.leftContact(objLeft), "Character should detect object to the left");
+        assertTrue(character.rightContact(objRight), "Character should detect object to the right");
+        assertTrue(character.upContact(objUp), "Character should detect object above");
+        assertTrue(character.downContact(objDown), "Character should detect object below");
     }
-
-    @Test
-    public void testGetHeight() {
-        assertEquals(32, character.getHeight());
-    }
-
-    @Test
-    public void testGetWalks() {
-        assertFalse(character.getWalks());
-    }
-
-    @Test
-    public void testSetWalks() {
-        boolean param = true;
-        assertTrue(param);
-        assertFalse(!param);
-    }
-
-    @Test
-    public void testContactGauche() {
-        assertFalse(character.leftContact(objet));
-    }
-
-    @Test
-    public void testContactDroite() {
-        assertFalse(character.rightContact(objet));
-    }
-
-    @Test
-    public void testContactHaut() {
-        assertFalse(character.upContact(objet));
-    }
-
-    @Test
-    public void testContactBas() {
-
-        assertFalse(character.downContact(objet));
-    }
-
-
-    @Test
-    public void testGetDeath() {
-
-        assertFalse(character.isDead());
-    }
-
-    @Test
-    public void testSetDeath() {
-        boolean param = true;
-        assertTrue(param);
-        assertFalse(!param);
-
-    }
-
 }

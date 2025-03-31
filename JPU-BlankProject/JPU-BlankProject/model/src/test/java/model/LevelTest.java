@@ -11,7 +11,7 @@ import org.junit.Test;
 public class LevelTest {
 
 	Level level;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -30,17 +30,17 @@ public class LevelTest {
 
 	@Test
 	public void testLevel() {
-		
+
 	}
 
 	@Test
 	public void testGetMap() {
-		
+
 	}
 
 	@Test
 	public void testSetMap() {
-		
+
 	}
 
 }

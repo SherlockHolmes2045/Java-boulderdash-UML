@@ -42,5 +42,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="var" path="MAVEN_REPOSITORY/junit/junit/4.13.1/junit-4.13.1.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/hamcrest.all"/>
+	<classpathentry exported="true" kind="var" path="MAVEN_REPOSITORY/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar"/>
+	<classpathentry exported="true" kind="var" path="MAVEN_REPOSITORY/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar"/>
+	<classpathentry exported="true" kind="var" path="MAVEN_REPOSITORY/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/mysql.connector.java"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

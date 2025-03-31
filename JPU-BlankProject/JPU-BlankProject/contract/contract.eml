@@ -9,5 +9,6 @@
 	</lib>
 	<levels>
 		<level name="mysql.connector.java" value="project"/>
+		<level name="hamcrest.all" value="project"/>
 	</levels>
 </component>
