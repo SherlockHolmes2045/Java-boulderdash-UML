@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
  */
 public class Roc extends Objet {
 
-    private ScheduledExecutorService executor;
 
     public Roc(int x, int y) {
         super(x, y, GameConstants.PIXEL_SIZE, GameConstants.PIXEL_SIZE);
@@ -28,7 +27,7 @@ public class Roc extends Objet {
     }
 
     private void rocAnimation() {
-        executor = Executors.newScheduledThreadPool(1);
+       ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
             if (!falling) {
                 setImgObj2("rocher_droite");

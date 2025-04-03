@@ -1,8 +1,6 @@
 package model;
 
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
@@ -33,29 +31,24 @@ public class Monster extends Character {
         this.goesDown = false;
         this.goesRight = false;
         this.goesLeft = false;
-        movementAnimation();
     }
 
-    private void movementAnimation() {
-        Timer time = new Timer();
-        TimerTask task = new TimerTask() {
 
-            @Override
-            public void run() {
-                if (getWalks()) {
-                    if (goesRight) {
-                        setX(getX() + GameConstants.PIXEL_SIZE);
-                    } else if (goesLeft) {
-                        setX(getX() - GameConstants.PIXEL_SIZE);
-                    } else if (goesUp) {
-                        setY(getY() - GameConstants.PIXEL_SIZE);
-                    } else if (goesDown) {
-                        setY(getY() + GameConstants.PIXEL_SIZE);
-                    }
-                }
+    /**
+     * Add this method to Monster class
+     */
+    public void move() {
+        if (getWalks()) {
+            if (goesRight) {
+                setX(getX() + GameConstants.PIXEL_SIZE);
+            } else if (goesLeft) {
+                setX(getX() - GameConstants.PIXEL_SIZE);
+            } else if (goesUp) {
+                setY(getY() - GameConstants.PIXEL_SIZE);
+            } else if (goesDown) {
+                setY(getY() + GameConstants.PIXEL_SIZE);
             }
-        };
-        time.schedule(task, 100, 1000);
+        }
     }
 
     /**
@@ -120,7 +113,7 @@ public class Monster extends Character {
      */
     public boolean canMoveRight(Objet objet) {
 
-        return this.x + GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && objet instanceof model.Back;
+        return objet != null && this.x + GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && objet instanceof model.Back;
     }
 
     /**
@@ -129,7 +122,7 @@ public class Monster extends Character {
      */
     public boolean canMoveLeft(Objet objet) {
 
-        return this.x - GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && objet instanceof model.Back;
+        return objet != null && this.x - GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && objet instanceof model.Back;
     }
 
     /**
@@ -138,7 +131,7 @@ public class Monster extends Character {
      */
     public boolean canMoveUp(Objet objet) {
 
-        return this.x == objet.getX() && this.y - GameConstants.PIXEL_SIZE == objet.getY() && objet instanceof model.Back;
+        return objet != null && this.x == objet.getX() && this.y - GameConstants.PIXEL_SIZE == objet.getY() && objet instanceof model.Back;
     }
 
     /**
@@ -147,7 +140,7 @@ public class Monster extends Character {
      */
     public boolean canMoveDown(Objet objet) {
 
-        return this.x == objet.getX() && this.y + GameConstants.PIXEL_SIZE == objet.getY() && objet instanceof model.Back;
+        return objet != null && this.x == objet.getX() && this.y + GameConstants.PIXEL_SIZE == objet.getY() && objet instanceof model.Back;
     }
 
     /**
@@ -155,7 +148,7 @@ public class Monster extends Character {
      * @return tells if the monster cannot move in the precise direction
      */
     public boolean doesNotMoveLeft(Objet objet) {
-        return this.x - GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && !(objet instanceof model.Back);
+        return objet != null && this.x - GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && !(objet instanceof model.Back);
     }
 
     /**
@@ -163,7 +156,7 @@ public class Monster extends Character {
      * @return tells if the monster cannot move in the precise direction
      */
     public boolean doesNotMoveRight(Objet objet) {
-        return this.x + GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && !(objet instanceof model.Back);
+        return objet != null && this.x + GameConstants.PIXEL_SIZE == objet.getX() && this.y == objet.getY() && !(objet instanceof model.Back);
     }
 
     /**
@@ -171,7 +164,7 @@ public class Monster extends Character {
      * @return tells if the monster cannot move in the precise direction
      */
     public boolean doesNotMoveUp(Objet objet) {
-        return this.x == objet.getX() && this.y - GameConstants.PIXEL_SIZE == objet.getY() && !(objet instanceof model.Back);
+        return objet != null && this.x == objet.getX() && this.y - GameConstants.PIXEL_SIZE == objet.getY() && !(objet instanceof model.Back);
     }
 
     /**
@@ -179,6 +172,6 @@ public class Monster extends Character {
      * @return tells if the monster cannot move in the precise direction
      */
     public boolean doesNotMoveDown(Objet objet) {
-        return this.x == objet.getX() && this.y + GameConstants.PIXEL_SIZE == objet.getY() && !(objet instanceof model.Back);
+        return objet != null && this.x == objet.getX() && this.y + GameConstants.PIXEL_SIZE == objet.getY() && !(objet instanceof model.Back);
     }
 }

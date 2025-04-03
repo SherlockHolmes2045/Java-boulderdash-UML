@@ -25,12 +25,11 @@ public class ExitDoor extends Objet {
         exitDoorAnimationTask();
     }
 
-    private Timer time;
     private TimerTask task;
 
     private void exitDoorAnimationTask() {
         if (task == null) {
-            time = new Timer();
+            Timer time = new Timer();
             task = new TimerTask() {
                 @Override
                 public void run() {

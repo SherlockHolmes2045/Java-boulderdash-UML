@@ -8,6 +8,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.Timer;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.*;
 
@@ -17,7 +18,7 @@ import model.*;
  * Date:02-06-2019
  * The Class ViewPanel2.
  *
- * @author Welaji chris-yvan
+ * @author Lemovou Ivan
  */
 
 public class LevelPanel extends JPanel implements Observer, Serializable {
@@ -44,6 +45,8 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
     private List<Monster> tabMonsters = new ArrayList<>();
 
     private static final int PAUSE = 3;
+
+    private Random random = new Random();
 
 
     public LevelPanel(Level level, int exitableDiamond, ExitDoor exit, Dash dash, int gameDuration) {
@@ -201,125 +204,147 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
         time.schedule(task, 10, 200);
     }
 
+
     private void startMonsterMovementTask() {
         Timer time = new Timer();
         TimerTask task = new TimerTask() {
-
             @Override
             public void run() {
-                int nb = r.nextInt(4);
-                for (Monster tabMonster : getTabMonsters()) {
-
-                    if (!tabMonster.getWalks()) {
-
+                int direction = random.nextInt(4); //ThreadLocalRandom.current().nextInt(4);
+                for (Monster monster : getTabMonsters()) {
+                    if (direction == 0) {
                         for (int i = 0; i < GameConstants.COLUMN; i++) {
                             for (int j = 0; j < GameConstants.ROW; j++) {
-
-                                if (nb == 0) {
-
-                                    if (tabMonster.canMoveRight(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesRight(true);
-                                    } else if (tabMonster.canMoveLeft(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.canMoveUp(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.canMoveDown(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesDown(true);
-                                    }
-
-                                } else if (nb == 1) {
-
-                                    if (tabMonster.canMoveLeft(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.canMoveRight(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesRight(true);
-                                    } else if (tabMonster.canMoveUp(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.canMoveDown(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesDown(true);
-                                    }
-
-                                } else if (nb == 2) {
-
-                                    if (tabMonster.canMoveUp(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.canMoveLeft(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.canMoveRight(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesRight(true);
-                                    } else if (tabMonster.canMoveDown(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesDown(true);
-                                    }
-
-                                } else {
-
-                                    if (tabMonster.canMoveDown(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesDown(true);
-                                    } else if (tabMonster.canMoveLeft(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesLeft(true);
-                                    } else if (tabMonster.canMoveUp(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesUp(true);
-                                    } else if (tabMonster.canMoveRight(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(true);
-                                        tabMonster.setGoesRight(true);
-                                    }
-
+                                if (monster.canMoveRight(getTabObjets()[i][j])) {
+                                    monster.setX(monster.getX() + GameConstants.PIXEL_SIZE);
                                 }
-
                             }
-
+                        }
+                    } else if (direction == 1) {
+                        for (int i = 0; i < GameConstants.COLUMN; i++) {
+                            for (int j = 0; j < GameConstants.ROW; j++) {
+                                if (monster.canMoveLeft(getTabObjets()[i][j])) {
+                                    monster.setX(monster.getX() - GameConstants.PIXEL_SIZE);
+                                }
+                            }
+                        }
+                    } else if (direction == 2) {
+                        for (int i = 0; i < GameConstants.COLUMN; i++) {
+                            for (int j = 0; j < GameConstants.ROW; j++) {
+                                if (monster.canMoveUp(getTabObjets()[i][j])) {
+                                    monster.setY(monster.getY() - GameConstants.PIXEL_SIZE);
+                                }
+                            }
                         }
                     } else {
                         for (int i = 0; i < GameConstants.COLUMN; i++) {
-
                             for (int j = 0; j < GameConstants.ROW; j++) {
-
-                                if (getTabObjets()[i][j] != null) {
-
-                                    if (tabMonster.isGoesRight()) {
-
-                                        if (tabMonster.doesNotMoveRight(getTabObjets()[i][j])) {
-                                            tabMonster.setWalks(false);
-                                            tabMonster.setGoesRight(false);
-                                        }
-                                    } else if (tabMonster.isGoesLeft()) {
-                                        if (tabMonster.doesNotMoveLeft(getTabObjets()[i][j])) {
-                                            tabMonster.setWalks(false);
-                                            tabMonster.setGoesLeft(false);
-                                        }
-                                    } else if (tabMonster.isGoesUp()) {
-                                        if (tabMonster.doesNotMoveUp(getTabObjets()[i][j])) {
-                                            tabMonster.setWalks(false);
-                                            tabMonster.setGoesUp(false);
-                                        }
-                                    } else if (tabMonster.isGoesDown() && tabMonster.doesNotMoveDown(getTabObjets()[i][j])) {
-                                        tabMonster.setWalks(false);
-                                        tabMonster.setGoesDown(false);
-                                    }
-
+                                if (monster.canMoveDown(getTabObjets()[i][j])) {
+                                    monster.setY(monster.getY() + GameConstants.PIXEL_SIZE);
                                 }
                             }
                         }
                     }
+//                    // Check if monster is currently moving
+//                    if (monster.getWalks()) {
+//                        // Check if the monster is blocked in its current direction
+//                        if (isBlockedInCurrentDirection(monster)) {
+//                            // Stop movement and reset all direction flags
+//                            stopMonster(monster);
+//                        }
+//                    } else {
+//                        // Monster is not moving, try to move it
+//                        moveMonsterInRandomDirection(monster, random);
+//                    }
                 }
             }
         };
-        time.schedule(task, 300, 100);
+        time.schedule(task, 1000, 1000); // Adjusted timing
+    }
+
+    /**
+     * Checks if the monster is blocked in its current direction
+     */
+    private boolean isBlockedInCurrentDirection(Monster monster) {
+        // For each object in the game area
+        for (int i = 0; i < GameConstants.COLUMN; i++) {
+            for (int j = 0; j < GameConstants.ROW; j++) {
+                if (getTabObjets()[i][j] != null) {
+                    // Check if monster is blocked based on its current direction
+                    if (monster.isGoesRight() && monster.doesNotMoveRight(getTabObjets()[i][j])) {
+                        return true;
+                    } else if (monster.isGoesLeft() && monster.doesNotMoveLeft(getTabObjets()[i][j])) {
+                        return true;
+                    } else if (monster.isGoesUp() && monster.doesNotMoveUp(getTabObjets()[i][j])) {
+                        return true;
+                    } else if (monster.isGoesDown() && monster.doesNotMoveDown(getTabObjets()[i][j])) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Stops monster movement and resets all direction flags
+     */
+    private void stopMonster(Monster monster) {
+        monster.setWalks(false);
+        monster.setGoesRight(false);
+        monster.setGoesLeft(false);
+        monster.setGoesUp(false);
+        monster.setGoesDown(false);
+    }
+
+
+    /**
+     * Try to move the monster in a random available direction
+     */
+    private void moveMonsterInRandomDirection(Monster monster, Random random) {
+        // Collect all possible directions
+        List<Direction> availableDirections = new ArrayList<>();
+
+        // Check all game objects for valid movement paths
+        for (int i = 0; i < GameConstants.COLUMN; i++) {
+            for (int j = 0; j < GameConstants.ROW; j++) {
+                Objet object = getTabObjets()[i][j];
+                if (object != null) {
+                    // Add valid directions to the list
+                    if (monster.canMoveRight(object)) availableDirections.add(Direction.RIGHT);
+                    if (monster.canMoveLeft(object)) availableDirections.add(Direction.LEFT);
+                    if (monster.canMoveUp(object)) availableDirections.add(Direction.UP);
+                    if (monster.canMoveDown(object)) availableDirections.add(Direction.DOWN);
+                }
+            }
+        }
+
+        // If there's at least one direction available
+        if (!availableDirections.isEmpty()) {
+            // Pick a random direction from available ones
+            Direction chosenDirection = availableDirections.get(random.nextInt(availableDirections.size()));
+
+            // Set monster to move in that direction
+            monster.setWalks(true);
+            switch (chosenDirection) {
+                case RIGHT:
+                    monster.setGoesRight(true);
+                    break;
+                case LEFT:
+                    monster.setGoesLeft(true);
+                    break;
+                case UP:
+                    monster.setGoesUp(true);
+                    break;
+                case DOWN:
+                    monster.setGoesDown(true);
+                    break;
+            }
+        }
+    }
+
+    private enum Direction {
+        RIGHT, LEFT, UP, DOWN
     }
 
     private void rockFallingTask() {
