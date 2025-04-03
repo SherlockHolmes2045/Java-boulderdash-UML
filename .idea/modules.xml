@@ -3,7 +3,13 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject.iml" filepath="$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/contract/contract.iml" filepath="$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/contract/contract.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/controller/controller.iml" filepath="$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/controller/controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/entity/entity.iml" filepath="$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/entity/entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/main/main.iml" filepath="$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/main/main.iml" />
       <module fileurl="file://$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/masterpom.iml" filepath="$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/masterpom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/model/model.iml" filepath="$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/model/model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/view/view.iml" filepath="$PROJECT_DIR$/JPU-BlankProject/JPU-BlankProject/view/view.iml" />
     </modules>
   </component>
 </project>

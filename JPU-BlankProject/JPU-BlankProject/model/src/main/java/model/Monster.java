@@ -33,29 +33,24 @@ public class Monster extends Character {
         this.goesDown = false;
         this.goesRight = false;
         this.goesLeft = false;
-        movementAnimation();
     }
 
-    private void movementAnimation() {
-        Timer time = new Timer();
-        TimerTask task = new TimerTask() {
 
-            @Override
-            public void run() {
-                if (getWalks()) {
-                    if (goesRight) {
-                        setX(getX() + GameConstants.PIXEL_SIZE);
-                    } else if (goesLeft) {
-                        setX(getX() - GameConstants.PIXEL_SIZE);
-                    } else if (goesUp) {
-                        setY(getY() - GameConstants.PIXEL_SIZE);
-                    } else if (goesDown) {
-                        setY(getY() + GameConstants.PIXEL_SIZE);
-                    }
-                }
+    /**
+     * Add this method to Monster class
+     */
+    public void move() {
+        if (getWalks()) {
+            if (goesRight) {
+                setX(getX() + GameConstants.PIXEL_SIZE);
+            } else if (goesLeft) {
+                setX(getX() - GameConstants.PIXEL_SIZE);
+            } else if (goesUp) {
+                setY(getY() - GameConstants.PIXEL_SIZE);
+            } else if (goesDown) {
+                setY(getY() + GameConstants.PIXEL_SIZE);
             }
-        };
-        time.schedule(task, 100, 110);
+        }
     }
 
     /**
