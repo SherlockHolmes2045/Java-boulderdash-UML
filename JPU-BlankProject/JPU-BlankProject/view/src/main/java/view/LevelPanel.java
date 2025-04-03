@@ -46,6 +46,8 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
     private static final int PAUSE = 3;
 
+    private Random random = new Random();
+
 
     public LevelPanel(Level level, int exitableDiamond, ExitDoor exit, Dash dash, int gameDuration) {
         this.level = level;
@@ -202,127 +204,13 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
         time.schedule(task, 10, 200);
     }
 
-//    private void startMonsterMovementTask() {
-//        Timer time = new Timer();
-//        Random random = new Random();
-//
-//        TimerTask task = new TimerTask() {
-//            int moveCounter = 0;
-//
-//            @Override
-//            public void run() {
-//                moveCounter++;
-//
-//                // Every 10th cycle (approximately 1 second), make movement decisions
-//                if (moveCounter % 10 == 0) {
-//                    for (Monster monster : getTabMonsters()) {
-//                        // If monster is already moving, first check if it should stop
-//                        if (monster.getWalks()) {
-//                            // Check if the monster is about to hit something in its direction
-//                            boolean shouldStop = false;
-//
-//                            for (int i = 0; i < GameConstants.COLUMN; i++) {
-//                                for (int j = 0; j < GameConstants.ROW; j++) {
-//                                    Objet obj = getTabObjets()[i][j];
-//                                    if (obj != null) {
-//                                        // Check based on current direction
-//                                        if (monster.isGoesRight() && monster.doesNotMoveRight(obj)) {
-//                                            shouldStop = true;
-//                                        } else if (monster.isGoesLeft() && monster.doesNotMoveLeft(obj)) {
-//                                            shouldStop = true;
-//                                        } else if (monster.isGoesUp() && monster.doesNotMoveUp(obj)) {
-//                                            shouldStop = true;
-//                                        } else if (monster.isGoesDown() && monster.doesNotMoveDown(obj)) {
-//                                            shouldStop = true;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//
-//                            if (shouldStop) {
-//                                // Stop the monster
-//                                monster.setWalks(false);
-//                                monster.setGoesRight(false);
-//                                monster.setGoesLeft(false);
-//                                monster.setGoesUp(false);
-//                                monster.setGoesDown(false);
-//                            }
-//                        }
-//
-//                        // If monster is not walking, try to start a new movement
-//                        if (!monster.getWalks()) {
-//                            // Maps to track valid directions
-//                            boolean canMoveRight = false;
-//                            boolean canMoveLeft = false;
-//                            boolean canMoveUp = false;
-//                            boolean canMoveDown = false;
-//
-//                            // Check all objects for potential movement paths
-//                            for (int i = 0; i < GameConstants.COLUMN; i++) {
-//                                for (int j = 0; j < GameConstants.ROW; j++) {
-//                                    Objet obj = getTabObjets()[i][j];
-//                                    if (obj != null) {
-//                                        if (monster.canMoveRight(obj)) canMoveRight = true;
-//                                        if (monster.canMoveLeft(obj)) canMoveLeft = true;
-//                                        if (monster.canMoveUp(obj)) canMoveUp = true;
-//                                        if (monster.canMoveDown(obj)) canMoveDown = true;
-//                                    }
-//                                }
-//                            }
-//
-//                            // Collect available directions
-//                            List<Integer> availableDirections = new ArrayList<>();
-//                            if (canMoveRight) availableDirections.add(0);
-//                            if (canMoveLeft) availableDirections.add(1);
-//                            if (canMoveUp) availableDirections.add(2);
-//                            if (canMoveDown) availableDirections.add(3);
-//
-//                            // If we have at least one valid direction
-//                            if (!availableDirections.isEmpty()) {
-//                                // Choose a random direction
-//                                int directionChoice = availableDirections.get(random.nextInt(availableDirections.size()));
-//
-//                                // Set monster movement flags
-//                                monster.setWalks(true);
-//                                switch (directionChoice) {
-//                                    case 0: // Right
-//                                        monster.setGoesRight(true);
-//                                        break;
-//                                    case 1: // Left
-//                                        monster.setGoesLeft(true);
-//                                        break;
-//                                    case 2: // Up
-//                                        monster.setGoesUp(true);
-//                                        break;
-//                                    case 3: // Down
-//                                        monster.setGoesDown(true);
-//                                        break;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                // Every cycle, move all walking monsters by one pixel
-//                for (Monster monster : getTabMonsters()) {
-//                    monster.move();
-//                }
-//
-//                // Repaint the panel to show updated positions
-//                repaint();
-//            }
-//        };
-//
-//        // Run the task every 100ms for smooth movement
-//        time.schedule(task, 100, 100);
-//    }
 
     private void startMonsterMovementTask() {
         Timer time = new Timer();
-        int direction = ThreadLocalRandom.current().nextInt(4);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+                int direction = random.nextInt(4); //ThreadLocalRandom.current().nextInt(4);
                 for (Monster monster : getTabMonsters()) {
                     if (direction == 0) {
                         for (int i = 0; i < GameConstants.COLUMN; i++) {

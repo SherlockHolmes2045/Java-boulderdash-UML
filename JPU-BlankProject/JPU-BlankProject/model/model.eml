@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component inheritJdk="true">
 	<contentEntry url="file://$MODULE_DIR$"/>
+	<contentEntry url="file://$MODULE_DIR$"/>
 	<lib name="mysql-connector-java-5.1.39.jar" scope="COMPILE">
 		<srcroot url="file://$M2_REPO$/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39-sources.jar"/>
 	</lib>

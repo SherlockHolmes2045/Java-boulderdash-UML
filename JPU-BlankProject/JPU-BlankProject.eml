@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component>
-	<contentEntry url="file://$MODULE_DIR$"/>
-	<levels>
-		<level name="hamcrest.all" value="project"/>
-	</levels>
-</component>

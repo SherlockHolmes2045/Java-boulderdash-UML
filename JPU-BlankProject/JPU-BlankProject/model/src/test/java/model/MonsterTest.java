@@ -40,7 +40,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testInitialization() {
+    void testInitialization() {
         assertEquals(0, monster.getX(), "Monster X position should be initialized correctly");
         assertEquals(0, monster.getY(), "Monster Y position should be initialized correctly");
         assertEquals(32, monster.getWidth(), "Monster width should be 32");
@@ -53,7 +53,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testMove_Right() {
+    void testMove_Right() {
         // Set monster to walk right
         monster.setWalks(true);
         monster.setGoesRight(true);
@@ -67,7 +67,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testMove_Left() {
+    void testMove_Left() {
         // Place monster at a position where it can move left
         monster = new Monster(GameConstants.PIXEL_SIZE, 0);
 
@@ -84,7 +84,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testMove_Up() {
+    void testMove_Up() {
         // Place monster at a position where it can move up
         monster = new Monster(0, GameConstants.PIXEL_SIZE);
 
@@ -101,7 +101,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testMove_Down() {
+    void testMove_Down() {
         // Set monster to walk down
         monster.setWalks(true);
         monster.setGoesDown(true);
@@ -115,7 +115,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testMove_NotWalking() {
+    void testMove_NotWalking() {
         // Set monster to not walk but with a direction
         monster.setWalks(false);
         monster.setGoesRight(true);
@@ -133,7 +133,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testCanMoveRight() {
+    void testCanMoveRight() {
         // Position Back object one space to the right of monster
         when(mockBack.getX()).thenReturn(GameConstants.PIXEL_SIZE);
         when(mockBack.getY()).thenReturn(0);
@@ -148,7 +148,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testCanMoveLeft() {
+    void testCanMoveLeft() {
         // Create monster at position that can move left
         monster = new Monster(GameConstants.PIXEL_SIZE, 0);
 
@@ -164,7 +164,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testCanMoveUp() {
+    void testCanMoveUp() {
         // Create monster at position that can move up
         monster = new Monster(0, GameConstants.PIXEL_SIZE);
 
@@ -181,7 +181,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testCanMoveDown() {
+    void testCanMoveDown() {
         // Position Back object one space below monster
         when(mockBack.getX()).thenReturn(0);
         when(mockBack.getY()).thenReturn(GameConstants.PIXEL_SIZE);
@@ -195,7 +195,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testDoesNotMoveRight() {
+    void testDoesNotMoveRight() {
         // Position Wall object one space to the right of monster
         when(mockWall.getX()).thenReturn(GameConstants.PIXEL_SIZE);
         when(mockWall.getY()).thenReturn(0);
@@ -207,7 +207,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testDoesNotMoveLeft() {
+    void testDoesNotMoveLeft() {
         // Create monster at position that can test left movement
         monster = new Monster(GameConstants.PIXEL_SIZE, 0);
 
@@ -224,7 +224,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testDoesNotMoveUp() {
+    void testDoesNotMoveUp() {
         // Create monster at position that can test up movement
         monster = new Monster(0, GameConstants.PIXEL_SIZE);
 
@@ -241,7 +241,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testDoesNotMoveDown() {
+    void testDoesNotMoveDown() {
         // Position Wall object one space below monster
         when(mockWall.getX()).thenReturn(0);
         when(mockWall.getY()).thenReturn(GameConstants.PIXEL_SIZE);
@@ -255,7 +255,7 @@ public class MonsterTest {
     }
 
     @Test
-    public void testDirectionSetters() {
+    void testDirectionSetters() {
         // Test all direction setters
         monster.setGoesRight(true);
         assertTrue(monster.isGoesRight(), "Monster should be going right after setter");
