@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le :  lun. 03 juin 2019 à 23:50
--- Version du serveur :  10.1.34-MariaDB
--- Version de PHP :  7.2.7
+-- Host: 127.0.0.1
+-- Generation Time: Apr 03, 2025 at 05:30 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,13 +18,47 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `jpublankproject`
+-- Database: `jpublankproject`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `fetchMapById` (IN `p_id` INT)  READS SQL DATA SQL SECURITY INVOKER SELECT ligne,map FROM levels WHERE level=p_id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `HelloworldByCode` (IN `p_code` VARCHAR(2))  READS SQL DATA SQL SECURITY INVOKER SELECT * FROM jpublankproject.helloworld where `code`=p_code$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `helloworldById` (IN `p_id` INT)  READS SQL DATA SQL SECURITY INVOKER SELECT * FROM helloworld WHERE id = p_id$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `levels`
+-- Table structure for table `helloworld`
+--
+
+CREATE TABLE `helloworld` (
+  `id` int(11) NOT NULL,
+  `code` varchar(2) NOT NULL,
+  `message` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `helloworld`
+--
+
+INSERT INTO `helloworld` (`id`, `code`, `message`) VALUES
+(1, 'GB', 'Hello world'),
+(2, 'FR', 'Bonjour le monde'),
+(3, 'DE', 'Hallo Welt'),
+(4, 'ID', 'Salamat pagi dunia');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `levels`
 --
 
 CREATE TABLE `levels` (
@@ -33,10 +66,10 @@ CREATE TABLE `levels` (
   `level` int(11) NOT NULL,
   `ligne` int(11) NOT NULL,
   `map` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Déchargement des données de la table `levels`
+-- Dumping data for table `levels`
 --
 
 INSERT INTO `levels` (`id`, `level`, `ligne`, `map`) VALUES
@@ -165,33 +198,78 @@ INSERT INTO `levels` (`id`, `level`, `ligne`, `map`) VALUES
 (124, 5, 24, '.......-.X........XX..M .....-....................-'),
 (125, 5, 25, '.......--------------------------------------------');
 
-DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `fetchMapById`(IN `p_id` INT)
-    READS SQL DATA
-    SQL SECURITY INVOKER
-SELECT ligne,map FROM levels WHERE level=p_id$$
-DELIMITER ;
-
+-- --------------------------------------------------------
 
 --
--- Index pour les tables déchargées
+-- Table structure for table `levels_properties`
+--
+
+CREATE TABLE `levels_properties` (
+  `id` int(11) NOT NULL,
+  `dashX` int(11) NOT NULL,
+  `dashY` int(11) NOT NULL,
+  `level` int(11) NOT NULL,
+  `exitX` int(11) NOT NULL,
+  `exitY` int(11) NOT NULL,
+  `diamond_count` int(11) NOT NULL,
+  `game_duration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `levels_properties`
+--
+
+INSERT INTO `levels_properties` (`id`, `dashX`, `dashY`, `level`, `exitX`, `exitY`, `diamond_count`, `game_duration`) VALUES
+(1, 224, 128, 1, 1344, 544, 10, 120),
+(2, 320, 576, 2, 672, 704, 5, 150),
+(3, 672, 672, 3, 192, 96, 15, 150),
+(4, 320, 576, 4, 672, 704, 5, 150),
+(5, 320, 576, 5, 672, 704, 5, 150);
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `levels`
+-- Indexes for table `helloworld`
+--
+ALTER TABLE `helloworld`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code_UNIQUE` (`code`);
+
+--
+-- Indexes for table `levels`
 --
 ALTER TABLE `levels`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- Indexes for table `levels_properties`
+--
+ALTER TABLE `levels_properties`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `levels`
+-- AUTO_INCREMENT for table `helloworld`
+--
+ALTER TABLE `helloworld`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `levels`
 --
 ALTER TABLE `levels`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+
+--
+-- AUTO_INCREMENT for table `levels_properties`
+--
+ALTER TABLE `levels_properties`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
