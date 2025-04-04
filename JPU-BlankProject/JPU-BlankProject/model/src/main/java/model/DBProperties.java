@@ -2,7 +2,6 @@ package model;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serial;
 import java.util.Properties;
 
 /**
@@ -11,12 +10,6 @@ import java.util.Properties;
  * @author Jean-Aymeric Diet
  */
 class DBProperties extends Properties {
-
-    /**
-     * The Constant serialVersionUID.
-     */
-    @Serial
-    private static final long serialVersionUID = 5289057445894568927L;
 
     /**
      * The Constant PROPERTIES_FILE_NAME.

@@ -4,11 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.Timer;
-import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.*;
 
@@ -16,18 +14,13 @@ import model.*;
 
 /**
  * Date:02-06-2019
- * The Class ViewPanel2.
+ * The Class LevelPanel.
  *
  * @author Lemovou Ivan
  */
 
 public class LevelPanel extends JPanel implements Observer, Serializable {
 
-    /**
-     * The Constant serialVersionUID
-     */
-    @Serial
-    private static final long serialVersionUID = 556761802292369776L;
 
     private final Level level;
     private Objet[][] tabObjets;
@@ -63,13 +56,13 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
 
         startGameTime();
 
-        startMonsterCollisionTask();
+        monsterCollisionTask();
 
-        startMonsterMovementTask();
+        monsterMovementTask();
 
-        startDiamondSlideTask();
+        diamondSlideTask();
 
-        startRocSlideTask();
+        rocSlideTask();
 
         rockFallingTask();
 
@@ -111,7 +104,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
         time.schedule(task, 0, 1000);
     }
 
-    private void startMonsterCollisionTask() {
+    private void monsterCollisionTask() {
         //timer for collision between monster and hero
         Timer time = new Timer();
         TimerTask task = new TimerTask() {
@@ -129,7 +122,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
     }
 
 
-    private void startRocSlideTask() {
+    private void rocSlideTask() {
         Timer time = new Timer();
         TimerTask task = new TimerTask() {
 
@@ -169,7 +162,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
         return (objet.getX() == dash.getX() + GameConstants.PIXEL_SIZE && objet.getY() == dash.getY()) || (objet.getX() == dash.getX() + GameConstants.PIXEL_SIZE && objet.getY() == dash.getY() - GameConstants.PIXEL_SIZE);
     }
 
-    private void startDiamondSlideTask() {
+    private void diamondSlideTask() {
 
         Timer time = new Timer();
         TimerTask task = new TimerTask() {
@@ -205,7 +198,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
     }
 
 
-    private void startMonsterMovementTask() {
+    private void monsterMovementTask() {
         Timer time = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -245,107 +238,13 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
                             }
                         }
                     }
-//                    // Check if monster is currently moving
-//                    if (monster.getWalks()) {
-//                        // Check if the monster is blocked in its current direction
-//                        if (isBlockedInCurrentDirection(monster)) {
-//                            // Stop movement and reset all direction flags
-//                            stopMonster(monster);
-//                        }
-//                    } else {
-//                        // Monster is not moving, try to move it
-//                        moveMonsterInRandomDirection(monster, random);
-//                    }
                 }
             }
         };
-        time.schedule(task, 1000, 1000); // Adjusted timing
-    }
-
-    /**
-     * Checks if the monster is blocked in its current direction
-     */
-    private boolean isBlockedInCurrentDirection(Monster monster) {
-        // For each object in the game area
-        for (int i = 0; i < GameConstants.COLUMN; i++) {
-            for (int j = 0; j < GameConstants.ROW; j++) {
-                if (getTabObjets()[i][j] != null) {
-                    // Check if monster is blocked based on its current direction
-                    if (monster.isGoesRight() && monster.doesNotMoveRight(getTabObjets()[i][j])) {
-                        return true;
-                    } else if (monster.isGoesLeft() && monster.doesNotMoveLeft(getTabObjets()[i][j])) {
-                        return true;
-                    } else if (monster.isGoesUp() && monster.doesNotMoveUp(getTabObjets()[i][j])) {
-                        return true;
-                    } else if (monster.isGoesDown() && monster.doesNotMoveDown(getTabObjets()[i][j])) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Stops monster movement and resets all direction flags
-     */
-    private void stopMonster(Monster monster) {
-        monster.setWalks(false);
-        monster.setGoesRight(false);
-        monster.setGoesLeft(false);
-        monster.setGoesUp(false);
-        monster.setGoesDown(false);
+        time.schedule(task, 300, 300); // Adjusted timing
     }
 
 
-    /**
-     * Try to move the monster in a random available direction
-     */
-    private void moveMonsterInRandomDirection(Monster monster, Random random) {
-        // Collect all possible directions
-        List<Direction> availableDirections = new ArrayList<>();
-
-        // Check all game objects for valid movement paths
-        for (int i = 0; i < GameConstants.COLUMN; i++) {
-            for (int j = 0; j < GameConstants.ROW; j++) {
-                Objet object = getTabObjets()[i][j];
-                if (object != null) {
-                    // Add valid directions to the list
-                    if (monster.canMoveRight(object)) availableDirections.add(Direction.RIGHT);
-                    if (monster.canMoveLeft(object)) availableDirections.add(Direction.LEFT);
-                    if (monster.canMoveUp(object)) availableDirections.add(Direction.UP);
-                    if (monster.canMoveDown(object)) availableDirections.add(Direction.DOWN);
-                }
-            }
-        }
-
-        // If there's at least one direction available
-        if (!availableDirections.isEmpty()) {
-            // Pick a random direction from available ones
-            Direction chosenDirection = availableDirections.get(random.nextInt(availableDirections.size()));
-
-            // Set monster to move in that direction
-            monster.setWalks(true);
-            switch (chosenDirection) {
-                case RIGHT:
-                    monster.setGoesRight(true);
-                    break;
-                case LEFT:
-                    monster.setGoesLeft(true);
-                    break;
-                case UP:
-                    monster.setGoesUp(true);
-                    break;
-                case DOWN:
-                    monster.setGoesDown(true);
-                    break;
-            }
-        }
-    }
-
-    private enum Direction {
-        RIGHT, LEFT, UP, DOWN
-    }
 
     private void rockFallingTask() {
         Timer time = new Timer();
@@ -374,7 +273,7 @@ public class LevelPanel extends JPanel implements Observer, Serializable {
                 repaint();
             }
         };
-        time.schedule(task, 300, 500);
+        time.schedule(task, 300, 300);
     }
 
 
